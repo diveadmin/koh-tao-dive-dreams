@@ -84,7 +84,7 @@ const Admin = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setBookings(data || []);
+      setBookings((data || []).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
     } catch (error) {
       console.error('Error fetching bookings:', error);
       toast.error('Failed to load bookings');
@@ -113,11 +113,11 @@ const Admin = () => {
     try {
       const { error } = await supabase
         .from('admin_settings')
-        .upsert({
-          setting_key: 'notification_email',
+        .update({
           setting_value: newNotificationEmail,
           updated_at: new Date().toISOString(),
-        }, { onConflict: 'setting_key' });
+        })
+        .eq('setting_key', 'notification_email');
 
       if (error) throw error;
       

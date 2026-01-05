@@ -1,53 +1,87 @@
-# Welcome to your Lovable project
+# Koh Tao Dive Dreams
 
-## Project info
+A React-based website for Koh Tao Dive Dreams, a PADI dive center in Koh Tao, Thailand. This application allows users to explore dive courses, book inquiries, and manage bookings through an admin panel.
 
-**URL**: https://lovable.dev/projects/262b1d2a-b9e8-4e3a-8aaf-307801ed16f9
+## Features
 
-## How can I edit this code?
+- **Course Exploration**: Browse and learn about various PADI dive courses
+- **Dive Site Information**: Discover dive sites around Koh Tao
+- **Booking System**: Submit booking inquiries for courses and dive sites
+- **Course Recommendation**: AI-powered course recommendations based on user preferences
+- **Admin Panel**: Manage bookings, settings, and user roles
+- **Local SQLite Database**: Data is stored locally using SQLite in the browser
 
-There are several ways of editing your application.
+## Technology Stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite
+- **UI**: Tailwind CSS, Shadcn/ui components
+- **Database**: SQLite (via sql.js for browser compatibility)
+- **State Management**: React Query for server state
+- **Routing**: React Router
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/262b1d2a-b9e8-4e3a-8aaf-307801ed16f9) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm or yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```sh
+   git clone <YOUR_GIT_URL>
+   cd koh-tao-dive-dreams
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:8080`
+
+### Admin Access
+
+- **Email**: admin@example.com
+- **Password**: admin
+
+## Database
+
+The application uses SQLite running in the browser via WebAssembly (sql.js). Data is persisted in the browser's localStorage.
+
+### Default Data
+
+- Admin user with email `admin@example.com`
+- Notification email setting
+
+## Build for Production
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## Migration from Supabase
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+This project has been migrated from Supabase to a local SQLite database for simplified deployment and data management. The migration includes:
 
-**Use GitHub Codespaces**
+- Replaced Supabase client with a custom SQLite client using sql.js
+- Implemented local authentication for admin access
+- Mocked edge functions for course recommendations and email notifications
+- Maintained the same API interface for seamless transition
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
 ## What technologies are used for this project?
