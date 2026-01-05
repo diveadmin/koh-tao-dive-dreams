@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(5, "Password must be at least 6 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 const signupSchema = z.object({
@@ -35,7 +35,7 @@ const AdminLogin = () => {
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'peter@onemedia.asia', password: 'password' },
+    defaultValues: { email: '', password: '' },
   });
 
   const signupForm = useForm<SignupFormData>({
