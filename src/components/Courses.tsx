@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, Star } from 'lucide-react';
 import CourseRecommender from './CourseRecommender';
+import BookingForm from './BookingForm';
 
 const Courses = () => {
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const courses = [
     {
       title: "Open Water Diver",
@@ -114,7 +116,10 @@ const Courses = () => {
                 </ul>
               </div>
 
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold">
+              <button 
+                onClick={() => setSelectedCourse(course.title)}
+                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
+              >
                 Book This Course
               </button>
             </div>
@@ -140,6 +145,13 @@ const Courses = () => {
           </div>
         </div>
       </div>
+
+      <BookingForm
+        isOpen={!!selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+        itemType="course"
+        itemTitle={selectedCourse || ''}
+      />
     </section>
   );
 };

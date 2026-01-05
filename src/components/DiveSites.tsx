@@ -1,8 +1,10 @@
-
-import React from 'react';
-import { MapPin, Thermometer, Eye, Fish } from 'lucide-react';
+import React, { useState } from 'react';
+import { Eye } from 'lucide-react';
+import BookingForm from './BookingForm';
 
 const DiveSites = () => {
+  const [selectedSite, setSelectedSite] = useState<string | null>(null);
+  
   const sites = [
     {
       name: "Sail Rock",
@@ -111,7 +113,10 @@ const DiveSites = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+                <button 
+                  onClick={() => setSelectedSite(site.name)}
+                  className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
+                >
                   Book This Dive
                 </button>
               </div>
@@ -119,6 +124,13 @@ const DiveSites = () => {
           ))}
         </div>
       </div>
+
+      <BookingForm
+        isOpen={!!selectedSite}
+        onClose={() => setSelectedSite(null)}
+        itemType="dive"
+        itemTitle={selectedSite || ''}
+      />
     </section>
   );
 };
