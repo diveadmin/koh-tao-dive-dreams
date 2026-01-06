@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -24,14 +25,29 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+      // Save as a booking inquiry (general contact)
+      const { error: dbError } = await supabase
+        .from('booking_inquiries')
+        .insert({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          course_title: `Contact: ${formData.subject}`,
+          message: formData.message,
+        });
+
+      if (dbError) throw dbError;
+
+      // Send notification email
+      await supabase.functions.invoke('send-booking-notification', {
+        body: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          itemType: 'course',
+          itemTitle: `Contact: ${formData.subject}`,
+          message: formData.message,
         },
-        body: JSON.stringify(formData)
       });
-      if (!response.ok) throw new Error('Failed to send message');
+
       toast.success('Message sent successfully! We\'ll get back to you soon.');
       setFormData({
         firstName: '',

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Calendar, User, Mail, Phone, MessageSquare } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -47,25 +48,31 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:3001/api/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const bookingData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        course_title: `${itemType === 'dive' ? 'Dive Site: ' : ''}${itemTitle}`,
+        preferred_date: data.preferred_date || null,
+        experience_level: data.experience_level || null,
+        message: data.message || null,
+      };
+
+      // Save to database
+      const { error: dbError } = await supabase
+        .from('booking_inquiries')
+        .insert(bookingData);
+
+      if (dbError) throw dbError;
+
+      // Send notification email
+      await supabase.functions.invoke('send-booking-notification', {
+        body: {
+          ...bookingData,
+          itemType,
+          itemTitle,
         },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone || null,
-          course_title: `${itemType === 'dive' ? 'Dive Site: ' : ''}${itemTitle}`,
-          preferred_date: data.preferred_date || null,
-          experience_level: data.experience_level || null,
-          message: data.message || null,
-        }),
       });
-
-      if (!response.ok) throw new Error('Failed to submit booking');
-
-      // Email is sent by the server
 
       toast.success('Booking inquiry submitted successfully! We\'ll get back to you soon.');
       form.reset();
