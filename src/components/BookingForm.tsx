@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
+import emailjs from '@emailjs/browser';
 
 const bookingSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -58,14 +58,22 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
         message: data.message || null,
       };
 
-      // Submit to Supabase function
-      const { data, error } = await supabase.functions.invoke('bookings', {
-        body: bookingData,
-      });
-
-      if (error) {
-        throw new Error(error.message || 'Failed to submit booking');
-      }
+      // Send email using EmailJS
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: bookingData.name,
+          from_email: bookingData.email,
+          phone: bookingData.phone,
+          course_title: bookingData.course_title,
+          preferred_date: bookingData.preferred_date,
+          experience_level: bookingData.experience_level,
+          message: bookingData.message,
+          to_email: 'peter@onemedia.asia', // or from env
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
       toast.success('Booking inquiry submitted successfully! We\'ll get back to you soon.');
       form.reset();

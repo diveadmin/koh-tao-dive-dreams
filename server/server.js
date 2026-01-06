@@ -149,7 +149,7 @@ app.post('/api/bookings', async (req, res) => {
 app.get('/api/bookings', (req, res) => {
   try {
     const stmt = db.prepare('SELECT * FROM booking_inquiries ORDER BY created_at DESC');
-    const bookings = stmt.all();
+    const this ibookings = stmt.all();
     res.json(bookings);
   } catch (error) {
     console.error(error);
