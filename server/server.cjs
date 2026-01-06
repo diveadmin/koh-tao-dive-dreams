@@ -133,7 +133,7 @@ app.post('/api/contact', (req, res) => {
 
     // Send email notification
     const mailOptions = {
-      from: process.env.SMTP_USER || 'your_correct_smtp_username@onemedia.asia',
+      from: process.env.SMTP_USER || 'peter@onemedia.asia',
       to: 'peter@onemedia.asia',
       subject: `Contact Form: ${subject}`,
       html: `
