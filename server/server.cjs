@@ -29,6 +29,7 @@ db.exec(`
     preferred_date TEXT,
     experience_level TEXT,
     message TEXT,
+    status TEXT DEFAULT 'pending',
     created_at TEXT NOT NULL
   )
 `);
@@ -61,10 +62,10 @@ app.post('/api/bookings', (req, res) => {
 
     console.log('Inserting into database...');
     const stmt = db.prepare(`
-      INSERT INTO booking_inquiries (id, name, email, phone, course_title, preferred_date, experience_level, message, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO booking_inquiries (id, name, email, phone, course_title, preferred_date, experience_level, message, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(id, name, email, phone, course_title, preferred_date, experience_level, message, created_at);
+    const result = stmt.run(id, name, email, phone, course_title, preferred_date, experience_level, message, 'pending', created_at);
     console.log('Database insert result:', result);
 
     // Send email notification
@@ -125,6 +126,20 @@ app.delete('/api/bookings/:id', (req, res) => {
   }
 });
 
+// Update booking status
+app.patch('/api/bookings/:id/status', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const stmt = db.prepare('UPDATE booking_inquiries SET status = ? WHERE id = ?');
+    stmt.run(status, id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update booking status' });
+  }
+});
+
 // Submit contact form
 app.post('/api/contact', (req, res) => {
   console.log('Contact form request received:', req.body);
@@ -135,10 +150,10 @@ app.post('/api/contact', (req, res) => {
 
     console.log('Inserting contact into database...');
     const stmt = db.prepare(`
-      INSERT INTO booking_inquiries (id, name, email, phone, course_title, preferred_date, experience_level, message, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO booking_inquiries (id, name, email, phone, course_title, preferred_date, experience_level, message, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(id, `${firstName} ${lastName}`, email, null, `Contact: ${subject}`, null, null, message, created_at);
+    const result = stmt.run(id, `${firstName} ${lastName}`, email, null, `Contact: ${subject}`, null, null, message, 'pending', created_at);
     console.log('Database insert result:', result);
 
     // Send email notification
@@ -169,6 +184,18 @@ app.post('/api/contact', (req, res) => {
   } catch (error) {
     console.error('Contact form error:', error);
     res.status(500).json({ error: 'Failed to submit contact form', details: error.message });
+  }
+});
+
+// Admin login
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  // Simple hardcoded admin credentials
+  if (username === 'admin' && password === 'admin') {
+    res.json({ success: true, token: 'admin-session-token' });
+  } else {
+    res.status(401).json({ error: 'Invalid credentials' });
   }
 });
 
