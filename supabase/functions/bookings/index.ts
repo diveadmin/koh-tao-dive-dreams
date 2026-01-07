@@ -46,9 +46,6 @@ serve(async (req) => {
         pass: Deno.env.get('SMTP_PASS'),
       },
     })
-        pass: Deno.env.get('SMTP_PASS'),
-      },
-    })
 
     const mailOptions = {
       from: Deno.env.get('SMTP_USER'),
