@@ -27,7 +27,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 border-solid border-0">
           <div className="flex items-center">
-            <img src="/images/logo.avif" alt="Pro Diving Asia Logo" className="h-10 w-auto" />
+            <img src="/images/logo.avif" alt="Pro Diving Asia Logo" className="h-14 w-auto" />
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
