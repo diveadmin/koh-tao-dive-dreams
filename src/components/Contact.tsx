@@ -85,8 +85,7 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-blue-400 mt-1" />
                 <div>
                   <h4 className="font-semibold text-lg">Email</h4>
-                  <p className="text-gray-300">info@prodivingasia.com</p>
-                  <p className="text-gray-300">bookings@prodivingasia.com</p>
+                  <p className="text-gray-300">bas@divinginasia.com</p>
                 </div>
               </div>
 
