@@ -300,7 +300,7 @@ app.post('/api/contact', async (req, res) => {
     // Send email notification
     const mailOptions = {
       from: '"Dive School Contact" <bookingbas@onemedia.asia>',
-      to: 'bas@divinginasia.com',
+      to: 'bas@prodiving.asia',
       subject: `📩 Contact Form: ${subject}`,
       priority: 'high',
       headers: {
