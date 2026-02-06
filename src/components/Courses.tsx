@@ -1,70 +1,94 @@
 import React, { useState } from 'react';
-import { Clock, Star } from 'lucide-react';
+import { Clock, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CourseRecommender from './CourseRecommender';
 import BookingForm from './BookingForm';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 const Courses = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
-  const courses = [{
-    title: t('courses.openWater.title'),
-    level: t('courses.openWater.level'),
-    duration: t('courses.openWater.duration'),
-    maxDepth: t('courses.openWater.maxDepth'),
-    price: t('courses.openWater.price'),
-    description: t('courses.openWater.description'),
-    includes: t('courses.openWater.includes', {
-      returnObjects: true
-    }),
-    icon: "🤿"
-  }, {
-    title: t('courses.advanced.title'),
-    level: t('courses.advanced.level'),
-    duration: t('courses.advanced.duration'),
-    maxDepth: t('courses.advanced.maxDepth'),
-    price: t('courses.advanced.price'),
-    description: t('courses.advanced.description'),
-    includes: t('courses.advanced.includes', {
-      returnObjects: true
-    }),
-    icon: "🌊"
-  }, {
-    title: t('courses.rescue.title'),
-    level: t('courses.rescue.level'),
-    duration: t('courses.rescue.duration'),
-    maxDepth: t('courses.rescue.maxDepth'),
-    price: t('courses.rescue.price'),
-    description: t('courses.rescue.description'),
-    includes: t('courses.rescue.includes', {
-      returnObjects: true
-    }),
-    icon: "🚨"
-  }, {
-    title: t('courses.divemaster.title'),
-    level: t('courses.divemaster.level'),
-    duration: t('courses.divemaster.duration'),
-    maxDepth: t('courses.divemaster.maxDepth'),
-    price: t('courses.divemaster.price'),
-    description: t('courses.divemaster.description'),
-    includes: t('courses.divemaster.includes', {
-      returnObjects: true
-    }),
-    icon: "👨‍🏫"
-  }];
+
+  const courses = [
+    {
+      key: 'openWater',
+      title: t('courses.openWater.title'),
+      level: t('courses.openWater.level'),
+      duration: t('courses.openWater.duration'),
+      maxDepth: t('courses.openWater.maxDepth'),
+      price: t('courses.openWater.price'),
+      description: t('courses.openWater.description'),
+      fullDescription: t('courses.openWater.fullDescription'),
+      includes: t('courses.openWater.includes', { returnObjects: true }),
+      whatsNext: t('courses.openWater.whatsNext'),
+      icon: "🤿"
+    },
+    {
+      key: 'advanced',
+      title: t('courses.advanced.title'),
+      level: t('courses.advanced.level'),
+      duration: t('courses.advanced.duration'),
+      maxDepth: t('courses.advanced.maxDepth'),
+      price: t('courses.advanced.price'),
+      description: t('courses.advanced.description'),
+      fullDescription: t('courses.advanced.fullDescription'),
+      includes: t('courses.advanced.includes', { returnObjects: true }),
+      icon: "🌊"
+    },
+    {
+      key: 'efr',
+      title: t('courses.efr.title'),
+      level: t('courses.efr.level'),
+      duration: t('courses.efr.duration'),
+      maxDepth: t('courses.efr.maxDepth'),
+      price: t('courses.efr.price'),
+      description: t('courses.efr.description'),
+      fullDescription: t('courses.efr.fullDescription'),
+      includes: t('courses.efr.includes', { returnObjects: true }),
+      icon: "🏥"
+    },
+    {
+      key: 'rescue',
+      title: t('courses.rescue.title'),
+      level: t('courses.rescue.level'),
+      duration: t('courses.rescue.duration'),
+      maxDepth: t('courses.rescue.maxDepth'),
+      price: t('courses.rescue.price'),
+      description: t('courses.rescue.description'),
+      includes: t('courses.rescue.includes', { returnObjects: true }),
+      icon: "🚨"
+    },
+    {
+      key: 'divemaster',
+      title: t('courses.divemaster.title'),
+      level: t('courses.divemaster.level'),
+      duration: t('courses.divemaster.duration'),
+      maxDepth: t('courses.divemaster.maxDepth'),
+      price: t('courses.divemaster.price'),
+      description: t('courses.divemaster.description'),
+      includes: t('courses.divemaster.includes', { returnObjects: true }),
+      icon: "👨‍🏫"
+    }
+  ];
+
   const getLevelColor = (level: string) => {
-    const levelColors: {
-      [key: string]: string;
-    } = {
+    const levelColors: { [key: string]: string } = {
       [t('courses.openWater.level')]: 'bg-green-100 text-green-800 border-green-200',
       [t('courses.advanced.level')]: 'bg-blue-100 text-blue-800 border-blue-200',
+      [t('courses.efr.level')]: 'bg-pink-100 text-pink-800 border-pink-200',
       [t('courses.rescue.level')]: 'bg-orange-100 text-orange-800 border-orange-200',
       [t('courses.divemaster.level')]: 'bg-purple-100 text-purple-800 border-purple-200'
     };
     return levelColors[level] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
-  return <section id="courses" className="py-20 bg-gray-50">
+
+  return (
+    <section id="courses" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 sm:px-[24px]">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -78,7 +102,11 @@ const Courses = () => {
         <CourseRecommender />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {courses.map((course, index) => <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+          {courses.map((course, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300"
+            >
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <div className="flex items-center mb-2">
@@ -95,9 +123,9 @@ const Courses = () => {
                 </div>
               </div>
 
-              <p className="text-gray-600 mb-6">{course.description}</p>
+              <p className="text-gray-600 mb-4">{course.description}</p>
 
-              <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+              <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
                 <div className="flex items-center text-gray-600">
                   <Clock className="h-4 w-4 mr-2 text-blue-600" />
                   {t('courses.duration')}: {course.duration}
@@ -108,20 +136,48 @@ const Courses = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <h4 className="font-semibold text-gray-900 mb-3">{t('courses.courseIncludes')}:</h4>
                 <ul className="space-y-2">
-                  {(course.includes as string[]).map((item: string, idx: number) => <li key={idx} className="flex items-center text-gray-600">
+                  {(course.includes as string[]).map((item: string, idx: number) => (
+                    <li key={idx} className="flex items-center text-gray-600">
                       <Star className="h-4 w-4 mr-2 text-blue-600" />
                       {item}
-                    </li>)}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <button onClick={() => setSelectedCourse(course.title)} className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold">
+              {course.fullDescription && (
+                <Accordion type="single" collapsible className="mb-4">
+                  <AccordionItem value="details" className="border-blue-200">
+                    <AccordionTrigger className="text-blue-600 hover:text-blue-700 hover:no-underline">
+                      {t('courses.readMore', 'Read more about this course')}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="text-gray-600 space-y-4 pt-2">
+                        {(course.fullDescription as string).split('\n\n').map((paragraph, idx) => (
+                          <p key={idx}>{paragraph}</p>
+                        ))}
+                        {course.whatsNext && (
+                          <p className="text-blue-600 font-semibold italic mt-4">
+                            {course.whatsNext}
+                          </p>
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              )}
+
+              <button
+                onClick={() => setSelectedCourse(course.title)}
+                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
+              >
                 {t('courses.bookButton')}
               </button>
-            </div>)}
+            </div>
+          ))}
         </div>
 
         <div className="bg-blue-600 rounded-xl p-8 text-white text-center">
@@ -144,7 +200,14 @@ const Courses = () => {
         </div>
       </div>
 
-      <BookingForm isOpen={!!selectedCourse} onClose={() => setSelectedCourse(null)} itemType="course" itemTitle={selectedCourse || ''} />
-    </section>;
+      <BookingForm
+        isOpen={!!selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+        itemType="course"
+        itemTitle={selectedCourse || ''}
+      />
+    </section>
+  );
 };
+
 export default Courses;
