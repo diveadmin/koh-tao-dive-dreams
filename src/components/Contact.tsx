@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import emailjs from '@emailjs/browser';
 
 // Do not call emailjs.init with the service ID — we'll pass the public key on send.
 
@@ -28,31 +27,39 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const templateParams = {
-        to_email: 'contact@divinginasia.com',
-        from_email: formData.email,
-        customer_name: `${formData.firstName} ${formData.lastName}`,
+      const payload = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
         subject: formData.subject,
         message: formData.message,
       };
 
-      const result = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+      console.log('Sending contact payload to /api/contact', payload);
 
-      console.log('EmailJS send result:', result);
-
-      toast.success('Message sent successfully! We\'ll get back to you soon.');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        subject: 'Course Information',
-        message: ''
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
+
+      const data = await res.json().catch(() => ({}));
+      console.log('Server response for /api/contact:', res.status, data);
+
+      if (res.ok) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          subject: 'Course Information',
+          message: ''
+        });
+      } else {
+        const errMsg = data?.error || data?.message || `HTTP ${res.status}`;
+        console.error('Contact API error:', errMsg);
+        toast.error(`Failed to send message: ${errMsg}. Please try again.`);
+      }
     } catch (error) {
       console.error('Contact form submission failed:', error);
       toast.error(`Failed to send message: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
