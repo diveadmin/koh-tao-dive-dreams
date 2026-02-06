@@ -49,34 +49,12 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
   });
 
   const onSubmit = async (data: BookingFormData) => {
+    // Booking functionality is temporarily disabled.
     setIsSubmitting(true);
-    try {
-      const templateParams = {
-        to_email: 'bas@divinginasia.com',
-        from_email: data.email,
-        customer_name: data.name,
-        phone: data.phone || 'Not provided',
-        course_title: `${itemType === 'dive' ? 'Dive Site: ' : ''}${itemTitle}`,
-        preferred_date: data.preferred_date || 'Not specified',
-        experience_level: data.experience_level || 'Not specified',
-        message: data.message || 'No additional message',
-      };
-
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams
-      );
-
-      toast.success('Booking inquiry submitted successfully! We\'ll get back to you soon.');
-      form.reset();
-      onClose();
-    } catch (error: any) {
-      console.error('Booking submission error:', error);
-      toast.error('Failed to submit booking. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    toast.info('Bookings are temporarily disabled. Please use the contact form or email contact@divinginasia.com');
+    form.reset();
+    onClose();
+    setIsSubmitting(false);
   };
 
   return (
