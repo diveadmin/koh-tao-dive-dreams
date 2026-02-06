@@ -46,7 +46,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.SMTP_USER || 'bas@prodiving.asia',
+    user: process.env.SMTP_USER || 'bas@divinginasia.com',
     pass: process.env.SMTP_PASS || 'Md10is12usenow.',
   },
 });
@@ -84,11 +84,11 @@ app.post('/api/bookings', (req, res) => {
 
     // Send email notification
     const mailOptions = {
-      from: process.env.SMTP_USER || 'your_correct_smtp_username@onemedia.asia',
-      to: 'bas@prodiving.asia',
+      from: process.env.SMTP_USER || 'bas@divinginasia.com',
+      to: 'bas@divinginasia.com',
       subject: 'New Booking Inquiry',
       html: `
-        <h2>New Booking Inquiry</h2>
+        <h2>New Booking Inquiry from diving in asia</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
