@@ -172,8 +172,8 @@ app.post('/api/contact', (req, res) => {
 
     // Send email notification
     const mailOptions = {
-      from: process.env.SMTP_USER || 'bas@prodiving.asia',
-      to: 'bas@prodiving.asia',
+      from: process.env.SMTP_USER || 'bas@divinginasia.com',
+      to: 'bas@divinginasia.com',
       subject: `Contact Form: ${subject}`,
       html: `
         <h2>New Contact Form Submission</h2>
