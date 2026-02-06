@@ -26,6 +26,7 @@ const Courses = () => {
       fullDescription: t('courses.openWater.fullDescription'),
       includes: t('courses.openWater.includes', { returnObjects: true }),
       whatsNext: t('courses.openWater.whatsNext'),
+      courseImages: t('courses.openWater.courseImages', { returnObjects: true }),
       icon: "🤿"
     },
     {
@@ -38,6 +39,7 @@ const Courses = () => {
       description: t('courses.advanced.description'),
       fullDescription: t('courses.advanced.fullDescription'),
       includes: t('courses.advanced.includes', { returnObjects: true }),
+      courseImages: t('courses.advanced.courseImages', { returnObjects: true }),
       icon: "🌊"
     },
     {
@@ -50,6 +52,7 @@ const Courses = () => {
       description: t('courses.efr.description'),
       fullDescription: t('courses.efr.fullDescription'),
       includes: t('courses.efr.includes', { returnObjects: true }),
+      courseImages: t('courses.efr.courseImages', { returnObjects: true }),
       icon: "🏥"
     },
     {
@@ -60,7 +63,9 @@ const Courses = () => {
       maxDepth: t('courses.rescue.maxDepth'),
       price: t('courses.rescue.price'),
       description: t('courses.rescue.description'),
+      fullDescription: t('courses.rescue.fullDescription'),
       includes: t('courses.rescue.includes', { returnObjects: true }),
+      courseImages: t('courses.rescue.courseImages', { returnObjects: true }),
       icon: "🚨"
     },
     {
@@ -73,6 +78,7 @@ const Courses = () => {
       description: t('courses.divemaster.description'),
       fullDescription: t('courses.divemaster.fullDescription'),
       includes: t('courses.divemaster.includes', { returnObjects: true }),
+      courseImages: t('courses.divemaster.courseImages', { returnObjects: true }),
       icon: "👨‍🏫"
     },
     {
@@ -85,6 +91,7 @@ const Courses = () => {
       description: t('courses.instructor.description'),
       fullDescription: t('courses.instructor.fullDescription'),
       includes: t('courses.instructor.includes', { returnObjects: true }),
+      courseImages: t('courses.instructor.courseImages', { returnObjects: true }),
       icon: "🎓"
     }
   ];
@@ -173,6 +180,20 @@ const Courses = () => {
                         {(course.fullDescription as string).split('\n\n').map((paragraph, idx) => (
                           <p key={idx}>{paragraph}</p>
                         ))}
+                        {course.courseImages && (course.courseImages as string[]).length > 0 && (
+                          <div className="my-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                              {(course.courseImages as string[]).map((image, idx) => (
+                                <img
+                                  key={idx}
+                                  src={`/images/${image}`}
+                                  alt={`${course.title} - underwater scene ${idx + 1}`}
+                                  className="rounded-lg object-cover h-40 w-full"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        )}
                         {course.whatsNext && (
                           <p className="text-blue-600 font-semibold italic mt-4">
                             {course.whatsNext}
