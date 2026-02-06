@@ -26,6 +26,13 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="relative">
+            <img
+              src="/src/aamapkohtao.gif"
+              alt="Koh Tao map and dive sites"
+              className="rounded-lg shadow-2xl"
+            />
+          </div>
           <div>
             <h3 className="text-3xl font-bold text-gray-900 mb-6">
               PADI Open Water Diver certification, through to PADI Divemaster internships
@@ -36,13 +43,6 @@ const About = () => {
             <p className="text-lg text-gray-600 mb-6">
               Lifetime certificates valid worldwide at an unbelievable low price. Get your PADI dive certificate here for 9000 baht, now with 4 nights accommodation (room and bathroom) included in the course fee! (100 baht = 2.40 EUR = 3.28 USD)
             </p>
-          </div>
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Koh Tao map and dive sites"
-              className="rounded-lg shadow-2xl"
-            />
           </div>
         </div>
 
