@@ -71,8 +71,21 @@ const Courses = () => {
       maxDepth: t('courses.divemaster.maxDepth'),
       price: t('courses.divemaster.price'),
       description: t('courses.divemaster.description'),
+      fullDescription: t('courses.divemaster.fullDescription'),
       includes: t('courses.divemaster.includes', { returnObjects: true }),
       icon: "👨‍🏫"
+    },
+    {
+      key: 'instructor',
+      title: t('courses.instructor.title'),
+      level: t('courses.instructor.level'),
+      duration: t('courses.instructor.duration'),
+      maxDepth: t('courses.instructor.maxDepth'),
+      price: t('courses.instructor.price'),
+      description: t('courses.instructor.description'),
+      fullDescription: t('courses.instructor.fullDescription'),
+      includes: t('courses.instructor.includes', { returnObjects: true }),
+      icon: "🎓"
     }
   ];
 
