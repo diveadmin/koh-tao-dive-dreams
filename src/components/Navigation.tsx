@@ -6,6 +6,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
+  const [sitesOpen, setSitesOpen] = useState(false);
   const { t } = useTranslation();
 
   const courseCategories = [
@@ -32,9 +33,17 @@ const Navigation = () => {
     },
   ];
 
+  const siteItems = [
+    { name: t('diveSites.sites.sailRock.name'), href: '#site-sailRock' },
+    { name: t('diveSites.sites.chumphon.name'), href: '#site-chumphon' },
+    { name: t('diveSites.sites.southwest.name'), href: '#site-southwest' },
+    { name: t('diveSites.sites.sharkIsland.name'), href: '#site-sharkIsland' },
+    { name: t('diveSites.sites.whiteRock.name'), href: '#site-whiteRock' },
+    { name: t('diveSites.sites.greenRock.name'), href: '#site-greenRock' },
+  ];
+
   const navItems = [
     { name: t('nav.home'), href: '#home' },
-    { name: t('nav.diveSites'), href: '#dive-sites' },
     { name: t('nav.gallery'), href: '#gallery' },
     { name: t('nav.contact'), href: '#contact' },
   ];
@@ -87,6 +96,36 @@ const Navigation = () => {
               </div>
             </div>
 
+            {/* Dive Sites dropdown */}
+            <div className="relative group">
+              <a
+                href="#dive-sites"
+                className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium flex items-center gap-1"
+              >
+                {t('nav.diveSites')}
+                <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
+              </a>
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[240px] p-5">
+                  <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
+                    Dive Sites
+                  </h4>
+                  <ul className="space-y-1">
+                    {siteItems.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                        >
+                          {item.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             {navItems.slice(1).map((item) => (
               <a key={item.name} href={item.href} className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">
                 {item.name}
@@ -131,6 +170,26 @@ const Navigation = () => {
                           </a>
                         ))}
                       </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile dive sites accordion */}
+              <div>
+                <button
+                  onClick={() => setSitesOpen(!sitesOpen)}
+                  className="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-blue-600"
+                >
+                  {t('nav.diveSites')}
+                  <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${sitesOpen ? 'rotate-90' : ''}`} />
+                </button>
+                {sitesOpen && (
+                  <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
+                    {siteItems.map((item) => (
+                      <a key={item.href} href={item.href} className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                        {item.name}
+                      </a>
                     ))}
                   </div>
                 )}
