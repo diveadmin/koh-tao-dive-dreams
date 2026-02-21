@@ -6,7 +6,7 @@ const Footer: React.FC = () => (
     <div className="max-w-7xl mx-auto px-4 py-8 text-sm text-gray-600 flex flex-col md:flex-row justify-between items-center">
       <div className="mb-4 md:mb-0">© {new Date().getFullYear()} Pro Diving Asia — All rights reserved</div>
       <div className="space-x-4">
-        <a href="https://divinginasia.com/home/" className="hover:text-blue-600">Home</a>
+        <a href="../home" className="hover:text-blue-600">Home</a>
         <a href="/courses" className="hover:text-blue-600">Courses</a>
         <a href="/koh-tao-dive-sites" className="hover:text-blue-600">Dive Sites</a>
         <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">Contact</a>
