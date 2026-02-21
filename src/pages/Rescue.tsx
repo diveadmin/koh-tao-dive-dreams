@@ -1,27 +1,88 @@
 import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import BookingForm from '../components/BookingForm';
 
-const Rescue = () => (
-  <div className="max-w-3xl mx-auto py-16 px-4">
-    <h1 className="text-4xl font-bold mb-6">PADI Rescue Diver Course</h1>
-    <p className="mb-4">Become a more confident diver by learning how to prevent and manage diving emergencies. The Rescue course is challenging, rewarding, and a must for all serious divers.</p>
-    <ul className="list-disc pl-6 mb-6">
-      <li>3 days, pool & open water</li>
-      <li>Emergency scenarios</li>
-      <li>All equipment included</li>
-      <li>Prerequisite: EFR</li>
-    </ul>
-    <h2 className="text-2xl font-semibold mt-8 mb-4">Course Includes</h2>
-    <ul className="list-disc pl-6 mb-6">
-      <li>Rescue skills practice</li>
-      <li>PADI Rescue materials</li>
-      <li>Certification card</li>
-      <li>Free tea, coffee, water</li>
-    </ul>
-    <h2 className="text-2xl font-semibold mt-8 mb-4">What's Next?</h2>
-    <p className="mb-6">Rescue Diver is a prerequisite for Divemaster and recommended for all divers.</p>
-    <BookingForm />
-  </div>
-);
+const Rescue: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <section className="relative h-72 md:h-96 flex items-center" style={{backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682686580849-3e7f67df4015.avif')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+        <div className="container mx-auto px-4 text-white z-10">
+          <h1 className="text-4xl md:text-5xl font-bold">PADI Rescue Diver</h1>
+          <p className="mt-4 max-w-2xl">Develop the skills and confidence to manage dive emergencies and assist others. The Rescue Diver course is an important step for all serious divers.</p>
+          <div className="mt-6">
+            <a href="#booking"><Button size="lg">Book Rescue</Button></a>
+          </div>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="md:col-span-2">
+            <h2 className="text-2xl font-bold mb-4">Course Overview</h2>
+            <p className="mb-6">The Rescue Diver course teaches you to prevent and manage diving emergencies, perform rescues and work confidently as part of a dive team.</p>
+
+            <h3 className="text-xl font-semibold mb-3">Skills covered</h3>
+            <ul className="list-disc pl-5 mb-6">
+              <li>Self-rescue and diver stress recognition</li>
+              <li>Rescue scenarios and techniques</li>
+              <li>Emergency management and equipment</li>
+              <li>Rescue breathing and casualty care</li>
+            </ul>
+
+            <h3 className="text-xl font-semibold mb-3">Structure & Prerequisites</h3>
+            <p className="mb-6">Duration: Typically 3 days including pool and open water sessions. Prerequisite: EFR (or equivalent) and Open Water certification.</p>
+
+            <h3 className="text-xl font-semibold mb-3">Inclusions</h3>
+            <ul className="list-disc pl-5 mb-6">
+              <li>Course materials and certification</li>
+              <li>Rescue skills training in pool and open water</li>
+              <li>All equipment rental</li>
+            </ul>
+
+            <h3 className="text-xl font-semibold mb-3">FAQ</h3>
+            <div className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Is Rescue difficult?</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  The course is challenging but instructors support you step-by-step. Good fitness and comfort in the water help.
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <aside>
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Course Details</CardTitle>
+                  <Badge>Advanced</Badge>
+                </div>
+                <CardDescription>3 days · Pool & open water · Certification</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-sky-600 mb-3">฿10,500</p>
+                <p className="text-sm text-muted-foreground mb-4">Includes EFR prerequisite if required</p>
+                <a href="#booking"><Button>Book Rescue</Button></a>
+              </CardContent>
+            </Card>
+          </aside>
+        </div>
+
+        <section className="mt-12">
+          <h3 className="text-2xl font-semibold mb-4">Booking</h3>
+          <p className="mb-4">Complete the booking form below to reserve your place. Rescue courses are scheduled regularly — contact us for private sessions.</p>
+        </section>
+
+        <section id="booking" className="mt-8">
+          <BookingForm isOpen={false} onClose={() => {}} itemType="course" itemTitle="Rescue Diver" />
+        </section>
+      </main>
+    </div>
+  );
+};
 
 export default Rescue;

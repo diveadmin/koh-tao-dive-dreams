@@ -3,6 +3,8 @@ import { Clock, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CourseRecommender from './CourseRecommender';
 import BookingForm from './BookingForm';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import {
   Accordion,
   AccordionContent,
@@ -17,6 +19,7 @@ const Courses = () => {
   const courses = [
     {
       key: 'openWater',
+      path: '/courses/open-water',
       title: t('courses.openWater.title'),
       level: t('courses.openWater.level'),
       duration: t('courses.openWater.duration'),
@@ -31,6 +34,7 @@ const Courses = () => {
     },
     {
       key: 'advanced',
+      path: '/courses/advanced',
       title: t('courses.advanced.title'),
       level: t('courses.advanced.level'),
       duration: t('courses.advanced.duration'),
@@ -44,6 +48,7 @@ const Courses = () => {
     },
     {
       key: 'efr',
+      path: '/courses/efr',
       title: t('courses.efr.title'),
       level: t('courses.efr.level'),
       duration: t('courses.efr.duration'),
@@ -57,6 +62,7 @@ const Courses = () => {
     },
     {
       key: 'rescue',
+      path: '/courses/rescue',
       title: t('courses.rescue.title'),
       level: t('courses.rescue.level'),
       duration: t('courses.rescue.duration'),
@@ -70,6 +76,7 @@ const Courses = () => {
     },
     {
       key: 'divemaster',
+      path: '/courses/divemaster',
       title: t('courses.divemaster.title'),
       level: t('courses.divemaster.level'),
       duration: t('courses.divemaster.duration'),
@@ -83,6 +90,7 @@ const Courses = () => {
     },
     {
       key: 'instructor',
+      path: '/courses/instructor',
       title: t('courses.instructor.title'),
       level: t('courses.instructor.level'),
       duration: t('courses.instructor.duration'),
@@ -206,12 +214,20 @@ const Courses = () => {
                 </Accordion>
               )}
 
-              <button
-                onClick={() => setSelectedCourse(course.title)}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
-              >
-                {t('courses.bookButton')}
-              </button>
+              
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3">
+                  <Link to={course.path} className="flex-1">
+                    <Button variant="outline" className="w-full">{t('courses.viewCourse', 'View course')}</Button>
+                  </Link>
+                  <button
+                    onClick={() => setSelectedCourse(course.title)}
+                    className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
+                  >
+                    {t('courses.bookButton')}
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>

@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import BookingForm from '../components/BookingForm';
-import Navigation from '../components/Navigation';
 import { MapPin, Waves, Fish, Clock, Eye, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -50,7 +49,6 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center bg-gradient-to-r from-blue-900 to-teal-600">

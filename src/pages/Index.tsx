@@ -6,12 +6,10 @@ import Courses from '../components/Courses';
 import Gallery from '../components/Gallery';
 import About from '../components/About';
 import Contact from '../components/Contact';
-import Navigation from '../components/Navigation';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
       <Hero />
       <About />
       <DiveSites />

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Index from "./pages/Index";
+import Layout from "./components/Layout";
 import OpenWater from "./pages/OpenWater";
 import Advanced from "./pages/Advanced";
 import EFR from "./pages/EFR";
@@ -44,7 +45,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
+        <Layout>
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/fun-diving-koh-tao" element={<FunDiving />} />
           <Route path="/koh-tao-dive-sites" element={<DiveSitesPage />} />
@@ -65,6 +67,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Layout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

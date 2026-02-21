@@ -1,9 +1,8 @@
-import React from 'react';
+ ceimport React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import BookingForm from '../components/BookingForm';
-import Navigation from '../components/Navigation';
 import { Fish, Waves, MapPin, Clock, DollarSign, Users } from 'lucide-react';
 
 const FunDiving = () => {
@@ -43,7 +42,6 @@ const FunDiving = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-blue-900 to-teal-600">
