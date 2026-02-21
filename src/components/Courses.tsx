@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+wimport React, { useState } from 'react';
 import { Clock, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CourseRecommender from './CourseRecommender';
