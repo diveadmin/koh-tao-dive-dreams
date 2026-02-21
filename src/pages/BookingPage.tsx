@@ -1,4 +1,4 @@
-import { getRezdyUrl } from '@/lib/rezdy';
+// Rezdy integration removed — use internal booking flow
 import React, { useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -30,7 +30,7 @@ const ADDONS = [
   { id: 'lunch', label: 'Lunch & drinks', amount: 200 },
 ];
 
-const BookingPage: React.FC = () => {
+const       BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const itemTitle = searchParams.get('item') || 'Booking';
@@ -93,26 +93,7 @@ const BookingPage: React.FC = () => {
     }
   };
 
-  const rezdyBase = getRezdyUrl(itemTitle);
-  const buildRezdyPrefill = (values: BookingFormData) => {
-    if (!rezdyBase) return '';
-    try {
-      const url = new URL(rezdyBase);
-      const params = url.searchParams;
-      if (values.name) params.set('firstName', values.name.split(' ')[0] || values.name);
-      if (values.name && values.name.split(' ').length > 1) params.set('lastName', values.name.split(' ').slice(1).join(' '));
-      if (values.email) params.set('email', values.email);
-      if (values.phone) params.set('phone', values.phone);
-      if (values.preferred_date) params.set('date', values.preferred_date);
-      if (values.message) params.set('notes', values.message);
-      return url.toString();
-    } catch (e) {
-      // fallback: append querystring manually
-      const safe = (v?: string) => (v ? encodeURIComponent(v) : '');
-      const qs = `?firstName=${safe(values.name?.split(' ')[0])}&lastName=${safe(values.name?.split(' ').slice(1).join(' '))}&email=${safe(values.email)}&phone=${safe(values.phone)}&date=${safe(values.preferred_date)}&notes=${safe(values.message)}`;
-      return rezdyBase + qs;
-    }
-  };
+  // Rezdy prefill removed.
 
   return (
     <div className="min-h-screen bg-background py-16">

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import CourseRecommender from './CourseRecommender';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getRezdyUrl } from '@/lib/rezdy';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -234,14 +233,7 @@ const Courses = () => {
                     <Button variant="outline" className="w-full">{t('courses.viewCourse', 'View course')}</Button>
                   </Link>
                   <button
-                    onClick={() => {
-                      const rezdy = getRezdyUrl(course.title);
-                      if (rezdy) {
-                        window.open(rezdy, '_blank');
-                      } else {
-                        navigate(`/booking?item=${encodeURIComponent(course.title)}&type=course&deposit=${course.depositMajor}&currency=${course.depositCurrency}`);
-                      }
-                    }}
+                    onClick={() => navigate(`/booking?item=${encodeURIComponent(course.title)}&type=course&deposit=${course.depositMajor}&currency=${course.depositCurrency}`)}
                     className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
                   >
                     {t('courses.bookButton')}

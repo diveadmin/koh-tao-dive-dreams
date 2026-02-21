@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Fish, Waves, MapPin, Clock, DollarSign, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getRezdyUrl } from '@/lib/rezdy';
 
 const FunDiving = () => {
   const navigate = useNavigate();
@@ -127,7 +126,7 @@ const FunDiving = () => {
                   <li>Premium equipment</li>
                   <li>Max 4 divers per guide</li>
                 </ul>
-                      <Button variant="secondary" onClick={() => { const rezdy = getRezdyUrl('Fun Dive'); if (rezdy) window.open(rezdy, '_blank'); else navigate(`/booking?item=${encodeURIComponent('Fun Dive')}&type=dive&deposit=500&currency=THB`); }}>Inquire / Book</Button>
+                      <Button variant="secondary" onClick={() => { navigate(`/booking?item=${encodeURIComponent('Fun Dive')}&type=dive&deposit=500&currency=THB`); }}>Inquire / Book</Button>
               </CardContent>
             </Card>
 
@@ -147,7 +146,7 @@ const FunDiving = () => {
                   <li>Friendly instructors</li>
                   <li>Equipment & photos available</li>
                 </ul>
-                <Button variant="secondary" onClick={() => { const rezdy = getRezdyUrl('Discover Scuba'); if (rezdy) window.open(rezdy, '_blank'); else navigate(`/booking?item=${encodeURIComponent('Discover Scuba')}&type=dive&deposit=1000&currency=THB`); }}>Inquire / Book</Button>
+                <Button variant="secondary" onClick={() => { navigate(`/booking?item=${encodeURIComponent('Discover Scuba')}&type=dive&deposit=1000&currency=THB`); }}>Inquire / Book</Button>
               </CardContent>
             </Card>
 
@@ -167,7 +166,7 @@ const FunDiving = () => {
                   <li>Experienced guides and briefings</li>
                   <li>Pickup & return to Koh Tao</li>
                 </ul>
-                <Button variant="secondary" onClick={() => { const rezdy = getRezdyUrl('Sail Rock Special'); if (rezdy) window.open(rezdy, '_blank'); else navigate(`/booking?item=${encodeURIComponent('Sail Rock Special')}&type=dive&deposit=1500&currency=THB`); }}>Inquire / Book</Button>
+                <Button variant="secondary" onClick={() => { navigate(`/booking?item=${encodeURIComponent('Sail Rock Special')}&type=dive&deposit=1500&currency=THB`); }}>Inquire / Book</Button>
               </CardContent>
             </Card>
           </div>
