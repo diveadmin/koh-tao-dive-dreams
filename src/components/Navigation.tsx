@@ -7,7 +7,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
-  const [sitesOpen, setSitesOpen] = useState(false);
+  const [funDivingOpen, setFunDivingOpen] = useState(false);
   const { t } = useTranslation();
 
   const courseCategories = [
@@ -32,15 +32,6 @@ const Navigation = () => {
         { name: t('courses.instructor.title'), href: '#course-instructor' },
       ],
     },
-  ];
-
-  const siteItems = [
-    { name: t('diveSites.sites.sailRock.name'), href: '#site-sailRock' },
-    { name: t('diveSites.sites.chumphon.name'), href: '#site-chumphon' },
-    { name: t('diveSites.sites.southwest.name'), href: '#site-southwest' },
-    { name: t('diveSites.sites.sharkIsland.name'), href: '#site-sharkIsland' },
-    { name: t('diveSites.sites.whiteRock.name'), href: '#site-whiteRock' },
-    { name: t('diveSites.sites.greenRock.name'), href: '#site-greenRock' },
   ];
 
   const navItems = [
@@ -97,39 +88,38 @@ const Navigation = () => {
               </div>
             </div>
 
-            {/* Dive Sites dropdown */}
+            {/* Dive Sites link */}
+            <Link to="/koh-tao-dive-sites" className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">
+              {t('nav.diveSites')}
+            </Link>
+
+            {/* Fun Dive Trips dropdown */}
             <div className="relative group">
               <a
-                href="#dive-sites"
+                href="#fun-diving"
                 className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium flex items-center gap-1"
               >
-                {t('nav.diveSites')}
+                Fun Dive Trips
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </a>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[240px] p-5">
+                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[200px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
-                    Dive Sites
+                    Fun Diving
                   </h4>
                   <ul className="space-y-1">
-                    {siteItems.map((item) => (
-                      <li key={item.href}>
-                        <a
-                          href={item.href}
-                          className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
+                    <li>
+                      <Link
+                        to="/fun-diving-koh-tao"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Fun Diving Koh Tao
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
-
-            <Link to="/fun-diving-koh-tao" className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">
-              Fun Diving
-            </Link>
 
             {navItems.slice(1).map((item) => (
               <a key={item.name} href={item.href} className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">
@@ -180,29 +170,27 @@ const Navigation = () => {
                 )}
               </div>
 
-              {/* Mobile dive sites accordion */}
+              <Link to="/koh-tao-dive-sites" className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                {t('nav.diveSites')}
+              </Link>
+
+              {/* Mobile fun dive trips accordion */}
               <div>
                 <button
-                  onClick={() => setSitesOpen(!sitesOpen)}
+                  onClick={() => setFunDivingOpen(!funDivingOpen)}
                   className="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-blue-600"
                 >
-                  {t('nav.diveSites')}
-                  <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${sitesOpen ? 'rotate-90' : ''}`} />
+                  Fun Dive Trips
+                  <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${funDivingOpen ? 'rotate-90' : ''}`} />
                 </button>
-                {sitesOpen && (
+                {funDivingOpen && (
                   <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
-                    {siteItems.map((item) => (
-                      <a key={item.href} href={item.href} className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                        {item.name}
-                      </a>
-                    ))}
+                    <Link to="/fun-diving-koh-tao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Fun Diving Koh Tao
+                    </Link>
                   </div>
                 )}
               </div>
-
-              <Link to="/fun-diving-koh-tao" className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                Fun Diving
-              </Link>
 
               {navItems.slice(1).map((item) => (
                 <a key={item.name} href={item.href} className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={() => setIsOpen(false)}>
