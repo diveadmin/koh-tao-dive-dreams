@@ -63,7 +63,7 @@ const FunDiving = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center mb-4">
             <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg" onClick={() => window.location.href = '/#fun-dive-main'}>Go Fun Diving Koh Tao</Button>
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg" onClick={() => window.location.href = '/#courses'}>Book a Course</Button>
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg" onClick={() => window.location.href = '/courses#course-openWater'}>Book a Course</Button>
           </div>
         </div>
       </section>
@@ -462,7 +462,7 @@ const FunDiving = () => {
           </p>
             <div className="mb-4 flex flex-col items-center gap-2">
               <a href="/#fun-dive-main" className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">Fun Dive Info</a>
-              <a href="/#courses" className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded font-semibold">Book Course (PADI)</a>
+              <a href="/courses#course-openWater" className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded font-semibold">Book Course (PADI)</a>
               <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
               <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
             </div>
