@@ -452,7 +452,7 @@ const FunDiving = () => {
       </section>
 
       {/* Booking Section */}
-      <section className="py-16 px-4">
+      <section id="booking" className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-8">Book Your Fun Diving Adventure</h2>
           <p className="text-lg text-muted-foreground mb-8">
