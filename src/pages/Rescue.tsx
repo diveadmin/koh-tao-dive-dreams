@@ -88,6 +88,7 @@ const Rescue: React.FC = () => {
           </div>
           <BookingForm isOpen={true} onClose={() => {}} itemType="course" itemTitle="Rescue Diver" />
         </section>
+        <Contact />
       </main>
     </div>
   );

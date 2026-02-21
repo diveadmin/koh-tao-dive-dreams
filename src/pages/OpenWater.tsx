@@ -33,12 +33,12 @@ const OpenWater: React.FC = () => {
               <li>Buoyancy control and breathing techniques</li>
               <li>Underwater navigation basics</li>
               <li>Emergency procedures and surface recognition</li>
-            </ul>
 
             <h3 className="text-xl font-semibold mb-3">Course Structure</h3>
             <ul className="list-disc pl-5 mb-6">
               <li>Duration: 3-4 days (flexible scheduling)</li>
               <li>Theory sessions + confined water training</li>
+            </main>
               <li>4 open water dives</li>
               <li>Minimum age: 10 years (Junior Open Water for 10-14)</li>
             </ul>

@@ -33,12 +33,12 @@ const EFR: React.FC = () => {
               <li>CPR and AED operation</li>
               <li>First aid for breathing and cardiac emergencies</li>
               <li>First aid for diving-related incidents</li>
-            </ul>
 
             <h3 className="text-xl font-semibold mb-3">Duration & Prerequisites</h3>
             <p className="mb-6">Duration: 1 day. No diving prerequisite — suitable for divers and non-divers alike.</p>
 
             <h3 className="text-xl font-semibold mb-3">Inclusions</h3>
+            </main>
             <ul className="list-disc pl-5 mb-6">
               <li>Course materials and certification</li>
               <li>Practical CPR and first aid training</li>

@@ -89,6 +89,7 @@ const Divemaster: React.FC = () => {
           <BookingForm isOpen={true} onClose={() => {}} itemType="course" itemTitle="Divemaster" />
         </section>
       </main>
+        <Contact />
     </div>
   );
 };

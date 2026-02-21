@@ -32,12 +32,12 @@ const Advanced: React.FC = () => {
               <li>5 adventure dives (can be done over 2-3 days)</li>
               <li>Practice deep dive techniques and navigation</li>
               <li>Improve buoyancy and comfort underwater</li>
-            </ul>
 
             <h3 className="text-xl font-semibold mb-3">Prerequisites</h3>
             <p className="mb-6">Open Water Diver certification (or equivalent) and minimum age of 12.</p>
 
             <h3 className="text-xl font-semibold mb-3">Inclusions</h3>
+            </main>
             <ul className="list-disc pl-5 mb-6">
               <li>Course materials & certification</li>
               <li>All equipment rental</li>
