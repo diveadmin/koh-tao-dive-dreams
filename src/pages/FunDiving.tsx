@@ -106,6 +106,80 @@ const FunDiving = () => {
         </div>
       </section>
 
+      {/* Trips & Programs (ProDivingAsia-style cards) */}
+      <section className="py-12 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-8">Trips & Programs</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="overflow-hidden">
+              <img src="/images/photo-1682687982423-295485af248a.avif" alt="Fun Dive" className="w-full h-40 object-cover" />
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Fun Dive</CardTitle>
+                  <Badge>Recreational</Badge>
+                </div>
+                <CardDescription>Duration: Half day — 2 dives</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-3">Guided dives to nearby reefs — suitable for certified divers of all levels.</p>
+                <ul className="list-disc pl-5 text-sm mb-4">
+                  <li>Experienced PADI guides</li>
+                  <li>Premium equipment</li>
+                  <li>Max 4 divers per guide</li>
+                </ul>
+                <a href="#booking" className="inline-block">
+                  <Button variant="secondary">Inquire / Book</Button>
+                </a>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden">
+              <img src="/images/photo-1659518893171-b15e20a8e201.avif" alt="Discover Scuba" className="w-full h-40 object-cover" />
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Discover Scuba (Try Dive)</CardTitle>
+                  <Badge>Beginner</Badge>
+                </div>
+                <CardDescription>Duration: Half day — short introduction dive</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-3">Perfect for first-timers — pool skills followed by a shallow guided dive.</p>
+                <ul className="list-disc pl-5 text-sm mb-4">
+                  <li>No certification required</li>
+                  <li>Friendly instructors</li>
+                  <li>Equipment & photos available</li>
+                </ul>
+                <a href="#booking" className="inline-block">
+                  <Button variant="secondary">Inquire / Book</Button>
+                </a>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden">
+              <img src="/images/sail-rock.avif" alt="Sail Rock Special" className="w-full h-40 object-cover" onError={(e)=>{(e.target as HTMLImageElement).src='/images/photo-1618865181016-a80ad83a06d3.avif'}} />
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Sail Rock Special</CardTitle>
+                  <Badge>Full Day</Badge>
+                </div>
+                <CardDescription>Duration: Full day — 3 dives with lunch</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-3">A full day offshore trip to Sail Rock and surrounding pinnacles — chances for large pelagics.</p>
+                <ul className="list-disc pl-5 text-sm mb-4">
+                  <li>Breakfast & lunch provided</li>
+                  <li>Experienced guides and briefings</li>
+                  <li>Pickup & return to Koh Tao</li>
+                </ul>
+                <a href="#booking" className="inline-block">
+                  <Button variant="secondary">Inquire / Book</Button>
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Dive Sites */}
       <section className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
