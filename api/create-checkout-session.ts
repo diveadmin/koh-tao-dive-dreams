@@ -30,8 +30,22 @@ export default async function handler(req: any, res: any) {
     const customerName = body.name || '';
     const customerEmail = body.email || '';
 
+    // Allow frontend to override deposit amount & currency per-course
+    let amountMajor = typeof body.amountMajor === 'number' ? body.amountMajor : depositAmountMajor;
+    let currency = (body.currency || depositCurrency || 'thb').toString().toLowerCase();
+
+    // Basic validation
+    amountMajor = Number(amountMajor);
+    if (isNaN(amountMajor) || amountMajor <= 0) {
+      return res.status(400).json({ error: 'Invalid amountMajor' });
+    }
+
+    if (typeof currency !== 'string' || currency.length < 2) {
+      currency = depositCurrency;
+    }
+
     // unit_amount in the smallest currency unit (e.g., cents)
-    const unit_amount = Math.round(depositAmountMajor * 100);
+    const unit_amount = Math.round(amountMajor * 100);
 
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
@@ -41,7 +55,7 @@ export default async function handler(req: any, res: any) {
       line_items: [
         {
           price_data: {
-            currency: depositCurrency,
+            currency,
             product_data: {
               name: `Deposit — ${itemTitle}`,
               description: `Booking ${itemType}`,
