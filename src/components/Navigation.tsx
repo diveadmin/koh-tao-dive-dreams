@@ -103,7 +103,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </a>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[200px] p-5">
+                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
                     Fun Diving
                   </h4>
@@ -115,6 +115,38 @@ const Navigation = () => {
                       >
                         Fun Diving Koh Tao
                       </Link>
+                    </li>
+                    <li>
+                      <a
+                        href="/fun-diving-koh-tao#schedule"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Boat Schedule
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/fun-diving-koh-tao#pricing"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Pricing & Packages
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/fun-diving-koh-tao#requirements"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Diver Requirements
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/fun-diving-koh-tao#tips"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Choosing a Dive Center
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -188,6 +220,18 @@ const Navigation = () => {
                     <Link to="/fun-diving-koh-tao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
                       Fun Diving Koh Tao
                     </Link>
+                    <a href="/fun-diving-koh-tao#schedule" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Boat Schedule
+                    </a>
+                    <a href="/fun-diving-koh-tao#pricing" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Pricing & Packages
+                    </a>
+                    <a href="/fun-diving-koh-tao#requirements" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Diver Requirements
+                    </a>
+                    <a href="/fun-diving-koh-tao#tips" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Choosing a Dive Center
+                    </a>
                   </div>
                 )}
               </div>

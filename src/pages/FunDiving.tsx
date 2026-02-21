@@ -154,7 +154,7 @@ const FunDiving = () => {
       </section>
 
       {/* Boat Schedule & Pricing */}
-      <section className="py-16 px-4 bg-muted/50">
+      <section id="schedule" className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
@@ -202,7 +202,7 @@ const FunDiving = () => {
             </div>
 
             <div>
-              <h2 className="text-4xl font-bold mb-8">Pricing</h2>
+              <h2 id="pricing" className="text-4xl font-bold mb-8">Pricing</h2>
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
@@ -243,6 +243,136 @@ const FunDiving = () => {
                 </Card>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Diver Requirements */}
+      <section id="requirements" className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Important Notice for Certified Divers</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">Last Dive Check</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  When was your last dive? If it has been longer than 12 months, we strongly advise
+                  you complete a Scuba Review to refresh your diving knowledge and skills.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">Medical Fitness</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  All divers must complete the PADI Medical Questionnaire. If you answer "YES" to
+                  any questions, a medical check-up may be required before diving.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">Flying After Diving</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  DAN guidelines: 12 hours for single no-decompression dive, 18 hours for multiple
+                  dives. We provide dive computers with optimal surface interval calculations.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">Weather Conditions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Your safety is our priority. Weather conditions may cause trip postponements
+                  or rescheduling on short notice.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Choosing a Dive Center */}
+      <section id="tips" className="py-16 px-4 bg-muted/50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Top Tips to Choose a Reputable Dive Center</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Quality Equipment</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Premium Aqualung equipment with balanced regulators and integrated weight systems.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Dive Computer Required</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Essential for deep and repetitive dives. No dive computer, no diving.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Experienced Guides</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  PADI professionals with deep knowledge of local marine life and dive sites.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Convenient Location</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Consider proximity to your accommodation for easy access and pickup services.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Value vs Price</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Quality diving equipment and experienced guides may cost 100-200 THB extra per dive.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">PADI Certification</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Choose centers offering certification courses if you're not yet a certified diver.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
