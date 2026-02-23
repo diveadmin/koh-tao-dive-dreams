@@ -1,4 +1,4 @@
-project_id = "khaepmcwejdskqiixwwv"
+project_id = "bjiaxftiiqteweteyzna"
 
 [functions.course-recommend]
 verify_jwt = false
