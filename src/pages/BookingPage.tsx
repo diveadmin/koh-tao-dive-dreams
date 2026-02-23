@@ -93,7 +93,7 @@ const       BookingPage: React.FC = () => {
       if (fnError) console.warn('Email notification failed:', fnError);
 
       toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
-      if (data.paymentChoice === 'paypal' && amountMajor > 0) {
+      if (data.paymentChoice === 'now' && amountMajor > 0) {
         setShowPaymentLinks(true);
       } else {
         form.reset();
@@ -218,7 +218,7 @@ const       BookingPage: React.FC = () => {
                       <span>Pay later (inquire only)</span>
                     </label>
                     <label className="flex items-center gap-2">
-                      <input type="radio" value="paypal" checked={field.value === 'paypal'} onChange={() => field.onChange('paypal')} />
+                      <input type="radio" value="now" checked={field.value === 'now'} onChange={() => field.onChange('now')} />
                       <span>Pay deposit now with PayPal</span>
                     </label>
                   </div>
