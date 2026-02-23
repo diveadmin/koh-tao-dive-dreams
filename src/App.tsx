@@ -44,6 +44,7 @@ import BeardedScorpionFish from "./pages/BeardedScorpionFish";
 import Nudibranchs from "./pages/Nudibranchs";
 import AccommodationsPage from "./pages/AccommodationsPage";
 import ScubaReview from "./pages/ScubaReview";
+import ScubaDiver from "./pages/ScubaDiver";
 
 // Specialty Courses
 import DeepDiver from "./pages/specialty/DeepDiver";
@@ -123,6 +124,7 @@ const App = () => (
           <Route path="/courses/divemaster" element={<Divemaster />} />
           <Route path="/courses/instructor" element={<Instructor />} />
           <Route path="/courses/scuba-review" element={<ScubaReview />} />
+          <Route path="/courses/scuba-diver" element={<ScubaDiver />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
