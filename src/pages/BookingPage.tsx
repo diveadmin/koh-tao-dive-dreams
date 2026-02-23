@@ -92,75 +92,53 @@ const       BookingPage: React.FC = () => {
       const responseData = await res.json().catch(() => ({}));
       console.log('Web3Forms response:', res.status, responseData);
 
+      // Persist booking via Supabase Edge Function regardless of Web3Forms outcome
+      try {
+        const bookingId = crypto.randomUUID();
+        const functionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bookings`;
+
+        const body = {
+          id: bookingId,
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          course_title: itemTitle,
+          preferred_date: data.preferred_date,
+          experience_level: data.experience_level,
+          message: data.message,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        };
+
+        const fnRes = await fetch(functionUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (!fnRes.ok) {
+          const errText = await fnRes.text().catch(() => 'unknown');
+          console.warn('Edge function persist failed', fnRes.status, errText);
+        } else {
+          console.log('Booking persisted via Edge Function', bookingId);
+        }
+      } catch (e) {
+        console.warn('Failed to persist booking via Edge Function', e);
+      }
+
+      // Notify user based on Web3Forms result, but booking is already persisted
       if (res.ok && responseData.success) {
-        console.log('Form submission successful');
         toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
-        // Also send to our server endpoint to ensure delivery to payments@divinginasia.com
-        try {
-          fetch('/api/send-booking-notification', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: data.name,
-              email: data.email,
-              phone: data.phone,
-              preferred_date: data.preferred_date,
-              experience_level: data.experience_level,
-              message: data.message,
-              item_title: itemTitle,
-              deposit_amount: `฿${amountMajor}`,
-              payment_choice: data.paymentChoice,
-              paypal_link: data.paymentChoice === 'now' ? `${PAYPAL_LINK}/${amountMajor}THB` : null,
-            }),
-          }).then(r => r.json()).then(j => console.log('server notify response', j)).catch(e => console.warn('server notify failed', e));
-        } catch (e) {
-          console.warn('Failed to call server notify endpoint', e);
-        }
-        // Persist booking via Supabase Edge Function (service_role) for secure inserts
-        try {
-          const bookingId = crypto.randomUUID();
-          const functionUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bookings`;
-
-          const body = {
-            id: bookingId,
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            course_title: itemTitle,
-            preferred_date: data.preferred_date,
-            experience_level: data.experience_level,
-            message: data.message,
-            status: 'pending',
-            created_at: new Date().toISOString(),
-          };
-
-          const fnRes = await fetch(functionUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          });
-
-          if (!fnRes.ok) {
-            const errText = await fnRes.text().catch(() => 'unknown');
-            console.warn('Edge function persist failed', fnRes.status, errText);
-          } else {
-            console.log('Booking persisted via Edge Function', bookingId);
-          }
-        } catch (e) {
-          console.warn('Failed to persist booking via Edge Function', e);
-        }
         if (data.paymentChoice === 'now' && amountMajor > 0) {
-          console.log('Showing payment links');
           setShowPaymentLinks(true);
         } else {
-          console.log('Redirecting to home');
           form.reset();
           navigate('/');
         }
       } else {
         const errMsg = responseData?.message || responseData?.error || `HTTP ${res.status}`;
         console.error('Web3Forms error:', errMsg, responseData);
-        toast.error(`Failed to send inquiry: ${errMsg}. Please try again.`);
+        toast.error(`Inquiry saved but delivery failed: ${errMsg}. Admin will be notified.`);
       }
     } catch (err) {
       console.error('Form submission error:', err);
