@@ -19,10 +19,12 @@ const bookingSchema = z.object({
   preferred_date: z.string().optional(),
   experience_level: z.string().optional(),
   message: z.string().trim().max(1000).optional(),
-  paymentChoice: z.enum(['now', 'link', 'none']).optional(),
 });
 
+
 type BookingFormData = z.infer<typeof bookingSchema>;
+
+const PAYPAL_LINK = 'https://paypal.me/divinginasia';
 
 const ADDONS = [
   { id: 'equipment', label: 'Equipment rental', amount: 300 },
@@ -45,45 +47,29 @@ const       BookingPage: React.FC = () => {
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: { name: '', email: '', phone: '', preferred_date: '', experience_level: '', message: '', paymentChoice: 'now' },
+    defaultValues: { name: '', email: '', phone: '', preferred_date: '', experience_level: '', message: '' },
   });
+
+  const [showPaymentLinks, setShowPaymentLinks] = useState(false);
 
   const onSubmit = async (data: BookingFormData) => {
     try {
-      const paymentChoice = (data as any).paymentChoice || 'none';
       const amountMajor = depositMajor + totalAddons;
 
-      let checkoutUrl: string | undefined;
-      if ((paymentChoice === 'now' || paymentChoice === 'link') && amountMajor > 0) {
-        const body: any = { itemTitle, itemType, name: data.name, email: data.email, amountMajor };
-        if (depositCurrency) body.currency = depositCurrency;
+      const messageBase = `Preferred Date: ${data.preferred_date || 'N/A'}\nExperience: ${data.experience_level || 'N/A'}\nAdd-ons: ${ADDONS.filter(a=>selectedAddons[a.id]).map(a=>a.label).join(', ') || 'None'}\nDeposit amount: ฿${amountMajor}`;
 
-        const checkoutRes = await fetch('/api/create-checkout-session', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
-        });
-        const json = await checkoutRes.json().catch(() => ({}));
-        if (checkoutRes.ok && json.url) {
-          checkoutUrl = json.url;
-          if (paymentChoice === 'now') {
-            window.location.href = checkoutUrl;
-            return;
-          }
-        } else {
-          toast.error('Payment initialization failed; continue with inquiry.');
-        }
-      }
-
-      const messageBase = `Preferred Date: ${data.preferred_date || 'N/A'}\nExperience: ${data.experience_level || 'N/A'}\nAdd-ons: ${ADDONS.filter(a=>selectedAddons[a.id]).map(a=>a.label).join(', ') || 'None'}`;
-      const messageWithLink = checkoutUrl ? `${messageBase}\nPayment link: ${checkoutUrl}` : messageBase;
-
-      const payload = { access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a', subject: `Booking Inquiry: ${itemTitle}`, name: data.name, email: data.email, message: messageWithLink };
+      const payload = { access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a', subject: `Booking Inquiry: ${itemTitle}`, name: data.name, email: data.email, message: `${messageBase}\n\n${data.message || ''}` };
 
       const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const resp = await res.json().catch(() => ({}));
       if (res.ok && resp.success) {
-        toast.success('Inquiry sent. We will contact you soon.');
-        form.reset();
-        navigate('/');
+        toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
+        if (amountMajor > 0) {
+          setShowPaymentLinks(true);
+        } else {
+          form.reset();
+          navigate('/');
+        }
       } else {
         toast.error('Failed to send inquiry. Please try again.');
       }
@@ -188,20 +174,6 @@ const       BookingPage: React.FC = () => {
               </FormItem>
             )} />
 
-            <FormField control={form.control} name="paymentChoice" render={({ field }) => (
-              <FormItem>
-                <FormLabel>Payment option</FormLabel>
-                <FormControl>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <label className="flex items-center gap-2"><input type="radio" value="now" checked={field.value === 'now'} onChange={() => field.onChange('now')} /> <span className="ml-2">Pay deposit now</span></label>
-                    <label className="flex items-center gap-2"><input type="radio" value="link" checked={field.value === 'link'} onChange={() => field.onChange('link')} /> <span className="ml-2">Send payment link to my email</span></label>
-                    <label className="flex items-center gap-2"><input type="radio" value="none" checked={field.value === 'none'} onChange={() => field.onChange('none')} /> <span className="ml-2">Just an inquiry (no deposit)</span></label>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )} />
-
             <FormField control={form.control} name="message" render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2"><MessageSquare className="h-4 w-4" /> Message</FormLabel>
@@ -212,10 +184,27 @@ const       BookingPage: React.FC = () => {
 
             <div className="flex gap-3 pt-4">
               <Button type="button" variant="outline" onClick={() => navigate(-1)} className="flex-1">Cancel</Button>
-              <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700">Submit Inquiry</Button>
+              <Button type="submit" className="flex-1 bg-primary hover:bg-primary/90">Submit Inquiry</Button>
             </div>
           </form>
         </Form>
+
+        {showPaymentLinks && (
+          <div className="mt-8 p-6 border rounded-xl bg-muted/50 text-center space-y-4">
+            <h2 className="text-xl font-bold">Pay Your Deposit</h2>
+            <p className="text-muted-foreground">Your inquiry has been sent! To secure your booking, pay the deposit of <strong>฿{depositMajor + totalAddons}</strong> via PayPal:</p>
+            <a
+              href={`${PAYPAL_LINK}/${depositMajor + totalAddons}THB`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white px-8 py-3 text-lg">
+                Pay ฿{depositMajor + totalAddons} with PayPal
+              </Button>
+            </a>
+            <p className="text-sm text-muted-foreground">Or <button className="underline" onClick={() => { form.reset(); setShowPaymentLinks(false); navigate('/'); }}>skip payment for now</button></p>
+          </div>
+        )}
       </div>
     </div>
   );
