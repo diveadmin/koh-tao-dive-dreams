@@ -92,7 +92,7 @@ const       BookingPage: React.FC = () => {
       const responseData = await res.json().catch(() => ({}));
       console.log('Web3Forms response:', res.status, responseData);
 
-      // Persist booking via Supabase Edge Function
+      // Persist booking via local API
       try {
         const bookingId = crypto.randomUUID();
         const body = {
@@ -108,19 +108,15 @@ const       BookingPage: React.FC = () => {
           created_at: new Date().toISOString(),
         };
 
-        const fnRes = await fetch('https://bjiaxftiiqteweteyzna.supabase.co/functions/v1/bookings', {
+        const fnRes = await fetch('/api/bookings', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqaWF4ZnRpaXF0ZXdldGV5em5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTc5OTYsImV4cCI6MjA4NzQzMzk5Nn0.gsjasVspwoWs1YKfbDkD5dpukAZ6qZn9fZVeF502DX4',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqaWF4ZnRpaXF0ZXdldGV5em5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTc5OTYsImV4cCI6MjA4NzQzMzk5Nn0.gsjasVspwoWs1YKfbDkD5dpukAZ6qZn9fZVeF502DX4'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
 
         if (!fnRes.ok) {
           const errText = await fnRes.text().catch(() => 'unknown');
-          console.warn('Supabase Edge Function persist failed', fnRes.status, errText);
+          console.warn('Local API persist failed', fnRes.status, errText);
         } else {
           console.log('Booking persisted via local API', bookingId);
         }

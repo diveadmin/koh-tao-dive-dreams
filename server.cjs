@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from dist directory
+app.use(express.static(path.join(__dirname, 'dist')));
+
 // Database setup
 const dbPath = path.join(__dirname, 'bookings.db');
 const db = new Database(dbPath);
@@ -82,6 +85,11 @@ app.delete('/api/bookings/:id', (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// Catch-all handler: send back index.html for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
