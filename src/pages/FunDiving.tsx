@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Fish, Waves, MapPin, Clock, DollarSign, Users } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { tryAutoScroll, scrollToWithOffset } from '@/lib/scroll';
 
 const FunDiving = () => {
   const navigate = useNavigate();
@@ -50,6 +52,18 @@ const FunDiving = () => {
     }
   };
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const fromStorage = sessionStorage.getItem('scrollTo');
+    const hashAnchor = location.hash ? location.hash.replace('#', '') : null;
+    const anchor = fromStorage || hashAnchor;
+    if (anchor) {
+      tryAutoScroll(anchor);
+      try { sessionStorage.removeItem('scrollTo'); } catch (_) {}
+    }
+  }, [location]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -62,8 +76,23 @@ const FunDiving = () => {
             Discover vibrant coral reefs, encounter amazing marine life, and create unforgettable memories.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center mb-4">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg" onClick={() => window.location.href = '/#fun-dive-main'}>Go Fun Diving Koh Tao</Button>
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg" onClick={() => window.location.href = '/courses#course-openWater'}>Book a Course</Button>
+            <Button
+              size="lg"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg"
+              onClick={() => {
+                // If already on this page, smooth scroll with offset. Otherwise request anchor and navigate here.
+                const el = document.getElementById('fun-dive-main');
+                if (el) {
+                  scrollToWithOffset('fun-dive-main');
+                } else {
+                  try { sessionStorage.setItem('scrollTo', 'fun-dive-main'); } catch (_) {}
+                  navigate('/fun-diving-koh-tao');
+                }
+              }}
+            >
+              Go Fun Diving Koh Tao
+            </Button>
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg" onClick={() => { try{ sessionStorage.setItem('scrollTo','course-openWater') }catch(_){ } ; navigate('/courses'); }}>Book a Course</Button>
           </div>
         </div>
       </section>

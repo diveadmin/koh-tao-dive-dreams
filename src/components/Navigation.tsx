@@ -1,7 +1,7 @@
   import React, { useState } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const Navigation = () => {
@@ -11,6 +11,34 @@ const Navigation = () => {
   const [diveSitesOpen, setDiveSitesOpen] = useState(false);
   const [marineLifeOpen, setMarineLifeOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    // href format: /path#anchor or /#anchor
+    const parts = href.split('#');
+    const path = parts[0] || '/';
+    const anchor = parts[1];
+    if (!anchor) return navigate(path || '/');
+
+    // If already on target page, scroll directly
+    if (location.pathname === (path === '' ? '/' : path)) {
+      const el = document.getElementById(anchor);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        setIsOpen(false);
+        return;
+      }
+    }
+
+    // Otherwise store desired anchor and navigate — page will read sessionStorage and scroll on mount
+    try { sessionStorage.setItem('scrollTo', anchor); } catch (_) {}
+    // update URL with hash for clarity
+    const targetPath = (path === '' ? '/' : path);
+    navigate(`${targetPath}#${anchor}`);
+    setIsOpen(false);
+  };
   const { t } = useTranslation();
 
   const courseCategories = [
@@ -249,6 +277,7 @@ const Navigation = () => {
                     <li>
                       <a
                         href="/fun-diving-koh-tao#schedule"
+                        onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#schedule')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
                         Boat Schedule
@@ -257,6 +286,7 @@ const Navigation = () => {
                     <li>
                       <a
                         href="/fun-diving-koh-tao#pricing"
+                        onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#pricing')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
                         Pricing & Packages
@@ -265,6 +295,7 @@ const Navigation = () => {
                     <li>
                       <a
                         href="/fun-diving-koh-tao#requirements"
+                        onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#requirements')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
                         Diver Requirements
@@ -273,6 +304,7 @@ const Navigation = () => {
                     <li>
                       <a
                         href="/fun-diving-koh-tao#tips"
+                        onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#tips')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
                         Choosing a Dive Center
@@ -284,9 +316,24 @@ const Navigation = () => {
             </div>
 
             {navItems.slice(1).map((item) => (
-              <a key={item.name} href={item.href} className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">
-                {item.name}
-              </a>
+              item.href && item.href.includes('#') ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleAnchorClick(e, item.href)}
+                  className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                >
+                  {item.name}
+                </a>
+              )
             ))}
 
             {/* Account dropdown */}
@@ -434,16 +481,16 @@ const Navigation = () => {
                     <Link to="/fun-diving-koh-tao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
                       Fun Diving Koh Tao
                     </Link>
-                    <a href="/fun-diving-koh-tao#schedule" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                    <a href="/fun-diving-koh-tao#schedule" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#schedule')}>
                       Boat Schedule
                     </a>
-                    <a href="/fun-diving-koh-tao#pricing" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                    <a href="/fun-diving-koh-tao#pricing" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#pricing')}>
                       Pricing & Packages
                     </a>
-                    <a href="/fun-diving-koh-tao#requirements" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                    <a href="/fun-diving-koh-tao#requirements" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#requirements')}>
                       Diver Requirements
                     </a>
-                    <a href="/fun-diving-koh-tao#tips" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                    <a href="/fun-diving-koh-tao#tips" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#tips')}>
                       Choosing a Dive Center
                     </a>
                   </div>
@@ -451,9 +498,15 @@ const Navigation = () => {
               </div>
 
               {navItems.slice(1).map((item) => (
-                <a key={item.name} href={item.href} className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                item.href && item.href.includes('#') ? (
+                  <a key={item.name} href={item.href} className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, item.href)}>
                   {item.name}
-                </a>
+                  </a>
+                ) : (
+                  <a key={item.name} href={item.href} className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                    {item.name}
+                  </a>
+                )
               ))}
 
               {/* Mobile account accordion */}
