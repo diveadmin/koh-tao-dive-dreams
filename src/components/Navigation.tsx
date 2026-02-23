@@ -43,24 +43,54 @@ const Navigation = () => {
 
   const courseCategories = [
     {
-      label: 'Beginner Courses',
+      label: 'BEGINNER COURSES',
       items: [
-        { name: t('courses.openWater.title'), to: '/courses/open-water' },
+        { name: 'PADI Open Water Course', to: '/courses/open-water' },
+        { name: 'PADI Scuba Diver Course', to: '/courses/scuba-diver' },
       ],
     },
     {
-      label: 'Advanced Courses',
+      label: 'ADVANCED COURSES',
       items: [
-        { name: t('courses.advanced.title'), to: '/courses/advanced' },
-        { name: t('courses.efr.title'), to: '/courses/efr' },
-        { name: t('courses.rescue.title'), to: '/courses/rescue' },
+        { name: 'Advanced Open Water', to: '/courses/advanced' },
+        { name: 'EFR First Aid Course', to: '/courses/efr' },
+        { name: 'PADI Rescue Diver Course', to: '/courses/rescue' },
+        { name: 'Scuba Review', to: '/courses/scuba-review' },
       ],
     },
     {
-      label: 'Pro Level Courses',
+      label: 'PADI SPECIALTY COURSES',
+      items: [
+        { name: 'Adaptive Support Diver', to: '/specialty/adaptive-support' },
+        { name: 'Aware Fish Identification', to: '/specialty/fish-identification' },
+        { name: 'PADI Boat Diver', to: '/specialty/boat-diver' },
+        { name: 'PADI Deep Diver', to: '/specialty/deep-diver' },
+        { name: 'PADI DPV Diver', to: '/specialty/dpv-diver' },
+        { name: 'Emergency O2 Provider', to: '/specialty/emergency-o2' },
+        { name: 'Enriched Air Diver', to: '/specialty/enriched-air' },
+        { name: 'Equipment Specialist', to: '/specialty/equipment-specialist' },
+        { name: 'PADI Night Diver', to: '/specialty/night-diver' },
+        { name: 'PADI Peak Buoyancy', to: '/specialty/peak-buoyancy' },
+        { name: 'Search & Recovery Diver', to: '/specialty/search-recovery' },
+        { name: 'Self Reliant Diver', to: '/specialty/self-reliant' },
+        { name: 'Sidemount Diver', to: '/specialty/sidemount' },
+        { name: 'Underwater Naturalist', to: '/specialty/underwater-naturalist' },
+        { name: 'Underwater Navigator', to: '/specialty/underwater-navigator' },
+        { name: 'PADI Wreck Diver', to: '/specialty/wreck-diver' },
+      ],
+    },
+    {
+      label: 'PRO LEVEL COURSES',
       items: [
         { name: t('courses.divemaster.title'), to: '/courses/divemaster' },
         { name: t('courses.instructor.title'), to: '/courses/instructor' },
+      ],
+    },
+    {
+      label: 'INTERNSHIPS',
+      items: [
+        { name: 'Divemaster Internship', to: '/internship/divemaster' },
+        { name: 'Instructor Internship', to: '/internship/instructor' },
       ],
     },
     
@@ -110,7 +140,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </Link>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[520px] p-6 flex gap-8">
+                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[1100px] p-6 flex gap-8">
                   {courseCategories.map((cat) => (
                     <div key={cat.label} className="flex-1">
                       <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">

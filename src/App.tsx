@@ -43,6 +43,28 @@ import BandedSeaKrait from "./pages/BandedSeaKrait";
 import BeardedScorpionFish from "./pages/BeardedScorpionFish";
 import Nudibranchs from "./pages/Nudibranchs";
 import AccommodationsPage from "./pages/AccommodationsPage";
+
+// Specialty Courses
+import DeepDiver from "./pages/specialty/DeepDiver";
+import WreckDiver from "./pages/specialty/WreckDiver";
+import EnrichedAirDiver from "./pages/specialty/EnrichedAirDiver";
+import NightDiver from "./pages/specialty/NightDiver";
+import PeakPerformanceBuoyancy from "./pages/specialty/PeakPerformanceBuoyancy";
+import SelfReliantDiver from "./pages/specialty/SelfReliantDiver";
+import SidemountDiver from "./pages/specialty/SidemountDiver";
+import UnderwaterNavigator from "./pages/specialty/UnderwaterNavigator";
+import FishIdentification from "./pages/specialty/FishIdentification";
+import DiveAgainstDebris from "./pages/specialty/DiveAgainstDebris";
+import CoralWatch from "./pages/specialty/CoralWatch";
+import DPVDiver from "./pages/specialty/DPVDiver";
+import SharkConservation from "./pages/specialty/SharkConservation";
+import SeaTurtleAwareness from "./pages/specialty/SeaTurtleAwareness";
+import WhaleSharkAwareness from "./pages/specialty/WhaleSharkAwareness";
+
+// Internship Programs
+import DivemasterInternship from "./pages/internship/Divemaster";
+import InstructorInternship from "./pages/internship/Instructor";
+
 import "./i18n";
 
 const queryClient = new QueryClient();
@@ -99,6 +121,29 @@ const App = () => (
           <Route path="/account" element={<Account />} />
           <Route path="/courses/pro-level" element={<ProLevelCourses />} />
           <Route path="/courses/specialties/:slug" element={<SpecialtyDetail />} />
+          
+          {/* Specialty Course Routes */}
+          <Route path="/specialty/deep-diver" element={<DeepDiver />} />
+          <Route path="/specialty/wreck-diver" element={<WreckDiver />} />
+          <Route path="/specialty/enriched-air-diver" element={<EnrichedAirDiver />} />
+          <Route path="/specialty/night-diver" element={<NightDiver />} />
+          <Route path="/specialty/peak-performance-buoyancy" element={<PeakPerformanceBuoyancy />} />
+          <Route path="/specialty/search-recovery" element={<SearchRecovery />} />
+          <Route path="/specialty/self-reliant-diver" element={<SelfReliantDiver />} />
+          <Route path="/specialty/sidemount-diver" element={<SidemountDiver />} />
+          <Route path="/specialty/underwater-navigator" element={<UnderwaterNavigator />} />
+          <Route path="/specialty/fish-identification" element={<FishIdentification />} />
+          <Route path="/specialty/dive-against-debris" element={<DiveAgainstDebris />} />
+          <Route path="/specialty/coral-watch" element={<CoralWatch />} />
+          <Route path="/specialty/dpv-diver" element={<DPVDiver />} />
+          <Route path="/specialty/shark-conservation" element={<SharkConservation />} />
+          <Route path="/specialty/sea-turtle-awareness" element={<SeaTurtleAwareness />} />
+          <Route path="/specialty/whaleshark-awareness" element={<WhaleSharkAwareness />} />
+
+          {/* Internship Program Routes */}
+          <Route path="/internship/divemaster" element={<DivemasterInternship />} />
+          <Route path="/internship/instructor" element={<InstructorInternship />} />
+
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
