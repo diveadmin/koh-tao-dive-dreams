@@ -66,6 +66,7 @@ const       BookingPage: React.FC = () => {
       // Prepare Web3Forms payload
       const payload = {
         access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
+        to: 'payments@divinginasia.com',
         subject: `Booking Inquiry: ${itemTitle}`,
         name: data.name,
         email: data.email,
