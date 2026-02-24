@@ -32,7 +32,13 @@ const statusConfig = {
 
 const Admin = () => {
   const navigate = useNavigate();
-  const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
   const apiUrl = (path: string) => `${apiBase}${path}`;
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);

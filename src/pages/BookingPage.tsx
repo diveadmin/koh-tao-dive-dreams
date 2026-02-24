@@ -37,7 +37,13 @@ const ADDONS = [
 const       BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
   const apiUrl = (path: string) => `${apiBase}${path}`;
   const itemTitle = searchParams.get('item') || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
