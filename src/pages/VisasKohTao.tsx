@@ -3,7 +3,7 @@ import React from 'react';
 const VisasKohTao = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682687982423-295485af248a.avif')" }}>
+    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/visa.png')" }}>
       <div className="text-center text-white z-10">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Visas for Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Everything you need to know about Thai visa requirements.</p>
