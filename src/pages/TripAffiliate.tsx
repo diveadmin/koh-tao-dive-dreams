@@ -140,7 +140,7 @@ const TripAffiliate = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* Warning banner */}
-      {ALLIANCE_ID === 'YOUR_ALLIANCE_ID' && (
+      {ALLIANCE_ID === '295439656' && (
         <div className="bg-amber-400 text-black text-center py-2 px-4 text-sm font-medium">
           ⚠️ Trip.com affiliate ID not set — sign up at{' '}
           <a href="https://www.trip.com/pages/affiliate/index.html" target="_blank" rel="noopener noreferrer" className="underline font-bold">
