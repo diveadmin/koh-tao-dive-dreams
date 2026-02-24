@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Star, MapPin, Wifi, UtensilsCrossed, Waves, DollarSign } from 'lucide-react';
 
 // ⚠️ Replace this with your real Booking.com affiliate ID once you sign up at booking.com/affiliate-program
-const AFFILIATE_ID = 'YOUR_AFFILIATE_ID';
+const AFFILIATE_ID = '2787354';
 
 const hotels = [
   {
