@@ -17,6 +17,7 @@ const GreenSeaTurtle = () => {
       fullHeightHero={true}
       heroImageFit="cover"
       noOverlay={true}
+      secondaryImage="/images/3turtle.png"
       detailedDescription="The green sea turtle is one of the most common sea turtles in Koh Tao's waters and plays a crucial role in maintaining the health of seagrass beds and coral reefs. These gentle herbivores spend their days grazing on seagrass and algae, helping to keep these important habitats in balance. Adult turtles are frequently seen in shallow bays and coral reef areas, while hatchlings can sometimes be observed making their perilous journey from nesting beaches to the open sea. Conservation efforts in Thailand have helped protect these ancient mariners, and seeing them in their natural habitat is always a special experience."
       interestingFacts={[
         "Green sea turtles can live up to 80 years",

@@ -24,6 +24,7 @@ interface MarineLifeDetailProps {
   fullHeightHero?: boolean;
   heroImageFit?: 'cover' | 'contain';
   noOverlay?: boolean;
+  secondaryImage?: string;
 }
 
 const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
@@ -43,7 +44,8 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   images,
   fullHeightHero = false,
   heroImageFit = 'cover',
-  noOverlay = false
+  noOverlay = false,
+  secondaryImage
 }) => {
   const navigate = useNavigate();
 
@@ -75,6 +77,16 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
           </div>
         </div>
       </div>
+
+      {secondaryImage && (
+        <div className="w-full">
+          <img
+            src={secondaryImage}
+            alt={`${name} reef`}
+            className="w-full object-cover"
+          />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
