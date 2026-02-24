@@ -61,7 +61,7 @@ const Footer: React.FC = () => (
 
       {/* Bottom bar */}
       <div className="border-t border-[#1a3a5c] pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-500">
-        <div>© {new Date().getFullYear()} Black Turtle Dive — All rights reserved</div>
+        <div>© {new Date().getFullYear()} Pro Diving Asia — All rights reserved</div>
         <div>
           Powered by{' '}
           <a href="https://www.onemedia.asia" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition font-medium">
