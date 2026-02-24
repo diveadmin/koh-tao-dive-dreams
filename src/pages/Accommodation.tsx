@@ -38,7 +38,7 @@ const Accommodation = () => (
         <li>On a budget? Hostels and guesthouses in Mae Haad and Sairee offer great value.</li>
         <li>Looking for romance? Book a hillside villa with sunset views.</li>
       </ul>
-      <p className="mt-2">For more tips, check out <a href="https://www.blackturtledive.com/koh-tao/accommodation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Black Turtle Dive’s accommodation guide</a>.</p>
+      <p className="mt-2">For more tips, contact our team at <a href="mailto:contact@divinginasia.com" className="text-blue-600 underline hover:text-blue-800">info@divinginasia.com</a>.</p>
     </section>
   </main>
 );
