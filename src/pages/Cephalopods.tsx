@@ -34,7 +34,7 @@ const Cephalopods = () => {
       fullHeightHero={true}
       heroImageFit="cover"
       noOverlay={true}
-      secondaryImage="/images/3turtle.png"
+      secondaryImage="/images/squid.png"
       images={[
         "/images/cephalopods.png",
         "/images/photo-1618865181016-a80ad83a06d3.avif",
