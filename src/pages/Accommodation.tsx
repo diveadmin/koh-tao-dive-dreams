@@ -22,10 +22,42 @@ const Accommodation = () => (
         <li><strong>Family-Run Hotels:</strong> Experience local hospitality and comfort in the heart of the island’s villages.</li>
         <li><strong>Eco-Friendly Lodges:</strong> Stay green with sustainable options nestled in nature.</li>
       </ul>
-      <p className="mb-4">Popular areas to stay include <strong>Sairee Beach</strong> (lively, lots of restaurants and nightlife), <strong>Mae Haad</strong> (convenient for ferries), and <strong>Chalok Baan Kao</strong> (quiet, relaxed atmosphere).</p>
+      <p className="mb-6">Popular areas to stay include <strong>Sairee Beach</strong> (lively, lots of restaurants and nightlife), <strong>Mae Haad</strong> (convenient for ferries), and <strong>Chalok Baan Kao</strong> (quiet, relaxed atmosphere).</p>
+
+      {/* Platform chooser */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-4 text-gray-700">Choose your booking platform</h3>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {/* Booking.com */}
+          <a
+            href="/accommodation-booking"
+            className="group flex flex-col items-center gap-3 border-2 border-blue-200 hover:border-blue-500 rounded-xl p-6 text-center transition-all hover:shadow-md"
+          >
+            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform">B</div>
+            <div>
+              <div className="font-bold text-blue-700 text-lg">Booking.com</div>
+              <div className="text-sm text-gray-500 mt-1">Free cancellation · Instant confirmation · Worldwide trusted</div>
+            </div>
+            <span className="mt-auto inline-block bg-blue-600 text-white text-sm px-5 py-2 rounded-lg group-hover:bg-blue-700 transition">Browse Hotels →</span>
+          </a>
+
+          {/* Trip.com */}
+          <a
+            href="/trip-accommodation"
+            className="group flex flex-col items-center gap-3 border-2 border-orange-200 hover:border-orange-500 rounded-xl p-6 text-center transition-all hover:shadow-md"
+          >
+            <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform">T</div>
+            <div>
+              <div className="font-bold text-orange-600 text-lg">Trip.com</div>
+              <div className="text-sm text-gray-500 mt-1">Best price guarantee · Asia specialist · 24/7 support</div>
+            </div>
+            <span className="mt-auto inline-block bg-orange-500 text-white text-sm px-5 py-2 rounded-lg group-hover:bg-orange-600 transition">Browse Hotels →</span>
+          </a>
+        </div>
+      </div>
+
       <div className="flex flex-wrap gap-4 mb-4">
-        <a href="/accommodation-booking" className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Find Accommodation</a>
-        <a href="/#contact" className="inline-block bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 transition">Book Diving + Stay</a>
+        <a href="/contact" className="inline-block bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 transition">Book Diving + Stay</a>
       </div>
       <p className="text-sm text-gray-500">Tip: Book early for the best selection, especially during December–April and July–August.</p>
     </section>
