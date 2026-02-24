@@ -9,7 +9,7 @@ const Footer: React.FC = () => (
 
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
-          <div className="text-xl font-bold text-cyan-400 mb-3">Black Turtle Dive</div>
+          <div className="text-xl font-bold text-cyan-400 mb-3">Turtle Divers</div>
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             Koh Tao's premier dive school. PADI courses, fun diving, and unforgettable underwater adventures.
           </p>
