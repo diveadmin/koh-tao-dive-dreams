@@ -120,7 +120,7 @@ const App = () => (
           <Route path="/marine-life/banded-sea-krait" element={<BandedSeaKrait />} />
           <Route path="/marine-life/bearded-scorpion-fish" element={<BeardedScorpionFish />} />
           <Route path="/marine-life/nudibranchs" element={<Nudibranchs />} />
-          <Route path="/koh-tao/accommodation" element={<AccommodationsPage />} />
+          {/* <Route path="/koh-tao/accommodation" element={<AccommodationsPage />} /> removed, use /Accommodation instead */}
           <Route path="/dive-sites/sail-rock" element={<SailRock />} />
           <Route path="/dive-sites/chumphon-pinnacle" element={<ChumphonPinnacle />} />
           <Route path="/dive-sites/japanese-gardens" element={<JapaneseGardens />} />
