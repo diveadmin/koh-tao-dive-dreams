@@ -37,6 +37,8 @@ const ADDONS = [
 const       BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
   const itemTitle = searchParams.get('item') || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
   const depositMajor = Number(searchParams.get('deposit') || '0');
@@ -108,7 +110,7 @@ const       BookingPage: React.FC = () => {
           created_at: new Date().toISOString(),
         };
 
-        const fnRes = await fetch('/api/bookings', {
+        const fnRes = await fetch(apiUrl('/api/bookings'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
