@@ -21,6 +21,7 @@ interface MarineLifeDetailProps {
   interestingFacts: string[];
   photographyTips: string[];
   images: string[];
+  fullHeightHero?: boolean;
 }
 
 const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
@@ -37,7 +38,8 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   detailedDescription,
   interestingFacts,
   photographyTips,
-  images
+  images,
+  fullHeightHero = false
 }) => {
   const navigate = useNavigate();
 
@@ -54,7 +56,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
-      <div className="relative h-96 overflow-hidden">
+      <div className={`relative overflow-hidden ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-teal-600/80 z-10" />
         <img
           src={images[0] || "/images/photo-1613853250147-2f73e55c1561.avif"}
