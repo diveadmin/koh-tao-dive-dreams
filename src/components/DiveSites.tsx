@@ -85,9 +85,9 @@ const DiveSites = () => {
         <div className="mb-8">
           {/* small gallery row for dive sites */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <img src="/images/photo-1682686580849-3e7f67df4015.avif" alt="site-1" className="w-full h-24 object-cover rounded" />
-            <img src="/images/photo-1618865181016-a80ad83a06d3.avif" alt="site-2" className="w-full h-24 object-cover rounded" />
-            <img src="/images/photo-1647825194145-2d94e259c745.avif" alt="site-3" className="w-full h-24 object-cover rounded" />
+            <img src="/images/photo-1682686580849-3e7f67df4015.avif" alt="site-1" className="w-full h-40 md:h-48 object-cover rounded" />
+            <img src="/images/photo-1618865181016-a80ad83a06d3.avif" alt="site-2" className="w-full h-40 md:h-48 object-cover rounded" />
+            <img src="/images/photo-1647825194145-2d94e259c745.avif" alt="site-3" className="w-full h-40 md:h-48 object-cover rounded" />
           </div>
         </div>
 
