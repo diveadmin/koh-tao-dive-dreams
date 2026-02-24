@@ -67,7 +67,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
         <img
           src={images[0] || "/images/photo-1613853250147-2f73e55c1561.avif"}
           alt={name}
-          className={`w-full h-full ${heroImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
+          className={`absolute inset-0 w-full h-full ${heroImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
         />
         <div className={`absolute inset-0 ${noOverlay ? '' : 'z-20'} flex items-center justify-center`}>
           <div className={`text-center ${noOverlay ? 'bg-black/30 px-8 py-6 rounded-xl' : 'text-white'}`}>
