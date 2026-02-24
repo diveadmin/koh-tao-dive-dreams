@@ -7,7 +7,7 @@ import { ExternalLink, Star, MapPin } from 'lucide-react';
 
 // Trip.com affiliate Alliance ID
 const ALLIANCE_ID = '7864578';
-const SID = 'one media asia'; // sub-tracking ID
+const SID = 'onemediaasia'; // sub-tracking ID
 
 const hotels = [
   {
