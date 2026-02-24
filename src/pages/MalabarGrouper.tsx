@@ -34,9 +34,9 @@ const MalabarGrouper = () => {
       fullHeightHero={true}
       heroImageFit="cover"
       noOverlay={true}
-      secondaryImage="/images/groouper.png"
+      secondaryImage="/images/malabar-grouper.png"
       images={[
-        "/images/malabar-grouper.png",
+        "/images/groouper.png",
         "/images/photo-1618865181016-a80ad83a06d3.avif",
         "/images/photo-1647825194145-2d94e259c745.avif",
         "/images/photo-1659518893171-b15e20a8e201.avif",
