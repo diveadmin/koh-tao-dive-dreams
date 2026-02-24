@@ -31,8 +31,12 @@ const Whaleshark = () => {
         "Use available light rather than flash to avoid startling them",
         "Practice buoyancy control to maintain position quietly"
       ]}
+      fullHeightHero={true}
+      heroImageFit="cover"
+      noOverlay={true}
+      secondaryImage="/images/3turtle.png"
       images={[
-        "/images/whale-shark-snorkelling-fos-sustainable-certification-medium-1.webp",
+        "/images/marine-life-hero.webp",
         "/images/photo-1618865181016-a80ad83a06d3.avif",
         "/images/photo-1647825194145-2d94e259c745.avif",
         "/images/photo-1659518893171-b15e20a8e201.avif",

@@ -166,7 +166,7 @@ const MarineLifePage = () => {
       <div 
         className="relative min-h-[calc(100vh-4rem)] bg-cover bg-center text-white flex items-center justify-center"
         style={{
-          backgroundImage: 'url(/images/marine-life-hero.webp)',
+          backgroundImage: 'url(/images/marine.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
