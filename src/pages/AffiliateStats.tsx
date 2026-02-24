@@ -210,11 +210,8 @@ const AffiliateStats = () => {
           </CardContent>
         </Card>
 
-        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800">
-          <strong>Setup reminder:</strong> Replace <code>YOUR_AFFILIATE_ID</code> in <code>src/pages/BookingAffiliate.tsx</code> with your real Booking.com affiliate ID from{' '}
-          <a href="https://www.booking.com/affiliate-program" target="_blank" rel="noopener noreferrer" className="underline inline-flex items-center gap-1">
-            booking.com/affiliate-program <ExternalLink className="w-3 h-3" />
-          </a>
+        <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
+          <strong>✓ Booking.com affiliate ID is set.</strong> Clicks are being tracked and commission will be attributed on completed bookings.
         </div>
       </div>
     </div>
