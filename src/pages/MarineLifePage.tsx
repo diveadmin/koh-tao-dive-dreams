@@ -164,14 +164,22 @@ const MarineLifePage = () => {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
       <div 
-        className="bg-cover bg-center text-white py-16 relative"
+        className="relative min-h-[calc(100vh-4rem)] bg-cover bg-center text-white flex items-center justify-center"
         style={{
-          backgroundImage: 'url(/images/marine-life-top.png)',
+          backgroundImage: 'url(/images/marine-life-hero.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            Koh Tao Marine Life
+          </h1>
+          <p className="text-lg md:text-2xl text-white max-w-3xl mx-auto drop-shadow-lg">
+            Discover the incredible biodiversity of Koh Tao's underwater world, home to over 350 fish species and majestic marine creatures.
+          </p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -183,23 +191,6 @@ const MarineLifePage = () => {
             With constant water temperatures between 26-29°C year-round, the sea provides a perfect habitat for diverse marine fauna and flora.
             From gentle giants like whalesharks to tiny macro creatures, Koh Tao offers encounters with some of the most fascinating marine species in the world.
           </p>
-        </div>
-
-        {/* Featured Image */}
-        <div className="mb-12 overflow-hidden shadow-lg relative" style={{height: '500px'}}>
-          <img
-            src="/images/marine-life-top.png"
-            alt="Koh Tao Marine Life"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white text-center drop-shadow-lg">
-              Koh Tao Marine Life
-            </h1>
-            <p className="text-lg md:text-xl text-white text-center max-w-3xl px-4 drop-shadow-lg">
-              Discover the incredible biodiversity of Koh Tao's underwater world, home to over 350 fish species and majestic marine creatures.
-            </p>
-          </div>
         </div>
 
         {/* Pelagic Species */}
