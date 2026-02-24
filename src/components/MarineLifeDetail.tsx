@@ -79,7 +79,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
       </div>
 
       {secondaryImage && (
-        <div className="w-full">
+        <div className="w-full pt-4">
           <img
             src={secondaryImage}
             alt={`${name} reef`}
