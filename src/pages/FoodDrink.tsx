@@ -3,7 +3,7 @@ import React from 'react';
 const FoodDrink = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682686580849-3e7f67df4015.avif')" }}>
+    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1613853250147-2f73e55c1561.avif')" }}>
       <div className="text-center text-white z-10">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Food & Drink on Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Discover delicious Thai cuisine, fresh seafood, and sunset beach bars.</p>

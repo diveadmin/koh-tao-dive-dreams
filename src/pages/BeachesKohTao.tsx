@@ -3,7 +3,7 @@ import React from 'react';
 const BeachesKohTao = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1659518893171-b15e20a8e201.avif')" }}>
+    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1618865181016-a80ad83a06d3.avif')" }}>
       <div className="text-center text-white z-10">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Beaches of Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Pristine shores, crystal waters, and island paradise await.</p>
