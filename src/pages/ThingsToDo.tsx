@@ -39,7 +39,7 @@ const ThingsToDo = () => (
         <li>Try rock climbing or bouldering for a land-based adventure</li>
         <li>Sample street food at the night market in Sairee</li>
       </ul>
-      <p className="mt-2">For more inspiration, check out <a href="https://www.blackturtledive.com/koh-tao/things-to-do/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Black Turtle Dive’s Things To Do guide</a>.</p>
+      <p className="mt-2">For more inspiration, check out <a href="#contact" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800"> Things To Do guide</a>.</p>
     </section>
   </main>
 );
