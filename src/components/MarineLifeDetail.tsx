@@ -22,6 +22,7 @@ interface MarineLifeDetailProps {
   photographyTips: string[];
   images: string[];
   fullHeightHero?: boolean;
+  heroImageFit?: 'cover' | 'contain';
 }
 
 const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
@@ -39,7 +40,8 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   interestingFacts,
   photographyTips,
   images,
-  fullHeightHero = false
+  fullHeightHero = false,
+  heroImageFit = 'cover'
 }) => {
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
         <img
           src={images[0] || "/images/photo-1613853250147-2f73e55c1561.avif"}
           alt={name}
-          className="w-full h-full object-cover"
+          className={`w-full h-full ${heroImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
         />
         <div className="absolute inset-0 z-20 flex items-center justify-center">
           <div className="text-center text-white">
