@@ -7,7 +7,7 @@ import { ExternalLink, Star, MapPin } from 'lucide-react';
 
 // ⚠️ Replace with your real Trip.com affiliate Alliance ID after signing up at:
 // https://www.trip.com/pages/affiliate/index.html
-const ALLIANCE_ID = '295439656';
+const ALLIANCE_ID = '7864578';
 const SID = 'one media asia'; // sub-tracking ID
 
 const hotels = [
@@ -140,7 +140,7 @@ const TripAffiliate = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* Warning banner */}
-      {ALLIANCE_ID === '295439656' && (
+      {ALLIANCE_ID === '7864578' && (
         <div className="bg-amber-400 text-black text-center py-2 px-4 text-sm font-medium">
           ⚠️ Trip.com affiliate ID not set — sign up at{' '}
           <a href="https://www.trip.com/pages/affiliate/index.html" target="_blank" rel="noopener noreferrer" className="underline font-bold">
