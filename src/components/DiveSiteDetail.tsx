@@ -38,6 +38,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
   images
 }) => {
   const navigate = useNavigate();
+  const hero = images && images.length > 0 ? images[0] : '/images/photo-1682686580849-3e7f67df4015.avif';
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'Beginner': return 'bg-green-100 text-green-800';
@@ -52,8 +53,15 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
     <div className="min-h-screen bg-background">
 
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-gradient-to-r from-blue-900 to-teal-600">
-        <div className="absolute inset-0 bg-black/50" />
+      <section
+        className="relative h-96 flex items-center justify-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${hero}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0" />
         <div className="relative z-10 text-center text-white px-4">
           <Link to="/koh-tao-dive-sites" className="inline-flex items-center text-white/80 hover:text-white mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
