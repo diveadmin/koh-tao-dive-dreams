@@ -3,7 +3,6 @@ import { Menu, X, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
-#todo: consider extracting mega dropdown into separate component for cleaner code and better accessibility (focus management, keyboard navigation, ARIA roles, etc.)
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
