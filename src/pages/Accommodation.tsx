@@ -25,7 +25,7 @@ const Accommodation = () => (
       <p className="mb-4">Popular areas to stay include <strong>Sairee Beach</strong> (lively, lots of restaurants and nightlife), <strong>Mae Haad</strong> (convenient for ferries), and <strong>Chalok Baan Kao</strong> (quiet, relaxed atmosphere).</p>
       <div className="flex flex-wrap gap-4 mb-4">
         <a href="/accommodation-booking" className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Find Accommodation</a>
-        <a href="/contact" className="inline-block bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 transition">Book Diving + Stay</a>
+        <a href="/#contact" className="inline-block bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 transition">Book Diving + Stay</a>
       </div>
       <p className="text-sm text-gray-500">Tip: Book early for the best selection, especially during December–April and July–August.</p>
     </section>
