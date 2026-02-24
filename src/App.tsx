@@ -35,6 +35,7 @@ import SailRock from "./pages/SailRock";
 import ChumphonPinnacle from "./pages/ChumphonPinnacle";
 import JapaneseGardens from "./pages/JapaneseGardens";
 import HTMSSattakut from "./pages/HTMSSattakut";
+import Twins from "./pages/Twins";
 import SharkIsland from "./pages/SharkIsland";
 import MangoBay from "./pages/MangoBay";
 import BookingPage from "./pages/BookingPage";
@@ -125,6 +126,7 @@ const App = () => (
           <Route path="/dive-sites/chumphon-pinnacle" element={<ChumphonPinnacle />} />
           <Route path="/dive-sites/japanese-gardens" element={<JapaneseGardens />} />
           <Route path="/dive-sites/htms-sattakut" element={<HTMSSattakut />} />
+          <Route path="/dive-sites/twins-pinnacle" element={<Twins />} />
           <Route path="/dive-sites/shark-island" element={<SharkIsland />} />
           <Route path="/dive-sites/mango-bay" element={<MangoBay />} />
           <Route path="/courses/open-water" element={<OpenWater />} />

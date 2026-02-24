@@ -234,6 +234,14 @@ const Navigation = () => {
                     </li>
                     <li>
                       <Link
+                        to="/dive-sites/twins-pinnacle"
+                        className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
+                      >
+                        Twins Pinnacle
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         to="/dive-sites/shark-island"
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
@@ -494,6 +502,9 @@ const Navigation = () => {
                     </Link>
                     <Link to="/dive-sites/htms-sattakut" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
                       HTMS Sattakut
+                    </Link>
+                    <Link to="/dive-sites/twins-pinnacle" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
+                      Twins Pinnacle
                     </Link>
                     <Link to="/dive-sites/shark-island" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
                       Shark Island
