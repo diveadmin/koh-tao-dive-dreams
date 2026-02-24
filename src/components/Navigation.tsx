@@ -3,7 +3,7 @@ import { Menu, X, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import LanguageSwitcher from './LanguageSwitcher';
-#test
+#testing
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
