@@ -188,7 +188,7 @@ const MarineLifePage = () => {
         {/* Featured Image */}
         <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
           <img
-            src="/images/marine-life-hero.webp"
+            src="/images/marine-life-hero.png"
             alt="Koh Tao Marine Life"
             className="w-full h-96 object-cover"
           />
