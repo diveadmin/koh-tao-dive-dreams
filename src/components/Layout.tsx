@@ -13,7 +13,7 @@ const Footer: React.FC = () => (
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             Koh Tao's premier dive school. PADI courses, fun diving, and unforgettable underwater adventures.
           </p>
-          <a href="/contact" className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition">
+          <a href="/#contact" className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition">
             Book Now
           </a>
         </div>
