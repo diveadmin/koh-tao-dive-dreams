@@ -20,6 +20,9 @@ interface DiveSiteDetailProps {
   marineLife: string[];
   tips: string[];
   images: string[];
+  fullHeightHero?: boolean;
+  noOverlay?: boolean;
+  secondaryImage?: string;
 }
 
 const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
@@ -35,7 +38,10 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
   visibility,
   marineLife,
   tips,
-  images
+  images,
+  fullHeightHero = false,
+  noOverlay = false,
+  secondaryImage
 }) => {
   const navigate = useNavigate();
   const hero = images && images.length > 0 ? images[0] : '/images/photo-1682686580849-3e7f67df4015.avif';
@@ -54,23 +60,31 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
 
       {/* Hero Section */}
       <section
-        className="relative h-96 flex items-center justify-center"
+        className={`relative flex items-center justify-center ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${hero}')`,
+          backgroundImage: noOverlay
+            ? `url('${hero}')`
+            : `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${hero}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
         <div className="absolute inset-0" />
-        <div className="relative z-10 text-center text-white px-4">
+        <div className={`relative z-10 text-center px-4 ${noOverlay ? 'bg-black/30 rounded-xl py-6' : 'text-white'}`}>
           <Link to="/koh-tao-dive-sites" className="inline-flex items-center text-white/80 hover:text-white mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dive Sites
           </Link>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">{name}</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto">{description}</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">{name}</h1>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto text-white drop-shadow-lg">{description}</p>
         </div>
       </section>
+
+      {secondaryImage && (
+        <div className="w-full pt-4">
+          <img src={secondaryImage} alt={`${name} reef`} className="w-full object-cover" />
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-16">
