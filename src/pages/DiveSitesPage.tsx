@@ -128,7 +128,7 @@ const DiveSitesPage = () => {
     <div className="min-h-screen bg-background">
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/images/photo-1659518893171-b15e20a8e201.avif')" }}>
+      <section className="relative h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/images/whale.webp')" }}>
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Koh Tao Dive Sites</h1>
