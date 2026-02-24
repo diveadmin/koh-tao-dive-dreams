@@ -185,6 +185,15 @@ const MarineLifePage = () => {
           </p>
         </div>
 
+        {/* Featured Image */}
+        <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
+          <img
+            src="/images/marine-life-hero.webp"
+            alt="Koh Tao Marine Life"
+            className="w-full h-96 object-cover"
+          />
+        </div>
+
         {/* Pelagic Species */}
         <section className="mb-12">
           <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
