@@ -39,6 +39,8 @@ import Twins from "./pages/Twins";
 import SharkIsland from "./pages/SharkIsland";
 import MangoBay from "./pages/MangoBay";
 import BookingPage from "./pages/BookingPage";
+import BookingAffiliate from "./pages/BookingAffiliate";
+import AffiliateStats from "./pages/AffiliateStats";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
@@ -129,6 +131,8 @@ const App = () => (
           <Route path="/dive-sites/twins-pinnacle" element={<Twins />} />
           <Route path="/dive-sites/shark-island" element={<SharkIsland />} />
           <Route path="/dive-sites/mango-bay" element={<MangoBay />} />
+          <Route path="/accommodation-booking" element={<BookingAffiliate />} />
+          <Route path="/admin/affiliate-stats" element={<AffiliateStats />} />
           <Route path="/courses/open-water" element={<OpenWater />} />
           <Route path="/courses/advanced" element={<Advanced />} />
           <Route path="/courses/efr" element={<EFR />} />
