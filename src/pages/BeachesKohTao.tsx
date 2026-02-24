@@ -72,7 +72,7 @@ const BeachesKohTao = () => (
     {/* Hero Section */}
     <section
       className="relative h-64 md:h-[70vh] flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/photo-1618865181016-a80ad83a06d3.avif')" }}
+      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/sexy.png')" }}
     >
       <div className="text-center text-white z-10 px-4">
         <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">Beaches of Koh Tao</h1>
