@@ -172,14 +172,6 @@ const MarineLifePage = () => {
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Koh Tao Marine Life
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Discover the incredible biodiversity of Koh Tao's underwater world, home to over 350 fish species and majestic marine creatures.
-          </p>
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -194,12 +186,20 @@ const MarineLifePage = () => {
         </div>
 
         {/* Featured Image */}
-        <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
+        <div className="mb-12 rounded-lg overflow-hidden shadow-lg relative">
           <img
             src="/images/marine-life-hero.webp"
             alt="Koh Tao Marine Life"
             className="w-full h-96 object-cover"
           />
+          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white text-center">
+              Koh Tao Marine Life
+            </h1>
+            <p className="text-xl md:text-2xl text-white text-center max-w-3xl">
+              Discover the incredible biodiversity of Koh Tao's underwater world, home to over 350 fish species and majestic marine creatures.
+            </p>
+          </div>
         </div>
 
         {/* Pelagic Species */}
