@@ -119,7 +119,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
+    <nav className="fixed top-0 w-full bg-white/70 backdrop-blur-md z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 border-solid border-0">
           <div className="flex items-center">
@@ -142,7 +142,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </Link>
               <div className="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[1100px] p-6 flex gap-8">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[1100px] p-6 flex gap-8">
                   {courseCategories.map((cat) => (
                     <div key={cat.label} className="flex-1">
                       <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
@@ -187,7 +187,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </a>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
                     Dive Sites
                   </h4>
@@ -271,7 +271,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </Link>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
                     Marine Life
                   </h4>
@@ -301,7 +301,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </Link>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
                     Fun Diving
                   </h4>
@@ -363,7 +363,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </button>
               <div className="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">KOH TAO</h4>
                   <ul className="space-y-1">
                     <li><Link to="/Accommodation" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Accommodation</Link></li>
@@ -400,7 +400,7 @@ const Navigation = () => {
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </button>
               <div className="absolute right-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div className="bg-[#0b1e3d] rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[150px] p-3">
+                <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[150px] p-3">
                   <ul className="space-y-1">
                     <li>
                       <Link
