@@ -32,6 +32,8 @@ const statusConfig = {
 
 const Admin = () => {
   const navigate = useNavigate();
+  const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -44,7 +46,7 @@ const Admin = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch('/api/bookings');
+      const response = await fetch(apiUrl('/api/bookings'));
       if (!response.ok) throw new Error('Failed to fetch bookings');
       const data = await response.json();
       setBookings(data);
@@ -58,7 +60,7 @@ const Admin = () => {
 
   const handleStatusChange = async (bookingId: string, newStatus: string) => {
     try {
-      const response = await fetch(`/api/bookings/${bookingId}/status`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -78,7 +80,7 @@ const Admin = () => {
     if (!deleteId) return;
 
     try {
-      const response = await fetch(`/api/bookings/${deleteId}`, {
+      const response = await fetch(apiUrl(`/api/bookings/${deleteId}`), {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to delete booking');
