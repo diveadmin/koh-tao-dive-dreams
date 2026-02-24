@@ -34,7 +34,7 @@ const JapaneseGardens = () => {
         "Excellent site for practicing buoyancy skills"
       ]}
       images={[
-        "/images/photo-1682687982423-295485af248a.avif", // Unique main image for Japanese Gardens
+        "/images/japanandwins.jpg", // Unique main image for Japanese Gardens
         "/images/photo-1613853250147-2f73e55c1561.avif",
         "/images/photo-1618865181016-a80ad83a06d3.avif",
         "/images/photo-1647825194145-2d94e259c745.avif",
