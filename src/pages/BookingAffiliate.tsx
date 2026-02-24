@@ -146,7 +146,7 @@ const BookingAffiliate = () => {
       <div
         className="relative min-h-[50vh] flex items-center justify-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,30,60,0.55), rgba(0,60,100,0.55)), url('/images/photo-1682687982423-295485af248a.avif')`,
+          backgroundImage: `linear-gradient(rgba(0,30,60,0.55), rgba(0,60,100,0.55)), url('/images/staykohtai.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
