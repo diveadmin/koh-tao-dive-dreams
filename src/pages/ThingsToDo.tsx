@@ -3,7 +3,7 @@ import React from 'react';
 const ThingsToDo = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682686580849-3e7f67df4015.avif')" }}>
+    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682687982423-295485af248a.avif')" }}>
       <div className="text-center text-white z-10">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Things To Do on Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Explore adventure, relaxation, and island culture—there’s more to Koh Tao than just diving!</p>

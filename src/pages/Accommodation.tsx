@@ -4,7 +4,7 @@ import React from 'react';
 const Accommodation = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1613853250147-2f73e55c1561.avif')" }}>
+    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1659518893171-b15e20a8e201.avif')" }}>
       <div className="text-center text-white z-10">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Accommodation on Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Find your perfect stay, from luxury resorts to budget hostels and everything in between.</p>
