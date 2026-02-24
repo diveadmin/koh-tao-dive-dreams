@@ -22,6 +22,14 @@ const Navigation = () => {
     const anchor = parts[1];
     if (!anchor) return navigate(path || '/');
 
+    // Fun Diving sections live inside tabs; always navigate with hash so page can switch tab first.
+    if ((path === '/fun-diving-koh-tao' || path === 'fun-diving-koh-tao') && anchor) {
+      try { sessionStorage.setItem('scrollTo', anchor); } catch (_) {}
+      navigate(`/fun-diving-koh-tao#${anchor}`);
+      setIsOpen(false);
+      return;
+    }
+
     // If already on target page, scroll directly
     if (location.pathname === (path === '' ? '/' : path)) {
       const el = document.getElementById(anchor);

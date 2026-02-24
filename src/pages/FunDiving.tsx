@@ -6,11 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Fish, Waves, MapPin, Clock, DollarSign, Users } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { tryAutoScroll, scrollToWithOffset } from '@/lib/scroll';
 
 const FunDiving = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('overview');
   const diveSites = [
     {
       name: "Sail Rock",
@@ -55,12 +56,35 @@ const FunDiving = () => {
 
   const location = useLocation();
 
+  const getTabForAnchor = (anchor: string) => {
+    switch (anchor) {
+      case 'schedule':
+      case 'pricing':
+        return 'schedule';
+      case 'requirements':
+        return 'requirements';
+      case 'tips':
+        return 'tips';
+      case 'booking':
+        return 'booking';
+      case 'fun-dive-main':
+      default:
+        return 'overview';
+    }
+  };
+
   useEffect(() => {
     const fromStorage = sessionStorage.getItem('scrollTo');
     const hashAnchor = location.hash ? location.hash.replace('#', '') : null;
     const anchor = fromStorage || hashAnchor;
     if (anchor) {
-      tryAutoScroll(anchor);
+      const targetTab = getTabForAnchor(anchor);
+      setActiveTab(targetTab);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          tryAutoScroll(anchor);
+        });
+      });
       try { sessionStorage.removeItem('scrollTo'); } catch (_) {}
     }
   }, [location]);
@@ -101,7 +125,7 @@ const FunDiving = () => {
         </div>
       </section>
 
-      <Tabs defaultValue="overview" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="max-w-6xl mx-auto px-4 py-8">
           <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
