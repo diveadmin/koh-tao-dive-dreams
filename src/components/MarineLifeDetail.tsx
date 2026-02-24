@@ -23,6 +23,7 @@ interface MarineLifeDetailProps {
   images: string[];
   fullHeightHero?: boolean;
   heroImageFit?: 'cover' | 'contain';
+  noOverlay?: boolean;
 }
 
 const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
@@ -41,7 +42,8 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   photographyTips,
   images,
   fullHeightHero = false,
-  heroImageFit = 'cover'
+  heroImageFit = 'cover',
+  noOverlay = false
 }) => {
   const navigate = useNavigate();
 
@@ -59,17 +61,17 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
       <div className={`relative overflow-hidden ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-teal-600/80 z-10" />
+        {!noOverlay && <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-teal-600/80 z-10" />}
         <img
           src={images[0] || "/images/photo-1613853250147-2f73e55c1561.avif"}
           alt={name}
           className={`w-full h-full ${heroImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
         />
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">{name}</h1>
-            <p className="text-xl italic mb-2">{scientificName}</p>
-            <p className="text-lg max-w-2xl mx-auto">{description}</p>
+        <div className={`absolute inset-0 ${noOverlay ? '' : 'z-20'} flex items-center justify-center`}>
+          <div className={`text-center ${noOverlay ? 'bg-black/30 px-8 py-6 rounded-xl' : 'text-white'}`}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">{name}</h1>
+            <p className="text-xl italic mb-2 text-white drop-shadow-lg">{scientificName}</p>
+            <p className="text-lg max-w-2xl mx-auto text-white drop-shadow-lg">{description}</p>
           </div>
         </div>
       </div>
