@@ -17,6 +17,15 @@ export default function SelfReliantDiver() {
           </p>
         </div>
 
+        {/* Image */}
+        <div className="mb-8">
+          <img
+            src="/images/photo-1647825194145-2d94e259c745.avif"
+            alt="Independent diving"
+            className="w-full h-64 object-cover rounded-lg shadow-lg"
+          />
+        </div>
+
         <Card className="mb-8 p-6">
           <h2 className="text-2xl font-bold mb-4">Course Overview</h2>
           <p className="text-gray-700 mb-4">

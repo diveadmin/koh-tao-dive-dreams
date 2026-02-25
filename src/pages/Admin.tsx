@@ -32,6 +32,14 @@ const statusConfig = {
 
 const Admin = () => {
   const navigate = useNavigate();
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -44,7 +52,7 @@ const Admin = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch('/api/bookings');
+      const response = await fetch(apiUrl('/api/bookings'));
       if (!response.ok) throw new Error('Failed to fetch bookings');
       const data = await response.json();
       setBookings(data);
@@ -58,7 +66,7 @@ const Admin = () => {
 
   const handleStatusChange = async (bookingId: string, newStatus: string) => {
     try {
-      const response = await fetch(`/api/bookings/${bookingId}/status`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -78,7 +86,7 @@ const Admin = () => {
     if (!deleteId) return;
 
     try {
-      const response = await fetch(`/api/bookings/${deleteId}`, {
+      const response = await fetch(apiUrl(`/api/bookings/${deleteId}`), {
         method: 'DELETE',
       });
       if (!response.ok) throw new Error('Failed to delete booking');
@@ -98,11 +106,11 @@ const Admin = () => {
       const amount = booking.message || booking.course_title || '';
       const payload = {
         access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
-        to: booking.email,
-        subject: `Invoice: ${booking.course_title}`,
+        to: 'payments@divinginasia.com',
+        subject: `Invoice: ${booking.course_title} - ${booking.name}`,
         name: booking.name,
-        message: `Hello ${booking.name},\n\nThis is your invoice for ${booking.course_title}.\nAmount: ${booking.message || 'TBD'}\n\nIf you have paid, please reply with confirmation.\n\nThanks,\nDiving In Asia`,
-        cc: 'payments@divinginasia.com',
+        message: `New Invoice Notification\n\nCustomer: ${booking.name}\nEmail: ${booking.email}\nPhone: ${booking.phone || 'N/A'}\n\nCourse: ${booking.course_title}\nPreferred Date: ${booking.preferred_date || 'N/A'}\nAmount: ${booking.message || 'TBD'}\n\nCustomer Message:\n${booking.message || 'No additional message'}`,
+        cc: booking.email,
       } as any;
 
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -113,10 +121,10 @@ const Admin = () => {
 
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.success) {
-        toast.success('Invoice sent via Web3Forms');
+        toast.success('Invoice sent to admin');
       } else {
         console.error('Web3Forms invoice error', res.status, json);
-        toast.error('Failed to send invoice via Web3Forms');
+        toast.error('Failed to send invoice to admin');
       }
     } catch (err) {
       console.error('Send invoice error', err);
@@ -149,8 +157,14 @@ const Admin = () => {
   }
 
   const handleLogout = async () => {
-    navigate('/');
+    // Clear any stored auth data
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminAuth');
+    sessionStorage.removeItem('adminToken');
+    sessionStorage.removeItem('adminAuth');
+    
     toast.success('Logged out successfully');
+    navigate('/admin/login');
   };
 
   return (

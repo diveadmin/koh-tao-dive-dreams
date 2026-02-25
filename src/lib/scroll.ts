@@ -1,6 +1,7 @@
 export const scrollToWithOffset = (id: string, offset = 88, behavior: ScrollBehavior = 'smooth') => {
   const el = document.getElementById(id);
   if (!el) return false;
+  if (el.getClientRects().length === 0) return false;
   const rect = el.getBoundingClientRect();
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   const top = rect.top + scrollTop - offset;

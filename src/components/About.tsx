@@ -1,17 +1,9 @@
 
 import React from 'react';
-import { Award, Users, MapPin, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const About = () => {
   const { t } = useTranslation();
-
-  const stats = [
-    { icon: Award, label: t('about.stats.certifications'), value: '500+' },
-    { icon: Users, label: t('about.stats.divers'), value: '2000+' },
-    { icon: MapPin, label: t('about.stats.sites'), value: '25+' },
-    { icon: Clock, label: t('about.stats.experience'), value: '15+' },
-  ];
 
   return (
     <section id="about" className="py-20 bg-gray-50">
@@ -46,15 +38,6 @@ const About = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center p-6 bg-white rounded-lg shadow-md">
-              <stat.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-              <div className="text-gray-600">{stat.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -18,6 +18,15 @@ export default function DeepDiver() {
           </p>
         </div>
 
+        {/* Image */}
+        <div className="mb-8">
+          <img
+            src="/images/photo-1682686580849-3e7f67df4015.avif"
+            alt="Deep diving scene"
+            className="w-full h-64 object-cover rounded-lg shadow-lg"
+          />
+        </div>
+
         {/* Overview */}
         <Card className="mb-8 p-6">
           <h2 className="text-2xl font-bold mb-4">Course Overview</h2>

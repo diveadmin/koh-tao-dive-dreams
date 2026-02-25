@@ -1,3 +1,13 @@
+import Accommodation from "./pages/Accommodation";
+import ThingsToDo from "./pages/ThingsToDo";
+import BanksKohTao from "./pages/BanksKohTao";
+import BeachesKohTao from "./pages/BeachesKohTao";
+import FoodDrink from "./pages/FoodDrink";
+import HowToGetHere from "./pages/HowToGetHere";
+import MedicalServices from "./pages/MedicalServices";
+import ViewpointsKohTao from "./pages/ViewpointsKohTao";
+import VisasKohTao from "./pages/VisasKohTao";
+import WeatherKohTao from "./pages/WeatherKohTao";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -25,9 +35,14 @@ import SailRock from "./pages/SailRock";
 import ChumphonPinnacle from "./pages/ChumphonPinnacle";
 import JapaneseGardens from "./pages/JapaneseGardens";
 import HTMSSattakut from "./pages/HTMSSattakut";
+import Twins from "./pages/Twins";
 import SharkIsland from "./pages/SharkIsland";
 import MangoBay from "./pages/MangoBay";
 import BookingPage from "./pages/BookingPage";
+import BookingAffiliate from "./pages/BookingAffiliate";
+import AffiliateStats from "./pages/AffiliateStats";
+import TripAffiliateStats from "./pages/TripAffiliateStats";
+import TripAffiliate from "./pages/TripAffiliate";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
@@ -43,6 +58,8 @@ import BandedSeaKrait from "./pages/BandedSeaKrait";
 import BeardedScorpionFish from "./pages/BeardedScorpionFish";
 import Nudibranchs from "./pages/Nudibranchs";
 import AccommodationsPage from "./pages/AccommodationsPage";
+import ScubaReview from "./pages/ScubaReview";
+import ScubaDiver from "./pages/ScubaDiver";
 
 // Specialty Courses
 import DeepDiver from "./pages/specialty/DeepDiver";
@@ -61,6 +78,11 @@ import DPVDiver from "./pages/specialty/DPVDiver";
 import SharkConservation from "./pages/specialty/SharkConservation";
 import SeaTurtleAwareness from "./pages/specialty/SeaTurtleAwareness";
 import WhaleSharkAwareness from "./pages/specialty/WhaleSharkAwareness";
+import AdaptiveSupportDiver from "./pages/specialty/AdaptiveSupportDiver";
+import BoatDiver from "./pages/specialty/BoatDiver";
+import EmergencyO2Provider from "./pages/specialty/EmergencyO2Provider";
+import EquipmentSpecialist from "./pages/specialty/EquipmentSpecialist";
+import UnderwaterNaturalist from "./pages/specialty/UnderwaterNaturalist";
 
 // Internship Programs
 import DivemasterInternship from "./pages/internship/Divemaster";
@@ -103,19 +125,26 @@ const App = () => (
           <Route path="/marine-life/banded-sea-krait" element={<BandedSeaKrait />} />
           <Route path="/marine-life/bearded-scorpion-fish" element={<BeardedScorpionFish />} />
           <Route path="/marine-life/nudibranchs" element={<Nudibranchs />} />
-          <Route path="/koh-tao/accommodation" element={<AccommodationsPage />} />
+          {/* <Route path="/koh-tao/accommodation" element={<AccommodationsPage />} /> removed, use /Accommodation instead */}
           <Route path="/dive-sites/sail-rock" element={<SailRock />} />
           <Route path="/dive-sites/chumphon-pinnacle" element={<ChumphonPinnacle />} />
           <Route path="/dive-sites/japanese-gardens" element={<JapaneseGardens />} />
           <Route path="/dive-sites/htms-sattakut" element={<HTMSSattakut />} />
+          <Route path="/dive-sites/twins-pinnacle" element={<Twins />} />
           <Route path="/dive-sites/shark-island" element={<SharkIsland />} />
           <Route path="/dive-sites/mango-bay" element={<MangoBay />} />
+          <Route path="/accommodation-booking" element={<BookingAffiliate />} />
+          <Route path="/trip-booking" element={<TripAffiliate />} />
+          <Route path="/admin/affiliate-stats" element={<AffiliateStats />} />
+          <Route path="/admin/trip-affiliate-stats" element={<TripAffiliateStats />} />
           <Route path="/courses/open-water" element={<OpenWater />} />
           <Route path="/courses/advanced" element={<Advanced />} />
           <Route path="/courses/efr" element={<EFR />} />
           <Route path="/courses/rescue" element={<Rescue />} />
           <Route path="/courses/divemaster" element={<Divemaster />} />
           <Route path="/courses/instructor" element={<Instructor />} />
+          <Route path="/courses/scuba-review" element={<ScubaReview />} />
+          <Route path="/courses/scuba-diver" element={<ScubaDiver />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
@@ -140,6 +169,11 @@ const App = () => (
           <Route path="/specialty/shark-conservation" element={<SharkConservation />} />
           <Route path="/specialty/sea-turtle-awareness" element={<SeaTurtleAwareness />} />
           <Route path="/specialty/whaleshark-awareness" element={<WhaleSharkAwareness />} />
+          <Route path="/specialty/adaptive-support" element={<AdaptiveSupportDiver />} />
+          <Route path="/specialty/boat-diver" element={<BoatDiver />} />
+          <Route path="/specialty/emergency-o2" element={<EmergencyO2Provider />} />
+          <Route path="/specialty/equipment-specialist" element={<EquipmentSpecialist />} />
+          <Route path="/specialty/underwater-naturalist" element={<UnderwaterNaturalist />} />
 
           {/* Internship Program Routes */}
           <Route path="/internship/divemaster" element={<DivemasterInternship />} />
@@ -149,6 +183,16 @@ const App = () => (
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/Accommodation" element={<Accommodation />} />
+          <Route path="/ThingsToDo" element={<ThingsToDo />} />
+          <Route path="/BanksKohTao" element={<BanksKohTao />} />
+          <Route path="/BeachesKohTao" element={<BeachesKohTao />} />
+          <Route path="/FoodDrink" element={<FoodDrink />} />
+          <Route path="/HowToGetHere" element={<HowToGetHere />} />
+          <Route path="/MedicalServices" element={<MedicalServices />} />
+          <Route path="/ViewpointsKohTao" element={<ViewpointsKohTao />} />
+          <Route path="/VisasKohTao" element={<VisasKohTao />} />
+          <Route path="/WeatherKohTao" element={<WeatherKohTao />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         </Layout>

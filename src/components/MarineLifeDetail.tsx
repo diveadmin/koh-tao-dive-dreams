@@ -21,6 +21,10 @@ interface MarineLifeDetailProps {
   interestingFacts: string[];
   photographyTips: string[];
   images: string[];
+  fullHeightHero?: boolean;
+  heroImageFit?: 'cover' | 'contain';
+  noOverlay?: boolean;
+  secondaryImage?: string;
 }
 
 const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
@@ -37,7 +41,11 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   detailedDescription,
   interestingFacts,
   photographyTips,
-  images
+  images,
+  fullHeightHero = false,
+  heroImageFit = 'cover',
+  noOverlay = false,
+  secondaryImage
 }) => {
   const navigate = useNavigate();
 
@@ -54,21 +62,31 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
-      <div className="relative h-96 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-teal-600/80 z-10" />
+      <div className={`relative overflow-hidden ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}>
+        {!noOverlay && <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-teal-600/80 z-10" />}
         <img
           src={images[0] || "/images/photo-1613853250147-2f73e55c1561.avif"}
           alt={name}
-          className="w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full ${heroImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
         />
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">{name}</h1>
-            <p className="text-xl italic mb-2">{scientificName}</p>
-            <p className="text-lg max-w-2xl mx-auto">{description}</p>
+        <div className={`absolute inset-0 ${noOverlay ? '' : 'z-20'} flex items-center justify-center`}>
+          <div className={`text-center ${noOverlay ? 'bg-black/30 px-8 py-6 rounded-xl' : 'text-white'}`}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">{name}</h1>
+            <p className="text-xl italic mb-2 text-white drop-shadow-lg">{scientificName}</p>
+            <p className="text-lg max-w-2xl mx-auto text-white drop-shadow-lg">{description}</p>
           </div>
         </div>
       </div>
+
+      {secondaryImage && (
+        <div className="w-full pt-4">
+          <img
+            src={secondaryImage}
+            alt={`${name} reef`}
+            className="w-full object-cover"
+          />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}

@@ -163,12 +163,20 @@ const MarineLifePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-teal-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+      <div 
+        className="relative min-h-[calc(100vh-4rem)] bg-cover bg-center text-white flex items-center justify-center"
+        style={{
+          backgroundImage: 'url(/images/marine.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
             Koh Tao Marine Life
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+          <p className="text-lg md:text-2xl text-white max-w-3xl mx-auto drop-shadow-lg">
             Discover the incredible biodiversity of Koh Tao's underwater world, home to over 350 fish species and majestic marine creatures.
           </p>
         </div>

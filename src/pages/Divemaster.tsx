@@ -23,14 +23,6 @@ const Divemaster: React.FC = () => {
   }, []);
   return (
     <div className="min-h-screen bg-background">
-      <div className="w-full h-64 md:h-80 overflow-hidden mb-6 rounded-lg shadow-lg">
-        <img
-          src={randomImage}
-          alt="Scuba diving scene"
-          className="w-full h-full object-cover object-center"
-          loading="lazy"
-        />
-      </div>
       <section className="relative h-72 md:h-96 flex items-center" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${randomImage}')`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4 text-white z-10">
           <h1 className="text-4xl md:text-5xl font-bold">PADI Divemaster Course</h1>
