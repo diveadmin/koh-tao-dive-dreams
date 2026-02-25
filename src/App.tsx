@@ -60,6 +60,7 @@ import Nudibranchs from "./pages/Nudibranchs";
 import AccommodationsPage from "./pages/AccommodationsPage";
 import ScubaReview from "./pages/ScubaReview";
 import ScubaDiver from "./pages/ScubaDiver";
+import KohTaoInfo from "./pages/KohTaoInfo";
 
 // Specialty Courses
 import DeepDiver from "./pages/specialty/DeepDiver";
@@ -184,6 +185,7 @@ const App = () => (
           <Route path="/admin/login" element={<AdminLogin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/Accommodation" element={<Accommodation />} />
+          <Route path="/koh-tao-info" element={<KohTaoInfo />} />
           <Route path="/ThingsToDo" element={<ThingsToDo />} />
           <Route path="/BanksKohTao" element={<BanksKohTao />} />
           <Route path="/BeachesKohTao" element={<BeachesKohTao />} />

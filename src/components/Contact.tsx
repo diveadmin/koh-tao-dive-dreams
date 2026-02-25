@@ -176,65 +176,7 @@ const Contact = () => {
         </div>
 
         <div className="mt-16 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© 2026 Pro Diving Asia. All rights reserved.
-
- Powered By One Media Asia @ www.onemedia.asia  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
- 
-
-
-
- 
-
-
- 
-
-
-
- </p>
+          <p>© 2026 Pro Diving Asia. All rights reserved. Powered By One Media Asia @ www.onemedia.asia</p>
           <p className="mt-2">Discover the magic beneath the waves in Thailand's diving paradise.</p>
         </div>
       </div>
