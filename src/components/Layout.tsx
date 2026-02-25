@@ -9,7 +9,7 @@ const Footer: React.FC = () => (
 
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
-          <div className="text-xl font-bold text-cyan-400 mb-3">Turtle Divers</div>
+          <div className="text-xl font-bold text-cyan-400 mb-3">Pro Diving Asia</div>
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             Koh Tao's premier dive school. PADI courses, fun diving, and unforgettable underwater adventures.
           </p>
@@ -25,7 +25,7 @@ const Footer: React.FC = () => (
             <li><Link to="/courses/open-water" className="hover:text-white transition">Open Water</Link></li>
             <li><Link to="/courses/advanced" className="hover:text-white transition">Advanced</Link></li>
             <li><Link to="/courses/rescue" className="hover:text-white transition">Rescue Diver</Link></li>
-            <li><Link to="/fun-diving" className="hover:text-white transition">Fun Diving</Link></li>
+            <li><Link to="/fun-diving-koh-tao" className="hover:text-white transition">Fun Diving</Link></li>
             <li><Link to="/koh-tao-dive-sites" className="hover:text-white transition">Dive Sites</Link></li>
             <li><Link to="/marine-life" className="hover:text-white transition">Marine Life</Link></li>
           </ul>
@@ -36,11 +36,11 @@ const Footer: React.FC = () => (
           <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4">Koh Tao</h4>
           <ul className="space-y-2 text-sm text-gray-400">
             <li><Link to="/koh-tao-info" className="hover:text-white transition">About Koh Tao</Link></li>
-            <li><Link to="/accommodation" className="hover:text-white transition">Accommodation</Link></li>
-            <li><Link to="/beaches-koh-tao" className="hover:text-white transition">Beaches</Link></li>
-            <li><Link to="/food-drink" className="hover:text-white transition">Food & Drink</Link></li>
-            <li><Link to="/things-to-do" className="hover:text-white transition">Things To Do</Link></li>
-            <li><Link to="/how-to-get-here" className="hover:text-white transition">How To Get Here</Link></li>
+            <li><Link to="/Accommodation" className="hover:text-white transition">Accommodation</Link></li>
+            <li><Link to="/BeachesKohTao" className="hover:text-white transition">Beaches</Link></li>
+            <li><Link to="/FoodDrink" className="hover:text-white transition">Food & Drink</Link></li>
+            <li><Link to="/ThingsToDo" className="hover:text-white transition">Things To Do</Link></li>
+            <li><Link to="/HowToGetHere" className="hover:text-white transition">How To Get Here</Link></li>
           </ul>
         </div>
 
@@ -48,12 +48,12 @@ const Footer: React.FC = () => (
         <div>
           <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4">Info</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><Link to="/weather-koh-tao" className="hover:text-white transition">Weather</Link></li>
-            <li><Link to="/visas-koh-tao" className="hover:text-white transition">Visas</Link></li>
-            <li><Link to="/medical-services" className="hover:text-white transition">Medical</Link></li>
+            <li><Link to="/WeatherKohTao" className="hover:text-white transition">Weather</Link></li>
+            <li><Link to="/VisasKohTao" className="hover:text-white transition">Visas</Link></li>
+            <li><Link to="/MedicalServices" className="hover:text-white transition">Medical</Link></li>
             <li><Link to="/accommodation-booking" className="hover:text-white transition">Booking.com</Link></li>
             <li><Link to="/trip-booking" className="hover:text-white transition">Trip.com</Link></li>
-            <li><Link to="/contact" className="hover:text-white transition">Contact Us</Link></li>
+            <li><Link to="/#contact" className="hover:text-white transition">Contact Us</Link></li>
           </ul>
         </div>
 
