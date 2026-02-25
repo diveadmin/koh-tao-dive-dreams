@@ -98,7 +98,7 @@ const buildTripUrl = (hotelName?: string) => {
   const base = hotelName
     ? `https://www.trip.com/hotels/list?keyword=${encodeURIComponent(hotelName + ' Koh Tao')}`
     : `https://www.trip.com/hotels/list?keyword=Koh+Tao+Thailand`;
-  return `${base}&Allianceid=${ALLIANCE_ID}&SID=${SID}`;
+  return `${base}&allianceid=${ALLIANCE_ID}&sid=${SID}`;
 };
 
 const TripAffiliate = () => {
@@ -138,7 +138,6 @@ const TripAffiliate = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-an
 
       {/* Hero */}
       <div
