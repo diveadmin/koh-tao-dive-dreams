@@ -83,6 +83,8 @@ import BoatDiver from "./pages/specialty/BoatDiver";
 import EmergencyO2Provider from "./pages/specialty/EmergencyO2Provider";
 import EquipmentSpecialist from "./pages/specialty/EquipmentSpecialist";
 import UnderwaterNaturalist from "./pages/specialty/UnderwaterNaturalist";
+import Photography from "./pages/specialty/Photography";
+import CurrentDiver from "./pages/specialty/CurrentDiver";
 
 // Internship Programs
 import DivemasterInternship from "./pages/internship/Divemaster";
@@ -174,6 +176,8 @@ const App = () => (
           <Route path="/specialty/emergency-o2" element={<EmergencyO2Provider />} />
           <Route path="/specialty/equipment-specialist" element={<EquipmentSpecialist />} />
           <Route path="/specialty/underwater-naturalist" element={<UnderwaterNaturalist />} />
+          <Route path="/specialty/photography" element={<Photography />} />
+          <Route path="/specialty/current-diver" element={<CurrentDiver />} />
 
           {/* Internship Program Routes */}
           <Route path="/internship/divemaster" element={<DivemasterInternship />} />
