@@ -70,6 +70,7 @@ const Navigation = () => {
       items: [
         { name: 'Adaptive Support Diver', to: '/specialty/adaptive-support' },
         { name: 'Aware Fish Identification', to: '/specialty/fish-identification' },
+        { name: 'Current Diver', to: '/specialty/current-diver' },
         { name: 'PADI Boat Diver', to: '/specialty/boat-diver' },
         { name: 'PADI Deep Diver', to: '/specialty/deep-diver' },
         { name: 'PADI DPV Diver', to: '/specialty/dpv-diver' },
@@ -83,6 +84,7 @@ const Navigation = () => {
         { name: 'Sidemount Diver', to: '/specialty/sidemount-diver' },
         { name: 'Underwater Naturalist', to: '/specialty/underwater-naturalist' },
         { name: 'Underwater Navigator', to: '/specialty/underwater-navigator' },
+        { name: 'Underwater Photography', to: '/specialty/photography' },
         { name: 'PADI Wreck Diver', to: '/specialty/wreck-diver' },
       ],
     },

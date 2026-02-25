@@ -80,6 +80,8 @@ import SeaTurtleAwareness from "./pages/specialty/SeaTurtleAwareness";
 import WhaleSharkAwareness from "./pages/specialty/WhaleSharkAwareness";
 import AdaptiveSupportDiver from "./pages/specialty/AdaptiveSupportDiver";
 import BoatDiver from "./pages/specialty/BoatDiver";
+import CurrentDiver from "./pages/specialty/CurrentDiver";
+import Photography from "./pages/specialty/Photography";
 import EmergencyO2Provider from "./pages/specialty/EmergencyO2Provider";
 import EquipmentSpecialist from "./pages/specialty/EquipmentSpecialist";
 import UnderwaterNaturalist from "./pages/specialty/UnderwaterNaturalist";
@@ -171,6 +173,8 @@ const App = () => (
           <Route path="/specialty/whaleshark-awareness" element={<WhaleSharkAwareness />} />
           <Route path="/specialty/adaptive-support" element={<AdaptiveSupportDiver />} />
           <Route path="/specialty/boat-diver" element={<BoatDiver />} />
+          <Route path="/specialty/current-diver" element={<CurrentDiver />} />
+          <Route path="/specialty/photography" element={<Photography />} />
           <Route path="/specialty/emergency-o2" element={<EmergencyO2Provider />} />
           <Route path="/specialty/equipment-specialist" element={<EquipmentSpecialist />} />
           <Route path="/specialty/underwater-naturalist" element={<UnderwaterNaturalist />} />
