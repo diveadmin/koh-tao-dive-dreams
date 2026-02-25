@@ -41,6 +41,7 @@ import MangoBay from "./pages/MangoBay";
 import BookingPage from "./pages/BookingPage";
 import BookingAffiliate from "./pages/BookingAffiliate";
 import AffiliateStats from "./pages/AffiliateStats";
+import TripAffiliateStats from "./pages/TripAffiliateStats";
 import TripAffiliate from "./pages/TripAffiliate";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -135,6 +136,7 @@ const App = () => (
           <Route path="/accommodation-booking" element={<BookingAffiliate />} />
           <Route path="/trip-booking" element={<TripAffiliate />} />
           <Route path="/admin/affiliate-stats" element={<AffiliateStats />} />
+          <Route path="/admin/trip-affiliate-stats" element={<TripAffiliateStats />} />
           <Route path="/courses/open-water" element={<OpenWater />} />
           <Route path="/courses/advanced" element={<Advanced />} />
           <Route path="/courses/efr" element={<EFR />} />
