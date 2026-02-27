@@ -39,7 +39,7 @@ const OpenWater: React.FC = () => {
         <ImageRow images={["/images/photo-1659518893171-b15e20a8e201.avif","/images/photo-1682686580849-3e7f67df4015.avif","/images/photo-1647825194145-2d94e259c745.avif"]} />
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <h2 className="text-2xl font-bold mb-4">Course Overview</h2>
+            <h2 className="text-2xl font-bold mb-4">Cursusoverzicht</h2>
             <p className="mb-6">The Open Water course combines knowledge development, confined water dives (pool) and open water dives. You'll learn equipment setup, basic underwater skills, buoyancy control and dive planning. Our instructors keep groups small and emphasize safety and fun.</p>
 
             <h3 className="text-xl font-semibold mb-3">What you'll learn</h3>
