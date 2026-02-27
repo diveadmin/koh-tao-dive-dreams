@@ -90,7 +90,7 @@ const FunDiving = () => {
       setActiveTab('overview');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          tryAutoScroll('fun-dive-main');
+          scrollToWithOffset('fun-dive-tabs');
         });
       });
     }
@@ -133,7 +133,7 @@ const FunDiving = () => {
       </section>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div id="fun-dive-tabs" className="max-w-6xl mx-auto px-4 py-8">
           <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="trips">Trips</TabsTrigger>
