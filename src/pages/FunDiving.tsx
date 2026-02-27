@@ -367,7 +367,11 @@ const FunDiving = () => {
                       <CardHeader>
                         <div className="flex items-center gap-2">
                           <Clock className="w-5 h-5 text-blue-600" />
-                          <CardTitle className="text-lg">Sail Rock Special</CardTitle>
+                          <CardTitle className="text-lg">
+                            <Link to="/dive-sites/sail-rock" className="hover:text-blue-600 underline-offset-4 hover:underline">
+                              Sail Rock Special
+                            </Link>
+                          </CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent>
