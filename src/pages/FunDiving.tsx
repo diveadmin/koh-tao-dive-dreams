@@ -397,6 +397,11 @@ const FunDiving = () => {
                           <li>• Freshwater showers</li>
                           <li>• Maximum 4 divers per guide</li>
                         </ul>
+                        <div className="mt-4">
+                          <Link to="/koh-tao-dive-sites" className="text-sm font-medium text-blue-600 hover:underline underline-offset-4">
+                            View all dive sites overview
+                          </Link>
+                        </div>
                       </CardContent>
                     </Card>
 

@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import BookingForm from '../components/BookingForm';
 import { MapPin, Waves, Fish, Anchor, Eye, Clock } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const DiveSitesPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '') || '';
+    const normalizedHash = hash === 'schedue' ? 'schedule' : hash;
+    if (!normalizedHash) return;
+
+    if (hash === 'schedue') {
+      window.history.replaceState(null, '', `${location.pathname}#schedule`);
+    }
+
+    requestAnimationFrame(() => {
+      const el = document.getElementById(normalizedHash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }, [location.hash, location.pathname]);
+
   const deepDiveSites = [
     {
       name: "Sail Rock",
+      path: "/dive-sites/sail-rock",
       description: "Koh Tao's premier deep dive site featuring large schools of fish, whalesharks, and giant barracuda.",
       depth: "18-40m",
       highlights: ["Whalesharks", "Giant Barracuda", "Malabar Grouper", "Sailfish"],
@@ -203,7 +224,7 @@ const DiveSitesPage = () => {
       </section>
 
       {/* Deep Dive Sites */}
-      <section className="py-16 px-4 bg-muted/50">
+      <section id="schedule" className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Deep Dive Sites for Advanced Divers</h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
@@ -213,7 +234,15 @@ const DiveSitesPage = () => {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-blue-600" />
-                      <CardTitle className="text-xl">{site.name}</CardTitle>
+                      <CardTitle className="text-xl">
+                        {site.path ? (
+                          <Link to={site.path} className="hover:text-blue-600 underline-offset-4 hover:underline">
+                            {site.name}
+                          </Link>
+                        ) : (
+                          site.name
+                        )}
+                      </CardTitle>
                     </div>
                     <Badge className={getDifficultyColor(site.difficulty)}>{site.difficulty}</Badge>
                   </div>
