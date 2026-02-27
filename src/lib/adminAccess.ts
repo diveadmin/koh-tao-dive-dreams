@@ -14,6 +14,14 @@ const parseAllowedAdminEmails = () => {
     .filter(Boolean);
 };
 
+export const getAdminAccessConfig = () => {
+  const allowlist = parseAllowedAdminEmails();
+  return {
+    allowlistEnabled: allowlist.length > 0,
+    allowlistCount: allowlist.length,
+  };
+};
+
 export const hasAdminAccess = (user: SupabaseUserLike | null | undefined) => {
   if (!user) return false;
 

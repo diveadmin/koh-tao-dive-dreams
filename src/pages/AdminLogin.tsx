@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
-import { hasAdminAccess } from '@/lib/adminAccess';
+import { getAdminAccessConfig, hasAdminAccess } from '@/lib/adminAccess';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
@@ -14,6 +14,7 @@ const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const adminAccessConfig = getAdminAccessConfig();
 
   useEffect(() => {
     // Check if already logged in
@@ -101,6 +102,11 @@ const AdminLogin = () => {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              {adminAccessConfig.allowlistEnabled
+                ? `Admin access: role=admin or email allowlist (${adminAccessConfig.allowlistCount} configured).`
+                : 'Admin access: role=admin required.'}
+            </p>
           </form>
         </CardContent>
       </Card>
