@@ -153,7 +153,8 @@ const       BookingPage: React.FC = () => {
         });
 
         if (!fnRes.ok) {
-          const errText = await fnRes.text().catch(() => 'unknown');
+          const errJson = await fnRes.json().catch(() => null);
+          const errText = errJson?.error || (await fnRes.text().catch(() => 'unknown'));
           console.warn('Local API persist failed', fnRes.status, errText);
         } else {
           persisted = true;
@@ -168,7 +169,7 @@ const       BookingPage: React.FC = () => {
         if (persisted) {
           toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
         } else {
-          toast.error('Inquiry sent, but booking was not saved to CRM. Please contact admin or retry.');
+          toast.error('Inquiry sent, but booking was not saved to CRM. Check API/Airtable field names.');
         }
         if (data.paymentChoice === 'now' && amountMajor > 0) {
           setShowPaymentLinks(true);
