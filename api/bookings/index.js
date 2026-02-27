@@ -24,27 +24,49 @@ const parseBody = (req) => {
   return req.body;
 };
 
+const pickField = (fields, keys = []) => {
+  for (const key of keys) {
+    if (Object.prototype.hasOwnProperty.call(fields, key) && fields[key] !== undefined && fields[key] !== null) {
+      return fields[key];
+    }
+  }
+  return null;
+};
+
+const toNumberOr = (value, fallback = 0) => {
+  if (typeof value === 'number' && !Number.isNaN(value)) return value;
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    return Number.isNaN(parsed) ? fallback : parsed;
+  }
+  return fallback;
+};
+
 const mapBooking = (record) => {
   const fields = record?.fields || {};
+  const addonsTotal = pickField(fields, ['addons_total', 'Add-ons total', 'addonsTotal']);
+  const subtotalAmount = pickField(fields, ['subtotal_amount', 'Subtotal amount', 'subtotalAmount']);
+  const totalPayableNow = pickField(fields, ['total_payable_now', 'Total payable now', 'totalPayableNow']);
+
   return {
-    id: fields.id || record.id,
-    name: fields.name || '',
-    email: fields.email || '',
-    phone: fields.phone || null,
-    item_type: fields.item_type || null,
-    course_title: fields.course_title || '',
-    preferred_date: fields.preferred_date || null,
-    experience_level: fields.experience_level || null,
-    addons: fields.addons || null,
-    addons_json: fields.addons_json || null,
-    addons_total: typeof fields.addons_total === 'number' ? fields.addons_total : 0,
-    subtotal_amount: typeof fields.subtotal_amount === 'number' ? fields.subtotal_amount : null,
-    total_payable_now: typeof fields.total_payable_now === 'number' ? fields.total_payable_now : null,
-      internal_notes: fields.internal_notes || null,
-    message: fields.message || null,
-    status: fields.status || 'pending',
-    created_at: fields.created_at || null,
-      updated_at: fields.updated_at || null,
+    id: pickField(fields, ['id']) || record.id,
+    name: pickField(fields, ['name', 'Name']) || '',
+    email: pickField(fields, ['email', 'Email']) || '',
+    phone: pickField(fields, ['phone', 'Phone']),
+    item_type: pickField(fields, ['item_type', 'Item type', 'itemType']),
+    course_title: pickField(fields, ['course_title', 'Course/Dive', 'courseTitle']) || '',
+    preferred_date: pickField(fields, ['preferred_date', 'Preferred Date', 'preferredDate']),
+    experience_level: pickField(fields, ['experience_level', 'Experience Level', 'experienceLevel']),
+    addons: pickField(fields, ['addons', 'Add-ons', 'addOns']),
+    addons_json: pickField(fields, ['addons_json', 'Add-ons JSON', 'addonsJson']),
+    addons_total: toNumberOr(addonsTotal, 0),
+    subtotal_amount: subtotalAmount === null ? null : toNumberOr(subtotalAmount, 0),
+    total_payable_now: totalPayableNow === null ? null : toNumberOr(totalPayableNow, 0),
+    internal_notes: pickField(fields, ['internal_notes', 'Internal Notes', 'internalNotes']),
+    message: pickField(fields, ['message', 'Message']),
+    status: pickField(fields, ['status', 'Status']) || 'pending',
+    created_at: pickField(fields, ['created_at', 'Created At', 'createdAt']),
+    updated_at: pickField(fields, ['updated_at', 'Updated At', 'updatedAt']),
   };
 };
 

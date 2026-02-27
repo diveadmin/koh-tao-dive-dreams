@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Trash2, RefreshCw, Users, CheckCircle, Clock, XCircle, LogOut, FileText } from 'lucide-react';
@@ -50,7 +50,7 @@ const Admin = () => {
         : `https://${apiBaseRaw}`)
     : '';
   const apiBase = apiBaseNormalized.replace(/\/+$/, '');
-  const apiUrl = (path: string) => `${apiBase}${path}`;
+  const apiUrl = useCallback((path: string) => `${apiBase}${path}`, [apiBase]);
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -89,15 +89,33 @@ const Admin = () => {
         }
 
         setAuthToken(token);
-        await fetchBookings(token);
+
+        const response = await fetch(apiUrl('/api/bookings'), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          await supabase.auth.signOut();
+          toast.error('Admin session is not authorized on backend. Please login again after server env is updated.');
+          navigate('/admin/login');
+          return;
+        }
+
+        if (!response.ok) throw new Error('Failed to fetch bookings');
+        const data = await response.json();
+        setBookings(data);
+        setIsLoading(false);
       } catch (error) {
         console.error('Admin auth init failed:', error);
+        setIsLoading(false);
         navigate('/admin/login');
       }
     };
 
     initAuth();
-  }, []);
+  }, [navigate, apiUrl]);
 
   const fetchBookings = async (tokenArg?: string) => {
     const token = tokenArg || authToken;
@@ -183,14 +201,14 @@ const Admin = () => {
   const handleSendInvoice = async (booking: BookingInquiry) => {
     try {
       const amount = booking.message || booking.course_title || '';
-      const payload = {
+      const payload: Record<string, unknown> = {
         access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
         to: 'payments@divinginasia.com',
         subject: `Invoice: ${booking.course_title} - ${booking.name}`,
         name: booking.name,
         message: `New Invoice Notification\n\nCustomer: ${booking.name}\nEmail: ${booking.email}\nPhone: ${booking.phone || 'N/A'}\n\nCourse: ${booking.course_title}\nPreferred Date: ${booking.preferred_date || 'N/A'}\nAmount: ${booking.message || 'TBD'}\n\nCustomer Message:\n${booking.message || 'No additional message'}`,
         cc: booking.email,
-      } as any;
+      };
 
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -224,6 +242,14 @@ const Admin = () => {
     } catch {
       return [];
     }
+  };
+
+  const getAddonsDisplay = (booking: BookingInquiry) => {
+    if (booking.addons && booking.addons.trim()) return booking.addons;
+    const list = getAddonsList(booking)
+      .map((addon) => addon.label)
+      .filter(Boolean);
+    return list.length ? list.join(', ') : '-';
   };
 
   const getInvoiceNumbers = (booking: BookingInquiry) => {
@@ -528,7 +554,7 @@ const Admin = () => {
                               ? format(new Date(booking.preferred_date), 'MMM d, yyyy')
                               : '-'}
                           </TableCell>
-                          <TableCell>{booking.addons || '-'}</TableCell>
+                          <TableCell>{getAddonsDisplay(booking)}</TableCell>
                           <TableCell>{typeof booking.total_payable_now === 'number' ? `฿${booking.total_payable_now}` : '-'}</TableCell>
                           <TableCell className="max-w-xs truncate" title={booking.internal_notes || ''}>
                             {booking.internal_notes || '-'}

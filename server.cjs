@@ -40,25 +40,48 @@ const ensureAirtable = (res) => {
 
 const mapBooking = (record) => {
   const fields = record?.fields || {};
+
+  const pickField = (keys = []) => {
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(fields, key) && fields[key] !== undefined && fields[key] !== null) {
+        return fields[key];
+      }
+    }
+    return null;
+  };
+
+  const toNumberOr = (value, fallback = 0) => {
+    if (typeof value === 'number' && !Number.isNaN(value)) return value;
+    if (typeof value === 'string' && value.trim() !== '') {
+      const parsed = Number(value);
+      return Number.isNaN(parsed) ? fallback : parsed;
+    }
+    return fallback;
+  };
+
+  const addonsTotal = pickField(['addons_total', 'Add-ons total', 'addonsTotal']);
+  const subtotalAmount = pickField(['subtotal_amount', 'Subtotal amount', 'subtotalAmount']);
+  const totalPayableNow = pickField(['total_payable_now', 'Total payable now', 'totalPayableNow']);
+
   return {
-    id: fields.id || record.id,
-    name: fields.name || '',
-    email: fields.email || '',
-    phone: fields.phone || null,
-    item_type: fields.item_type || null,
-    course_title: fields.course_title || '',
-    preferred_date: fields.preferred_date || null,
-    experience_level: fields.experience_level || null,
-    addons: fields.addons || null,
-    addons_json: fields.addons_json || null,
-    addons_total: typeof fields.addons_total === 'number' ? fields.addons_total : 0,
-    subtotal_amount: typeof fields.subtotal_amount === 'number' ? fields.subtotal_amount : null,
-    total_payable_now: typeof fields.total_payable_now === 'number' ? fields.total_payable_now : null,
-    internal_notes: fields.internal_notes || null,
-    message: fields.message || null,
-    status: fields.status || 'pending',
-    created_at: fields.created_at || null,
-    updated_at: fields.updated_at || null,
+    id: pickField(['id']) || record.id,
+    name: pickField(['name', 'Name']) || '',
+    email: pickField(['email', 'Email']) || '',
+    phone: pickField(['phone', 'Phone']),
+    item_type: pickField(['item_type', 'Item type', 'itemType']),
+    course_title: pickField(['course_title', 'Course/Dive', 'courseTitle']) || '',
+    preferred_date: pickField(['preferred_date', 'Preferred Date', 'preferredDate']),
+    experience_level: pickField(['experience_level', 'Experience Level', 'experienceLevel']),
+    addons: pickField(['addons', 'Add-ons', 'addOns']),
+    addons_json: pickField(['addons_json', 'Add-ons JSON', 'addonsJson']),
+    addons_total: toNumberOr(addonsTotal, 0),
+    subtotal_amount: subtotalAmount === null ? null : toNumberOr(subtotalAmount, 0),
+    total_payable_now: totalPayableNow === null ? null : toNumberOr(totalPayableNow, 0),
+    internal_notes: pickField(['internal_notes', 'Internal Notes', 'internalNotes']),
+    message: pickField(['message', 'Message']),
+    status: pickField(['status', 'Status']) || 'pending',
+    created_at: pickField(['created_at', 'Created At', 'createdAt']),
+    updated_at: pickField(['updated_at', 'Updated At', 'updatedAt']),
   };
 };
 
