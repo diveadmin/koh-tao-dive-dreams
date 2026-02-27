@@ -378,7 +378,12 @@ const Admin = () => {
       await fetchBookings();
     } catch (error) {
       console.error('Error saving notes:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to save notes');
+      const message = error instanceof Error ? error.message : 'Failed to save notes';
+      if (message.toLowerCase().includes('failed to fetch')) {
+        toast.error('Cannot reach API. Start both frontend and API with npm run dev.');
+      } else {
+        toast.error(message);
+      }
     } finally {
       setIsSavingNotes(false);
     }
