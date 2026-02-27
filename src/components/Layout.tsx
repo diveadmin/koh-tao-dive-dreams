@@ -1,6 +1,9 @@
 import React from 'react';
 import Navigation from './Navigation';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const Footer: React.FC = () => (
   <footer className="bg-[#0b1e3d] text-white mt-12">
@@ -74,9 +77,24 @@ const Footer: React.FC = () => (
 );
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isAdminRoute = location.pathname.startsWith('/admin') && location.pathname !== '/admin/login';
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success('Logged out successfully');
+    navigate('/admin/login');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
+      {isAdminRoute && (
+        <div className="fixed top-20 right-4 z-50">
+          <Button variant="outline" onClick={handleLogout}>Logout</Button>
+        </div>
+      )}
       <main className="flex-1">{children}</main>
       <Footer />
     </div>
