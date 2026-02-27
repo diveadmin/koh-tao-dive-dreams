@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Trash2, RefreshCw, Users, CheckCircle, Clock, XCircle, LogOut, FileText } from 'lucide-react';
+import { Trash2, RefreshCw, Users, CheckCircle, Clock, XCircle, LogOut, FileText, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { hasAdminAccess } from '@/lib/adminAccess';
@@ -41,6 +42,8 @@ const statusConfig = {
   cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-800 border-red-200', icon: XCircle },
 };
 
+const PAYPAL_EMAIL = 'payments@divinginasia.com';
+
 const Admin = () => {
   const navigate = useNavigate();
   const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
@@ -58,6 +61,9 @@ const Admin = () => {
   const [notesDraft, setNotesDraft] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
   const [invoiceBooking, setInvoiceBooking] = useState<BookingInquiry | null>(null);
+  const [invoiceAmountDraft, setInvoiceAmountDraft] = useState('');
+  const [invoicePayPalLink, setInvoicePayPalLink] = useState('');
+  const [isPayPalLinkCopied, setIsPayPalLinkCopied] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [authToken, setAuthToken] = useState<string | null>(null);
 
@@ -274,7 +280,52 @@ const Admin = () => {
     return { subtotal, addonsTotal, dueNow, grandTotal, balanceDue };
   };
 
-  const buildInvoiceHtml = (booking: BookingInquiry) => {
+  const buildPayPalLink = (booking: BookingInquiry, amount: number) => {
+    const params = new URLSearchParams({
+      cmd: '_xclick',
+      business: PAYPAL_EMAIL,
+      item_name: `${booking.course_title || 'Booking'} (${booking.id})`,
+      amount: amount.toFixed(2),
+      currency_code: 'THB',
+    });
+    return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
+  };
+
+  const openInvoiceDialog = (booking: BookingInquiry) => {
+    const { dueNow, grandTotal } = getInvoiceNumbers(booking);
+    const defaultAmount = dueNow > 0 ? dueNow : grandTotal || 0;
+    setInvoiceAmountDraft(defaultAmount > 0 ? String(defaultAmount) : '');
+    setInvoicePayPalLink(defaultAmount > 0 ? buildPayPalLink(booking, defaultAmount) : '');
+    setIsPayPalLinkCopied(false);
+    setInvoiceBooking(booking);
+  };
+
+  const handleGeneratePayPalLink = () => {
+    if (!invoiceBooking) return;
+    const amount = Number(invoiceAmountDraft);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      toast.error('Enter a valid amount to generate PayPal link');
+      return;
+    }
+    const link = buildPayPalLink(invoiceBooking, amount);
+    setInvoicePayPalLink(link);
+    setIsPayPalLinkCopied(false);
+    toast.success('PayPal link generated');
+  };
+
+  const handleCopyPayPalLink = async () => {
+    if (!invoicePayPalLink) return;
+    try {
+      await navigator.clipboard.writeText(invoicePayPalLink);
+      setIsPayPalLinkCopied(true);
+      setTimeout(() => setIsPayPalLinkCopied(false), 1800);
+      toast.success('PayPal link copied');
+    } catch {
+      toast.error('Could not copy link');
+    }
+  };
+
+  const buildInvoiceHtml = (booking: BookingInquiry, payPalLink?: string) => {
     const addons = getAddonsList(booking);
     const { subtotal, addonsTotal, dueNow, grandTotal, balanceDue } = getInvoiceNumbers(booking);
     const invoiceNo = `INV-${booking.id.slice(0, 8).toUpperCase()}`;
@@ -340,13 +391,15 @@ const Admin = () => {
             <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Balance due</span><strong>${balanceDue !== null ? `฿${balanceDue}` : '-'}</strong></div>
           </div>
 
+          ${payPalLink ? `<div style="margin-top:20px;padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;"><div style="font-weight:600;margin-bottom:6px;">Pay online</div><div style="font-size:12px;color:#6b7280;margin-bottom:6px;">Pay securely with PayPal using this link:</div><a href="${payPalLink}" style="word-break:break-all;color:#2563eb;">${payPalLink}</a></div>` : ''}
+
           <p style="margin-top:24px;color:#6b7280;font-size:12px;">Thank you for booking with Pro Diving Asia.</p>
         </body>
       </html>
     `;
   };
 
-  const handlePrintInvoice = (booking: BookingInquiry) => {
+  const handlePrintInvoice = (booking: BookingInquiry, payPalLink?: string) => {
     const popup = window.open('', '_blank', 'width=900,height=700');
     if (!popup) {
       toast.error('Please allow popups to print invoice.');
@@ -354,7 +407,7 @@ const Admin = () => {
     }
 
     popup.document.open();
-    popup.document.write(buildInvoiceHtml(booking));
+    popup.document.write(buildInvoiceHtml(booking, payPalLink));
     popup.document.close();
     popup.focus();
     popup.print();
@@ -507,17 +560,11 @@ const Admin = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Date</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Booking</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Phone</TableHead>
-                      <TableHead>Course/Dive</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Preferred Date</TableHead>
-                      <TableHead>Add-ons</TableHead>
-                      <TableHead>Payable</TableHead>
+                      <TableHead>Amounts</TableHead>
                       <TableHead>Notes</TableHead>
-                      <TableHead>Level</TableHead>
                       <TableHead>Message</TableHead>
                       <TableHead></TableHead>
                     </TableRow>
@@ -529,6 +576,25 @@ const Admin = () => {
                         <TableRow key={booking.id}>
                           <TableCell className="whitespace-nowrap">
                             {format(new Date(booking.created_at), 'MMM d, yyyy HH:mm')}
+                          </TableCell>
+                          <TableCell>
+                            <div className="font-medium">{booking.name}</div>
+                            <a href={`mailto:${booking.email}`} className="text-blue-600 hover:underline text-xs">
+                              {booking.email}
+                            </a>
+                            <div className="text-xs text-muted-foreground">{booking.phone || '-'}</div>
+                          </TableCell>
+                          <TableCell className="max-w-[220px]">
+                            <div className="font-medium truncate" title={booking.course_title}>{booking.course_title}</div>
+                            <div className="text-xs text-muted-foreground capitalize">{booking.item_type || '-'}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {booking.preferred_date
+                                ? format(new Date(booking.preferred_date), 'MMM d, yyyy')
+                                : 'No preferred date'}
+                            </div>
+                            <div className="text-xs text-muted-foreground truncate" title={getAddonsDisplay(booking)}>
+                              Add-ons: {getAddonsDisplay(booking)}
+                            </div>
                           </TableCell>
                           <TableCell>
                             <Select
@@ -562,26 +628,14 @@ const Admin = () => {
                               </SelectContent>
                             </Select>
                           </TableCell>
-                          <TableCell className="font-medium">{booking.name}</TableCell>
-                          <TableCell>
-                            <a href={`mailto:${booking.email}`} className="text-blue-600 hover:underline">
-                              {booking.email}
-                            </a>
+                          <TableCell className="text-sm">
+                            <div>Pay now: {typeof booking.total_payable_now === 'number' ? `฿${booking.total_payable_now}` : '-'}</div>
+                            <div className="text-xs text-muted-foreground">Add-ons: ฿{booking.addons_total || 0}</div>
+                            <div className="text-xs text-muted-foreground">Level: {booking.experience_level || '-'}</div>
                           </TableCell>
-                          <TableCell>{booking.phone || '-'}</TableCell>
-                          <TableCell>{booking.course_title}</TableCell>
-                          <TableCell className="capitalize">{booking.item_type || '-'}</TableCell>
-                          <TableCell>
-                            {booking.preferred_date 
-                              ? format(new Date(booking.preferred_date), 'MMM d, yyyy')
-                              : '-'}
-                          </TableCell>
-                          <TableCell>{getAddonsDisplay(booking)}</TableCell>
-                          <TableCell>{typeof booking.total_payable_now === 'number' ? `฿${booking.total_payable_now}` : '-'}</TableCell>
-                          <TableCell className="max-w-xs truncate" title={booking.internal_notes || ''}>
+                          <TableCell className="max-w-[220px] whitespace-normal break-words">
                             {booking.internal_notes || '-'}
                           </TableCell>
-                          <TableCell>{booking.experience_level || '-'}</TableCell>
                           <TableCell className="max-w-xs truncate" title={booking.message || ''}>
                             {booking.message || '-'}
                           </TableCell>
@@ -598,7 +652,7 @@ const Admin = () => {
                               <Button variant="ghost" size="sm" onClick={() => openNotesDialog(booking)}>
                                 Notes
                               </Button>
-                              <Button variant="ghost" size="sm" onClick={() => setInvoiceBooking(booking)}>
+                              <Button variant="ghost" size="sm" onClick={() => openInvoiceDialog(booking)}>
                                 <FileText className="h-4 w-4 mr-1" /> Invoice
                               </Button>
                               <Button variant="ghost" size="sm" onClick={() => handleSendInvoice(booking)}>
@@ -662,7 +716,10 @@ const Admin = () => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!!invoiceBooking} onOpenChange={() => setInvoiceBooking(null)}>
+      <Dialog open={!!invoiceBooking} onOpenChange={() => {
+        setInvoiceBooking(null);
+        setIsPayPalLinkCopied(false);
+      }}>
         <DialogContent className="sm:max-w-[700px]">
           <DialogHeader>
             <DialogTitle>Invoice Preview</DialogTitle>
@@ -711,6 +768,27 @@ const Admin = () => {
                   </tbody>
                 </table>
               </div>
+
+              <div className="space-y-2 border rounded-md p-3 bg-muted/40">
+                <div className="font-semibold">PayPal Payment Link</div>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="Amount (THB)"
+                    value={invoiceAmountDraft}
+                    onChange={(e) => setInvoiceAmountDraft(e.target.value)}
+                    className="sm:max-w-[180px]"
+                  />
+                  <Button type="button" variant="outline" onClick={handleGeneratePayPalLink}>Generate Link</Button>
+                  <Button type="button" variant="outline" onClick={handleCopyPayPalLink} disabled={!invoicePayPalLink}>
+                    <Copy className="h-4 w-4 mr-1" /> Copy
+                  </Button>
+                  {isPayPalLinkCopied && <Badge variant="secondary">Copied</Badge>}
+                </div>
+                <Input readOnly value={invoicePayPalLink} placeholder="Generate a PayPal link for this invoice" />
+              </div>
             </div>
           )}
 
@@ -718,7 +796,7 @@ const Admin = () => {
             <Button variant="outline" onClick={() => setInvoiceBooking(null)}>
               Close
             </Button>
-            <Button onClick={() => invoiceBooking && handlePrintInvoice(invoiceBooking)}>
+            <Button onClick={() => invoiceBooking && handlePrintInvoice(invoiceBooking, invoicePayPalLink || undefined)}>
               Print / Save PDF
             </Button>
           </DialogFooter>
