@@ -58,7 +58,7 @@ const beaches = [
   {
     name: "Sairee Beach",
     subtitle: "The Main Beach — 2km Long",
-    image: "/images/photo-1618865181016-a80ad83a06d3.avif",
+    image: "/images/sairee.png",
     description: "World-famous Sairee Beach is the busiest and longest beach on Koh Tao at almost 2 kilometres. The main tourist hub, Sairee has bars, restaurants, and resorts with soft white sand and plenty of shade. Activities include tree swings, paddleboarding, kayaking, beach volleyball, swimming, and snorkeling. Walk the full length along the path behind beachfront properties past shops and resort entrances. Popular sunset bars with music make evenings unforgettable on the west-facing shore.",
     location: "West Coast",
     tags: ["Bars & Restaurants", "Paddleboarding", "Kayaking", "Sunset", "Nightlife"],
