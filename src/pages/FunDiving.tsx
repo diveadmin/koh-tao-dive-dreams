@@ -16,30 +16,30 @@ const FunDiving = () => {
     {
       name: "Sail Rock",
       path: '/dive-sites/sail-rock',
-      description: "Premier deep dive site with large schools of fish, whalesharks, and giant barracuda.",
+      description: "Top diepduiklocatie met grote visscholen, walvishaaien en reuzenbarracuda.",
       depth: "18-40m",
-      highlights: ["Whalesharks", "Giant Barracuda", "Malabar Grouper"]
+      highlights: ["Walvishaaien", "Reuzenbarracuda", "Malabar tandbaars"]
     },
     {
       name: "Chumphon Pinnacles",
       path: '/dive-sites/chumphon-pinnacle',
-      description: "Granite pinnacles offering excellent opportunities to see whalesharks and large schools of trevally.",
+      description: "Granieten rotspieken met uitstekende kans op walvishaaien en grote scholen trevally.",
       depth: "15-30m",
-      highlights: ["Whalesharks", "Trevally Schools", "Eagle Rays"]
+      highlights: ["Walvishaaien", "Scholen trevally", "Adelaarsroggen"]
     },
     {
       name: "Japanese Gardens",
       path: '/dive-sites/japanese-gardens',
-      description: "Diverse coral reefs with colorful marine life and swim-throughs.",
+      description: "Divers koraalrif met kleurrijk onderwaterleven en doorgangen.",
       depth: "12-25m",
-      highlights: ["Pink Tailed Triggerfish", "Ocellated Eagle Rays", "Colorful Corals"]
+      highlights: ["Roze staarttrekker", "Gevlekte adelaarsrog", "Kleurrijk koraal"]
     },
     {
       name: "Mango Bay",
       path: '/dive-sites/mango-bay',
-      description: "Shallow coral reefs perfect for relaxed diving with abundant marine life.",
+      description: "Ondiepe koraalriffen, perfect voor ontspannen duiken met veel onderwaterleven.",
       depth: "5-18m",
-      highlights: ["Colorful Corals", "Tropical Fish", "Seagrass Meadows"]
+      highlights: ["Kleurrijk koraal", "Tropische vissen", "Zeegrasvelden"]
     }
   ];
 
@@ -54,10 +54,10 @@ const FunDiving = () => {
   ];
 
   const marineLife = [
-    { name: "Whalesharks", description: "Gentle giants that can be spotted at Sail Rock and Chumphon Pinnacles" },
-    { name: "Reef Squid", description: "Colorful cephalopods often seen in deeper waters" },
-    { name: "Marbled Octopus", description: "Small but fascinating creatures in macro environments" },
-    { name: "Diverse Reef Fish", description: "Colorful schools and unique reef species" }
+    { name: "Walvishaaien", description: "Zachte reuzen die vaak te zien zijn bij Sail Rock en Chumphon Pinnacle" },
+    { name: "Rifinktvis", description: "Kleurrijke koppotigen die vaak in dieper water worden gezien" },
+    { name: "Gemarmerde octopus", description: "Kleine maar fascinerende dieren in macro-omgevingen" },
+    { name: "Diverse rifvissen", description: "Kleurrijke scholen en unieke rifsoorten" }
   ];
 
   // Helper for smooth scroll
@@ -155,7 +155,7 @@ const FunDiving = () => {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="trips">Trips</TabsTrigger>
             <TabsTrigger value="sites">Sites</TabsTrigger>
-            <TabsTrigger value="marine">Marine</TabsTrigger>
+            <TabsTrigger value="marine">Marien</TabsTrigger>
             <TabsTrigger value="schedule">Schedule</TabsTrigger>
             <TabsTrigger value="requirements">Requirements</TabsTrigger>
             <TabsTrigger value="tips">Tips</TabsTrigger>
@@ -307,7 +307,7 @@ const FunDiving = () => {
         <TabsContent value="marine" className="transition-none">
           <section className="py-16 px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl font-bold text-center mb-12">Explore the Underwater World</h2>
+              <h2 className="text-4xl font-bold text-center mb-12">Ontdek de onderwaterwereld</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {marineLife.map((animal, index) => (
                   <Card key={index} className="text-center">
@@ -322,7 +322,7 @@ const FunDiving = () => {
               </div>
               <div className="text-center mt-10">
                 <Link to="/marine-life" className="inline-flex items-center text-blue-600 font-medium hover:underline underline-offset-4">
-                  View all marine life
+                  Bekijk al het onderwaterleven
                 </Link>
               </div>
             </div>
