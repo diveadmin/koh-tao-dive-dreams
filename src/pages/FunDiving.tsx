@@ -292,6 +292,11 @@ const FunDiving = () => {
                   </Card>
                 ))}
               </div>
+              <div className="text-center mt-10">
+                <Link to="/marine-life" className="inline-flex items-center text-blue-600 font-medium hover:underline underline-offset-4">
+                  View all marine life
+                </Link>
+              </div>
             </div>
           </section>
         </TabsContent>
