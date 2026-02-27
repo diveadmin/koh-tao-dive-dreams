@@ -10,7 +10,9 @@ const ScubaReview: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="relative h-72 md:h-96 flex items-center" style={{backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1618865181016-a80ad83a06d3.avif')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+      <section className="relative h-72 md:h-96 flex items-center overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/photo-1618865181016-a80ad83a06d3.avif')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-black/35" />
         <div className="container mx-auto px-4 text-white z-10">
           <h1 className="text-4xl md:text-5xl font-bold">Scuba Review Course</h1>
           <p className="mt-4 max-w-2xl">Fris je duikvaardigheden en kennis op met onze complete opfriscursus.</p>

@@ -116,16 +116,14 @@ const FunDiving = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section
-        className="relative h-screen flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/photo-1682687982423-295485af248a.avif')" }}
-      >
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/photo-1682687982423-295485af248a.avif')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Fun Diving Koh Tao</h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Experience the best of Koh Tao's underwater world with our expertly guided fun diving trips.
-            Discover vibrant coral reefs, encounter amazing marine life, and create unforgettable memories.
+            Beleef het beste van de onderwaterwereld van Koh Tao met onze professioneel begeleide fun dive trips.
+            Ontdek kleurrijke koraalriffen, ontmoet bijzonder onderwaterleven en maak onvergetelijke herinneringen.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center mb-4">
             <Button
@@ -303,7 +301,7 @@ const FunDiving = () => {
           </section>
         </TabsContent>
 
-        {/* Marine Life */}
+        {/* Marien leven */}
         <TabsContent value="marine" className="transition-none">
           <section className="py-16 px-4">
             <div className="max-w-6xl mx-auto">
@@ -531,7 +529,7 @@ const FunDiving = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground">
-                      PADI professionals with deep knowledge of local marine life and dive sites.
+                      PADI-professionals met diepgaande kennis van lokaal onderwaterleven en duiksites.
                     </p>
                   </CardContent>
                 </Card>
@@ -579,7 +577,7 @@ const FunDiving = () => {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl font-bold mb-8">Book Your Fun Diving Adventure</h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Ready to explore Koh Tao's amazing underwater world? You can get in touch for a booking enquiry or use the form below to book directly.
+                Klaar om de geweldige onderwaterwereld van Koh Tao te ontdekken? Neem contact op voor een boekingsaanvraag of gebruik het formulier hieronder om direct te boeken.
               </p>
                 <div className="mb-4 flex flex-col items-center gap-2">
                   <Link to="/fun-diving-koh-tao#world-class-dive-sites" className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">Fun Dive Info</Link>
