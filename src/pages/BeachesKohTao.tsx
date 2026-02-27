@@ -40,7 +40,7 @@ const beaches = [
   {
     name: "Tanote Beach",
     subtitle: "Tanote Bay — East Coast",
-    image: "/images/photo-1682687982423-295485af248a.avif",
+    image: "/images/tanote.png",
     description: "Situated on the east side of Koh Tao, Tanote Bay is easily accessible via the concrete road on a scooter. For early risers it's perfect for watching the sunrise facing east. Surrounded by steep jungle-covered hills, the beach stretches across the bay offering room for activities, swimming, snorkeling, and sunbathing. A large granite rock just offshore is the best rock jumping location on Koh Tao. Excellent marine life makes it a popular snorkeling and occasional diving spot.",
     location: "East Coast",
     tags: ["Rock Jumping", "Sunrise", "Snorkeling", "Diving", "Restaurant"],
