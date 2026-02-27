@@ -61,6 +61,19 @@ const Admin = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [authToken, setAuthToken] = useState<string | null>(null);
 
+  const fetchAdminApi = useCallback(async (path: string, init?: RequestInit) => {
+    try {
+      return await fetch(apiUrl(path), init);
+    } catch (error) {
+      const message = error instanceof Error ? error.message.toLowerCase() : '';
+      const isNetworkError = message.includes('failed to fetch') || message.includes('networkerror');
+      if (apiBase && isNetworkError) {
+        return fetch(path, init);
+      }
+      throw error;
+    }
+  }, [apiBase, apiUrl]);
+
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -90,7 +103,7 @@ const Admin = () => {
 
         setAuthToken(token);
 
-        const response = await fetch(apiUrl('/api/bookings'), {
+        const response = await fetchAdminApi('/api/bookings', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -115,14 +128,14 @@ const Admin = () => {
     };
 
     initAuth();
-  }, [navigate, apiUrl]);
+  }, [navigate, fetchAdminApi]);
 
   const fetchBookings = async (tokenArg?: string) => {
     const token = tokenArg || authToken;
     if (!token) return;
 
     try {
-      const response = await fetch(apiUrl('/api/bookings'), {
+      const response = await fetchAdminApi('/api/bookings', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -148,7 +161,7 @@ const Admin = () => {
     if (!authToken) return;
 
     try {
-      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
+      const response = await fetchAdminApi(`/api/bookings/${bookingId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +189,7 @@ const Admin = () => {
     if (!authToken) return;
 
     try {
-      const response = await fetch(apiUrl(`/api/bookings/${deleteId}`), {
+      const response = await fetchAdminApi(`/api/bookings/${deleteId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -352,7 +365,7 @@ const Admin = () => {
     setIsSavingNotes(true);
 
     try {
-      const response = await fetch(apiUrl(`/api/bookings/${notesBooking.id}`), {
+      const response = await fetchAdminApi(`/api/bookings/${notesBooking.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -380,7 +393,7 @@ const Admin = () => {
       console.error('Error saving notes:', error);
       const message = error instanceof Error ? error.message : 'Failed to save notes';
       if (message.toLowerCase().includes('failed to fetch')) {
-        toast.error('Cannot reach API. Start both frontend and API with npm run dev.');
+        toast.error('Cannot reach API. Check VITE_API_BASE_URL or run npm run dev for local API.');
       } else {
         toast.error(message);
       }
