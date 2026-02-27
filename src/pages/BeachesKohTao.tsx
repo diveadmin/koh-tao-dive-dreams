@@ -3,75 +3,75 @@ import React from 'react';
 const beaches = [
   {
     name: "Mae Haad Beach",
-    subtitle: "North & South",
+    subtitle: "Noord & Zuid",
     image: "/images/maehad.jpg",
     description: "Often overlooked due to their proximity to the pier, both north and south sections of Mae Haad beach offer a great place to spend a day. The south section stretches from Coconut Monkey coffee shop all the way to Sensi Paradise resort — clean, white and sandy. Near the resort is a 60-year-old shipwreck, a great snorkeling location with its own marine ecosystem. The north side features a safe swimming area cordoned off from boat traffic, kept in pristine condition and cleaned daily. A very popular spot to watch Koh Tao's famous sunsets.",
-    location: "West Coast",
-    tags: ["Snorkeling", "Swimming", "Sunset Watching", "Family Friendly"],
-    tip: "Head to Breeze Koh Tao restaurant for lunch and beachside sun loungers — great sunset views.",
+    location: "Westkust",
+    tags: ["Snorkelen", "Zwemmen", "Zonsondergang", "Gezinsvriendelijk"],
+    tip: "Ga naar Breeze Koh Tao voor lunch en strandbedjes — perfect voor zonsondergang.",
   },
   {
     name: "Sai Nuan Beach",
-    subtitle: "Hidden Gem",
+    subtitle: "Verborgen parel",
     image: "/images/sanjuan.jpg",
     description: "A hidden gem and throwback to the days when the first backpackers arrived on Koh Tao. Sai Nuan is actually two scenic beaches separated by a rocky outcrop. The first has a grass area with a tree swing and hammocks between palm trees. The small Sai Thong resort of wooden Thai-style bungalows adds to the relaxed, peaceful atmosphere. On a clear day expect white sand, coconut palms, and a clear warm turquoise sea. One of the least crowded beaches on the island.",
-    location: "South West",
-    tags: ["Secluded", "Peaceful", "Snorkeling", "Hammocks"],
-    tip: "Walk from Mae Haad behind Sensi Paradise resort — about 25 minutes. Watch for signposts along the route.",
+    location: "Zuidwest",
+    tags: ["Afgelegen", "Rustig", "Snorkelen", "Hangmatten"],
+    tip: "Loop vanaf Mae Haad achter Sensi Paradise langs — ongeveer 25 minuten. Volg de bordjes onderweg.",
   },
   {
     name: "June Juea Beach",
-    subtitle: "Most Remote",
+    subtitle: "Meest afgelegen",
     image: "/images/JunejueaBeach.jpg",
     description: "Possibly the most remote beach on Koh Tao and certainly one of the smallest, June Juea is one of the most picturesque and secluded places to watch the sunset. Located on the south west side of the island, you can reach it by continuing the coastal walk from Sai Nuan, or walking from Chalok Baan Kao. The bay is made up of small areas of sand between large rocks and trees that provide natural shade. Perfect for getting away from it all.",
-    location: "South West",
-    tags: ["Remote", "Sunset", "Secluded", "Swimming"],
-    tip: "One of the best sunset spots on the island — bring drinks and enjoy the view.",
+    location: "Zuidwest",
+    tags: ["Afgelegen", "Zonsondergang", "Rust", "Zwemmen"],
+    tip: "Een van de beste zonsondergangplekken op het eiland — neem wat te drinken mee en geniet.",
   },
   {
     name: "Freedom Beach",
-    subtitle: "South Side Favourite",
+    subtitle: "Favoriet in het zuiden",
     image: "/images/freedom-beach-resort.jpg",
     description: "Another small secluded beach, Freedom beach is probably the most popular small beach on Koh Tao. Located on the south side, it's best reached by scooter — about 10 minutes from Sairee. The 100 baht entrance fee gives access to John Suwan Viewpoint, Taa Toh beach, and Freedom Beach. Beautiful white sandy beach with shade from Pemphis Acidula trees with hammocks, a shallow reef for snorkeling, and a beachside restaurant overlooking Chalok Baan Kao bay.",
-    location: "South Coast",
-    tags: ["Snorkeling", "Hammocks", "Restaurant", "Day Trip"],
-    tip: "Visit John Suwan Viewpoint first, then cool down with a swim. Two beaches for one entrance fee — Taa Toh beach is just over the rocks.",
+    location: "Zuidkust",
+    tags: ["Snorkelen", "Hangmatten", "Restaurant", "Dagtrip"],
+    tip: "Bezoek eerst John Suwan Viewpoint en koel daarna af met een duik. Twee stranden voor één entree.",
   },
   {
     name: "Tanote Beach",
-    subtitle: "Tanote Bay — East Coast",
+    subtitle: "Tanote Bay — Oostkust",
     image: "/images/tanote.png",
     description: "Situated on the east side of Koh Tao, Tanote Bay is easily accessible via the concrete road on a scooter. For early risers it's perfect for watching the sunrise facing east. Surrounded by steep jungle-covered hills, the beach stretches across the bay offering room for activities, swimming, snorkeling, and sunbathing. A large granite rock just offshore is the best rock jumping location on Koh Tao. Excellent marine life makes it a popular snorkeling and occasional diving spot.",
-    location: "East Coast",
-    tags: ["Rock Jumping", "Sunrise", "Snorkeling", "Diving", "Restaurant"],
-    tip: "Two beachside resorts with restaurants — great for a full day. Come early for the best rock jumping spot.",
+    location: "Oostkust",
+    tags: ["Rots springen", "Zonsopkomst", "Snorkelen", "Duiken", "Restaurant"],
+    tip: "Twee resorts aan het strand met restaurants — ideaal voor een hele dag. Kom vroeg voor de beste springplek.",
   },
   {
     name: "Aow Leuk Beach",
-    subtitle: "Instagram Paradise",
+    subtitle: "Instagram-paradijs",
     image: "/images/aowluk.jpg",
     description: "This beautiful beach sits in a stunning bay on the south east side of Koh Tao — one of the most picturesque bays in the entire Samui Archipelago. On a clear day you have a stunning backdrop of Koh Phangan with the iconic Shark Island in the foreground, less than 1km by kayak. A 100 baht entrance fee includes fresh water and a sun lounger with umbrella. Colourful coral reef lines both sides of the bay, and the sheltered middle is perfect for swimming.",
-    location: "South East",
-    tags: ["Snorkeling", "Sun Loungers", "Coral Reef", "Photography"],
-    tip: "Bring your own mask and snorkel or rent one at the beach — incredible marine life just steps from the water's edge.",
+    location: "Zuidoost",
+    tags: ["Snorkelen", "Ligbedden", "Koraalrif", "Fotografie"],
+    tip: "Neem je eigen masker en snorkel mee of huur ter plekke — prachtig zeeleven direct vanaf het strand.",
   },
   {
     name: "Sairee Beach",
-    subtitle: "The Main Beach — 2km Long",
+    subtitle: "Het hoofdstrand — 2 km lang",
     image: "/images/sairee.png",
     description: "World-famous Sairee Beach is the busiest and longest beach on Koh Tao at almost 2 kilometres. The main tourist hub, Sairee has bars, restaurants, and resorts with soft white sand and plenty of shade. Activities include tree swings, paddleboarding, kayaking, beach volleyball, swimming, and snorkeling. Walk the full length along the path behind beachfront properties past shops and resort entrances. Popular sunset bars with music make evenings unforgettable on the west-facing shore.",
-    location: "West Coast",
-    tags: ["Bars & Restaurants", "Paddleboarding", "Kayaking", "Sunset", "Nightlife"],
-    tip: "Walk from one end to the other — a great way to explore the island's main strip and find hidden gems along the way.",
+    location: "Westkust",
+    tags: ["Bars & restaurants", "Paddleboarden", "Kajakken", "Zonsondergang", "Nachtleven"],
+    tip: "Loop van het ene uiteinde naar het andere — zo ontdek je eenvoudig de leukste plekjes van Sairee.",
   },
   {
     name: "Koh Nang Yuan",
-    subtitle: "The Iconic Island — 800m Offshore",
+    subtitle: "Het iconische eiland — 800 m uit de kust",
     image: "/images/japanandwins.jpg",
     description: "Koh Nang Yuan is a separate island located approximately 800 metres off the north west coast of Koh Tao, accessible by long-tail boat. Probably the most photographed beach in Thailand — a unique inter-connected sandbar connecting three land masses. With a stunning Viewpoint to climb and snorkeling one of Thailand's most diverse coral reefs, it's on every visitor's bucket list. At low tide the sandbar connects the land masses with soft white sand and sun loungers.",
-    location: "North West (Separate Island)",
-    tags: ["Iconic", "Viewpoint", "Snorkeling", "Coral Reef", "Photography"],
-    tip: "Join a half-day or full-day snorkel trip, or hire a local longtail boat for the short journey from the west side of Koh Tao.",
+    location: "Noordwest (apart eiland)",
+    tags: ["Iconisch", "Uitzichtpunt", "Snorkelen", "Koraalrif", "Fotografie"],
+    tip: "Boek een halve of hele dag snorkeltour, of huur een lokale longtailboot vanaf de westkant van Koh Tao.",
   },
 ];
 
@@ -83,18 +83,18 @@ const BeachesKohTao = () => (
       style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/sexy.png')" }}
     >
       <div className="text-center text-white z-10 px-4">
-        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">Beaches of Koh Tao</h1>
+        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">Stranden van Koh Tao</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto drop-shadow text-white/90">
-          Koh Tao is blessed with stunning natural beauty — lush green jungle, palm-lined bays, and tropical turquoise waters lapping up to white sandy beaches.
+          Koh Tao is gezegend met prachtige natuur: groene jungle, baaien met palmen en tropisch turquoise water aan witte zandstranden.
         </p>
       </div>
     </section>
 
     {/* Intro */}
     <section className="max-w-4xl mx-auto px-4 py-12 text-center">
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">Amazing Koh Tao Beaches – Relax & Enjoy</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-4">Prachtige stranden op Koh Tao – Ontspan & geniet</h2>
       <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-        The island has lots of spectacular bays and beaches to keep even long-term visitors more than occupied. Whether you're snorkeling, sunbathing, or simply unwinding, there's a beach for every mood.
+        Het eiland heeft talloze spectaculaire baaien en stranden. Of je nu wilt snorkelen, zonnen of gewoon ontspannen: er is altijd een strand dat bij je past.
       </p>
     </section>
 
@@ -134,12 +134,12 @@ const BeachesKohTao = () => (
 
     {/* CTA */}
     <section className="bg-blue-600 text-white py-14 px-4 text-center">
-      <h2 className="text-3xl font-bold mb-3">Explore Koh Tao Beyond the Beaches</h2>
-      <p className="text-blue-100 max-w-xl mx-auto mb-8">Dive the world-class dive sites, discover incredible marine life, or join us for a snorkel trip to Koh Nang Yuan.</p>
+      <h2 className="text-3xl font-bold mb-3">Ontdek Koh Tao buiten de stranden</h2>
+      <p className="text-blue-100 max-w-xl mx-auto mb-8">Duik op locaties van wereldklasse, ontdek indrukwekkend zeeleven of ga mee op snorkeltrip naar Koh Nang Yuan.</p>
       <div className="flex flex-wrap justify-center gap-4">
-        <a href="/koh-tao-dive-sites" className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition">Explore Dive Sites</a>
-        <a href="/marine-life" className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg border border-blue-400 hover:bg-blue-400 transition">Koh Tao Marine Life</a>
-        <a href="/#contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">Book a Trip</a>
+        <a href="/koh-tao-dive-sites" className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition">Bekijk duiklocaties</a>
+        <a href="/marine-life" className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg border border-blue-400 hover:bg-blue-400 transition">Mariene leven Koh Tao</a>
+        <a href="/#contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">Boek een trip</a>
       </div>
     </section>
   </main>

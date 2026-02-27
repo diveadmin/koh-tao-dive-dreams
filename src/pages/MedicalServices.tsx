@@ -5,36 +5,36 @@ const MedicalServices = () => (
     {/* Hero Section */}
     <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/medical.png')" }}>
       <div className="text-center text-white z-10">
-        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Medical Services on Koh Tao</h1>
-        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Health care and emergency services available 24/7.</p>
+        <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Medische zorg op Koh Tao</h1>
+        <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Gezondheidszorg en nooddiensten, 24/7 beschikbaar.</p>
       </div>
     </section>
 
     {/* Main Content */}
     <section className="bg-white rounded-lg shadow p-6 md:p-10 mb-8">
-      <h2 className="text-2xl font-semibold mb-4">Healthcare & Emergency</h2>
+      <h2 className="text-2xl font-semibold mb-4">Zorg & noodgevallen</h2>
       <ul className="list-disc pl-6 mb-4">
-        <li>Several clinics and pharmacies in Mae Haad and Sairee</li>
-        <li>Basic medical care and first aid available</li>
-        <li>Emergency services: call <strong>1669</strong></li>
-        <li>Nearest hospital is on Koh Samui (boat transfer required for serious cases)</li>
-        <li>Recompression chamber for dive emergencies</li>
+        <li>Meerdere klinieken en apotheken in Mae Haad en Sairee</li>
+        <li>Basiszorg en eerste hulp beschikbaar</li>
+        <li>Nooddiensten: bel <strong>1669</strong></li>
+        <li>Dichtstbijzijnde ziekenhuis ligt op Koh Samui (boottransfer nodig bij ernstige gevallen)</li>
+        <li>Recompressiekamer voor duiknoodgevallen</li>
       </ul>
-      <p className="mb-4">Travel insurance is strongly recommended. Bring any prescription medications you need, as availability may be limited.</p>
+      <p className="mb-4">Een goede reisverzekering wordt sterk aangeraden. Neem noodzakelijke medicijnen op recept zelf mee, beschikbaarheid kan beperkt zijn.</p>
       <div className="flex flex-wrap gap-4 mb-4">
-        <a href="/HowToGetHere" className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Travel Info</a>
-        <a href="/ThingsToDo" className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Wellness Activities</a>
+        <a href="/HowToGetHere" className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Reisinformatie</a>
+        <a href="/ThingsToDo" className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Wellnessactiviteiten</a>
       </div>
     </section>
 
     {/* Important Info Section */}
     <section className="bg-red-50 rounded-lg shadow p-6 md:p-10 border-l-4 border-red-600">
-      <h3 className="text-xl font-semibold mb-2 text-red-700">Important Information</h3>
+      <h3 className="text-xl font-semibold mb-2 text-red-700">Belangrijke informatie</h3>
       <ul className="list-disc pl-6 mb-2 text-red-900">
-        <li>Get travel health insurance before arriving</li>
-        <li>Malaria prevention recommended—consult a doctor</li>
-        <li>Sun exposure is intense—use high SPF sunscreen</li>
-        <li>Dehydration is common—drink plenty of water</li>
+        <li>Regel een reis- en zorgverzekering voordat je aankomt</li>
+        <li>Malariapreventie kan zinvol zijn — overleg met een arts</li>
+        <li>De zon is sterk — gebruik zonnebrand met hoge SPF</li>
+        <li>Uitdroging komt vaak voor — drink voldoende water</li>
       </ul>
     </section>
   </main>
