@@ -425,6 +425,11 @@ const FunDiving = () => {
                           <li>• Expert guide</li>
                           <li>• Whale shark opportunities</li>
                         </ul>
+                        <div className="mt-4">
+                          <Link to="/dive-sites/sail-rock" className="text-sm font-medium text-blue-600 hover:underline underline-offset-4">
+                            View Sail Rock details
+                          </Link>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
