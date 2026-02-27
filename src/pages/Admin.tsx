@@ -368,14 +368,17 @@ const Admin = () => {
         return;
       }
 
-      if (!response.ok) throw new Error('Failed to save notes');
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload?.error || 'Failed to save notes');
+      }
 
       toast.success('Internal notes saved');
       setNotesBooking(null);
       await fetchBookings();
     } catch (error) {
       console.error('Error saving notes:', error);
-      toast.error('Failed to save notes');
+      toast.error(error instanceof Error ? error.message : 'Failed to save notes');
     } finally {
       setIsSavingNotes(false);
     }

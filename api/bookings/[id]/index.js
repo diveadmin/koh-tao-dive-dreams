@@ -67,15 +67,25 @@ const mutateFieldsForUnknown = (fields, unknownField) => {
 };
 
 const findAirtableRecordByPublicId = async (publicId) => {
-  const params = new URLSearchParams();
-  params.set('maxRecords', '1');
-  params.set('filterByFormula', `{id}='${escapeFormulaValue(publicId)}'`);
+  const escapedId = escapeFormulaValue(publicId);
+  const runLookup = async (formula) => {
+    const params = new URLSearchParams();
+    params.set('maxRecords', '1');
+    params.set('filterByFormula', formula);
 
-  const response = await fetch(airtableUrl(BOOKINGS_TABLE, params.toString()), {
-    method: 'GET',
-    headers: getHeaders(),
-  });
-  const payload = await response.json();
+    const response = await fetch(airtableUrl(BOOKINGS_TABLE, params.toString()), {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    const payload = await response.json();
+    return { response, payload };
+  };
+
+  let { response, payload } = await runLookup(`OR({id}='${escapedId}',RECORD_ID()='${escapedId}')`);
+
+  if (!response.ok && String(payload?.error?.message || '').includes('Unknown field name: "id"')) {
+    ({ response, payload } = await runLookup(`RECORD_ID()='${escapedId}'`));
+  }
 
   if (!response.ok) {
     throw new Error(payload?.error?.message || 'Failed to query booking');
