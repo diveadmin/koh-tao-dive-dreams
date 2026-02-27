@@ -28,6 +28,28 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 const PAYPAL_LINK = 'https://paypal.me/divinginasia';
 const COURSE_DEPOSIT_RATE = 0.2;
 
+const COURSE_FALLBACKS: Record<string, { item: string; price?: number; currency?: string }> = {
+  'wreck-diver': { item: 'PADI Wreck Diver Specialty', price: 8000, currency: 'THB' },
+  'deep-diver': { item: 'PADI Deep Diver Specialty', price: 3500, currency: 'THB' },
+  'self-reliant': { item: 'PADI Self-Reliant Diver Specialty', price: 3800, currency: 'THB' },
+  'sidemount': { item: 'PADI Sidemount Diver Specialty', price: 5500, currency: 'THB' },
+  'night-diver': { item: 'PADI Night Diver Specialty', price: 3000, currency: 'THB' },
+  'peak-buoyancy': { item: 'PADI Peak Performance Buoyancy', price: 2800, currency: 'THB' },
+  'navigator': { item: 'PADI Underwater Navigator Specialty', price: 3000, currency: 'THB' },
+  'enriched-air': { item: 'PADI Enriched Air Diver Specialty', price: 2500, currency: 'THB' },
+  'emergency-o2': { item: 'Emergency Oxygen Provider', price: 2500, currency: 'THB' },
+  'dpv': { item: 'PADI DPV Diver Specialty', price: 4200, currency: 'THB' },
+  'search-recovery': { item: 'PADI Search & Recovery Specialty', price: 4000, currency: 'THB' },
+  'coral-watch': { item: 'Coral Watch Specialty', price: 2300, currency: 'THB' },
+  'sea-turtle': { item: 'Sea Turtle Awareness Specialty', price: 2200, currency: 'THB' },
+  'fish-id': { item: 'Fish Identification Specialty', price: 2200, currency: 'THB' },
+  'dive-against-debris': { item: 'Dive Against Debris Specialty', price: 2000, currency: 'THB' },
+  'shark-conservation': { item: 'Shark Conservation Specialty', price: 2500, currency: 'THB' },
+  'whaleshark': { item: 'Whale Shark Awareness Specialty', price: 3500, currency: 'THB' },
+  'underwater-naturalist': { item: 'PADI Underwater Naturalist Specialty', price: 3500, currency: 'THB' },
+  'adaptive-support': { item: 'Adaptive Support Diver Specialty', price: 4000, currency: 'THB' },
+};
+
 const ADDONS = [
   { id: 'equipment', label: 'Equipment rental', amount: 300 },
   { id: 'photos', label: 'Underwater photos', amount: 500 },
@@ -45,15 +67,19 @@ const       BookingPage: React.FC = () => {
     : '';
   const apiBase = apiBaseNormalized.replace(/\/+$/, '');
   const apiUrl = (path: string) => `${apiBase}${path}`;
-  const itemTitle = searchParams.get('item') || 'Booking';
+  const courseSlug = (searchParams.get('course') || '').trim();
+  const fallbackCourse = courseSlug ? COURSE_FALLBACKS[courseSlug] : undefined;
+  const itemTitle = searchParams.get('item') || fallbackCourse?.item || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
   const isDiveBooking = itemType === 'dive';
-  const courseCostMajor = Number(searchParams.get('price') || '0');
+  const rawPrice = searchParams.get('price');
+  const parsedPrice = rawPrice ? Number(rawPrice) : NaN;
+  const courseCostMajor = Number.isFinite(parsedPrice) ? parsedPrice : (fallbackCourse?.price || 0);
   const depositFromQuery = Number(searchParams.get('deposit') || '0');
   const depositMajor = itemType === 'course'
     ? (courseCostMajor > 0 ? Math.round(courseCostMajor * COURSE_DEPOSIT_RATE) : depositFromQuery)
     : depositFromQuery;
-  const depositCurrency = searchParams.get('currency') || 'THB';
+  const depositCurrency = searchParams.get('currency') || fallbackCourse?.currency || 'THB';
 
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>({});
   const totalAddons = useMemo(() => {
