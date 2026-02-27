@@ -5,6 +5,21 @@ const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
 const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
 
+const WRITE_ALIASES = {
+  item_type: ['Item type'],
+  course_title: ['Course/Dive'],
+  preferred_date: ['Preferred Date'],
+  experience_level: ['Experience Level'],
+  addons: ['Add-ons'],
+  addons_json: ['Add-ons JSON'],
+  addons_total: ['Add-ons total'],
+  subtotal_amount: ['Subtotal amount'],
+  total_payable_now: ['Total payable now'],
+  internal_notes: ['Internal Notes'],
+  created_at: ['Created At'],
+  updated_at: ['Updated At'],
+};
+
 const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
 
 const airtableUrl = (table, query = '') => {
@@ -28,6 +43,28 @@ const getHeaders = () => ({
   Authorization: `Bearer ${AIRTABLE_TOKEN}`,
   'Content-Type': 'application/json',
 });
+
+const parseUnknownFieldName = (message = '') => {
+  const match = String(message).match(/Unknown field name:\s*"([^"]+)"/i);
+  return match?.[1] || null;
+};
+
+const mutateFieldsForUnknown = (fields, unknownField) => {
+  if (!unknownField || !Object.prototype.hasOwnProperty.call(fields, unknownField)) return null;
+
+  const nextFields = { ...fields };
+  const aliases = WRITE_ALIASES[unknownField] || [];
+  const aliasTarget = aliases.find((alias) => !Object.prototype.hasOwnProperty.call(nextFields, alias));
+
+  if (aliasTarget) {
+    nextFields[aliasTarget] = nextFields[unknownField];
+    delete nextFields[unknownField];
+    return nextFields;
+  }
+
+  delete nextFields[unknownField];
+  return nextFields;
+};
 
 const findAirtableRecordByPublicId = async (publicId) => {
   const params = new URLSearchParams();
@@ -71,26 +108,36 @@ export default async function handler(req, res) {
 
     if (req.method === 'PATCH' || req.method === 'PUT') {
       const updates = parseBody(req);
-      const fields = {
+      let fields = {
         ...updates,
         updated_at: new Date().toISOString(),
       };
 
-      const response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${airtableRecord.id}`, {
-        method: 'PATCH',
-        headers: getHeaders(),
-        body: JSON.stringify({ fields }),
-      });
-      const payload = await response.json();
+      let response;
+      let payload;
 
-      if (!response.ok) {
-        return res.status(response.status).json({ error: payload?.error?.message || 'Failed to update booking' });
+      for (let attempt = 0; attempt < 8; attempt += 1) {
+        response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${airtableRecord.id}`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({ fields }),
+        });
+        payload = await response.json();
+
+        if (response.ok) {
+          return res.status(200).json({
+            id: payload?.fields?.id || payload?.id,
+            ...payload?.fields,
+          });
+        }
+
+        const unknownField = parseUnknownFieldName(payload?.error?.message || '');
+        const nextFields = mutateFieldsForUnknown(fields, unknownField);
+        if (!nextFields) break;
+        fields = nextFields;
       }
 
-      return res.status(200).json({
-        id: payload?.fields?.id || payload?.id,
-        ...payload?.fields,
-      });
+      return res.status(response?.status || 500).json({ error: payload?.error?.message || 'Failed to update booking' });
     }
 
     if (req.method === 'DELETE') {

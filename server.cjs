@@ -18,6 +18,21 @@ const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
 const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
 const AFFILIATE_CLICKS_TABLE = process.env.AIRTABLE_AFFILIATE_CLICKS_TABLE || 'affiliate_clicks';
 
+const WRITE_ALIASES = {
+  item_type: ['Item type'],
+  course_title: ['Course/Dive'],
+  preferred_date: ['Preferred Date'],
+  experience_level: ['Experience Level'],
+  addons: ['Add-ons'],
+  addons_json: ['Add-ons JSON'],
+  addons_total: ['Add-ons total'],
+  subtotal_amount: ['Subtotal amount'],
+  total_payable_now: ['Total payable now'],
+  internal_notes: ['Internal Notes'],
+  created_at: ['Created At'],
+  updated_at: ['Updated At'],
+};
+
 const airtableConfigured = Boolean(AIRTABLE_TOKEN && AIRTABLE_BASE_ID);
 
 const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
@@ -36,6 +51,28 @@ const ensureAirtable = (res) => {
   if (airtableConfigured) return true;
   res.status(500).json({ error: 'Airtable is not configured. Set AIRTABLE_PERSONAL_ACCESS_TOKEN and AIRTABLE_BASE_ID.' });
   return false;
+};
+
+const parseUnknownFieldName = (message = '') => {
+  const match = String(message).match(/Unknown field name:\s*"([^"]+)"/i);
+  return match?.[1] || null;
+};
+
+const mutateFieldsForUnknown = (fields, unknownField) => {
+  if (!unknownField || !Object.prototype.hasOwnProperty.call(fields, unknownField)) return null;
+
+  const nextFields = { ...fields };
+  const aliases = WRITE_ALIASES[unknownField] || [];
+  const aliasTarget = aliases.find((alias) => !Object.prototype.hasOwnProperty.call(nextFields, alias));
+
+  if (aliasTarget) {
+    nextFields[aliasTarget] = nextFields[unknownField];
+    delete nextFields[unknownField];
+    return nextFields;
+  }
+
+  delete nextFields[unknownField];
+  return nextFields;
 };
 
 const mapBooking = (record) => {
@@ -174,37 +211,47 @@ app.post('/api/bookings', async (req, res) => {
   }
 
   try {
-    const response = await fetch(airtableUrl(BOOKINGS_TABLE), {
-      method: 'POST',
-      headers: airtableHeaders(),
-      body: JSON.stringify({
-        fields: {
-          id: id || (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`),
-          name,
-          email,
-          ...(phone ? { phone } : {}),
-          ...(item_type ? { item_type } : {}),
-          course_title: course_title || '',
-          preferred_date: preferred_date || new Date().toISOString().slice(0, 10),
-          ...(experience_level ? { experience_level } : {}),
-          ...(addons ? { addons } : {}),
-          ...(addons_json ? { addons_json } : {}),
-          ...(typeof addons_total === 'number' ? { addons_total } : {}),
-          ...(typeof subtotal_amount === 'number' ? { subtotal_amount } : {}),
-          ...(typeof total_payable_now === 'number' ? { total_payable_now } : {}),
-          ...(message ? { message } : {}),
-          status: status || 'pending',
-          created_at: created_at || new Date().toISOString(),
-        },
-      }),
-    });
+    let fields = {
+      id: id || (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`),
+      name,
+      email,
+      ...(phone ? { phone } : {}),
+      ...(item_type ? { item_type } : {}),
+      course_title: course_title || '',
+      preferred_date: preferred_date || new Date().toISOString().slice(0, 10),
+      ...(experience_level ? { experience_level } : {}),
+      ...(addons ? { addons } : {}),
+      ...(addons_json ? { addons_json } : {}),
+      ...(typeof addons_total === 'number' ? { addons_total } : {}),
+      ...(typeof subtotal_amount === 'number' ? { subtotal_amount } : {}),
+      ...(typeof total_payable_now === 'number' ? { total_payable_now } : {}),
+      ...(message ? { message } : {}),
+      status: status || 'pending',
+      created_at: created_at || new Date().toISOString(),
+    };
 
-    const payload = await response.json();
-    if (!response.ok) {
-      return res.status(response.status).json({ error: payload?.error?.message || 'Failed to create booking' });
+    let response;
+    let payload;
+
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      response = await fetch(airtableUrl(BOOKINGS_TABLE), {
+        method: 'POST',
+        headers: airtableHeaders(),
+        body: JSON.stringify({ fields }),
+      });
+
+      payload = await response.json();
+      if (response.ok) {
+        return res.status(201).json(mapBooking(payload));
+      }
+
+      const unknownField = parseUnknownFieldName(payload?.error?.message || '');
+      const nextFields = mutateFieldsForUnknown(fields, unknownField);
+      if (!nextFields) break;
+      fields = nextFields;
     }
 
-    return res.status(201).json(mapBooking(payload));
+    return res.status(response?.status || 500).json({ error: payload?.error?.message || 'Failed to create booking' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -277,24 +324,33 @@ app.patch('/api/bookings/:id', async (req, res) => {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
-    const updates = req.body || {};
-    const response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${record.id}`, {
-      method: 'PATCH',
-      headers: airtableHeaders(),
-      body: JSON.stringify({
-        fields: {
-          ...updates,
-          updated_at: new Date().toISOString(),
-        },
-      }),
-    });
-    const payload = await response.json();
+    let fields = {
+      ...(req.body || {}),
+      updated_at: new Date().toISOString(),
+    };
 
-    if (!response.ok) {
-      return res.status(response.status).json({ error: payload?.error?.message || 'Failed to update booking' });
+    let response;
+    let payload;
+
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${record.id}`, {
+        method: 'PATCH',
+        headers: airtableHeaders(),
+        body: JSON.stringify({ fields }),
+      });
+      payload = await response.json();
+
+      if (response.ok) {
+        return res.status(200).json(mapBooking(payload));
+      }
+
+      const unknownField = parseUnknownFieldName(payload?.error?.message || '');
+      const nextFields = mutateFieldsForUnknown(fields, unknownField);
+      if (!nextFields) break;
+      fields = nextFields;
     }
 
-    return res.status(200).json(mapBooking(payload));
+    return res.status(response?.status || 500).json({ error: payload?.error?.message || 'Failed to update booking' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
