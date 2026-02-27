@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, TrendingUp, MousePointer, Calendar, RefreshCw } from 'lucide-react';
+import { ExternalLink, TrendingUp, MousePointer, Calendar, RefreshCw, LogOut } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface ClickRow {
   id: string;
@@ -20,6 +23,7 @@ interface HotelStat {
 }
 
 const AffiliateStats = () => {
+  const navigate = useNavigate();
   const [clicks, setClicks] = useState<ClickRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,6 +86,12 @@ const AffiliateStats = () => {
     return new Date(c.clicked_at) > weekAgo;
   }).length;
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success('Logged out successfully');
+    navigate('/admin/login');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
@@ -90,10 +100,16 @@ const AffiliateStats = () => {
             <h1 className="text-3xl font-bold text-gray-900">Booking.com Affiliate Stats</h1>
             <p className="text-gray-500 mt-1">Track clicks and commission potential</p>
           </div>
-          <Button onClick={fetchClicks} variant="outline" disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={fetchClicks} variant="outline" disabled={loading}>
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button onClick={handleLogout} variant="outline">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {error && (

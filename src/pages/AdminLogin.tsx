@@ -42,12 +42,38 @@ const AdminLogin = () => {
         throw new Error('Admin access required');
       }
 
+      const probeRes = await fetch('/api/bookings', {
+        headers: {
+          Authorization: `Bearer ${data.session.access_token}`,
+        },
+      });
+
+      if (probeRes.status === 403) {
+        await supabase.auth.signOut();
+        throw new Error('Backend admin access is not configured for this account');
+      }
+
+      if (probeRes.status === 401) {
+        await supabase.auth.signOut();
+        throw new Error('Session token is invalid for backend access');
+      }
+
+      if (!probeRes.ok) {
+        throw new Error('Admin API is unavailable');
+      }
+
       navigate('/admin', { replace: true });
     } catch (error) {
       console.error('Supabase login error', error);
       const message = error instanceof Error ? error.message : 'Login failed';
       if (message === 'Admin access required') {
         toast.error('Login succeeded, but this account is not authorized for admin access.');
+      } else if (message === 'Backend admin access is not configured for this account') {
+        toast.error('Login succeeded, but backend admin allowlist is not configured. Set ADMIN_EMAILS on server and redeploy.');
+      } else if (message === 'Session token is invalid for backend access') {
+        toast.error('Login succeeded, but backend token validation failed. Check SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY on server.');
+      } else if (message === 'Admin API is unavailable') {
+        toast.error('Login succeeded, but admin API is unavailable.');
       } else {
         toast.error('Invalid email or password');
       }

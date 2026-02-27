@@ -97,6 +97,8 @@ const Admin = () => {
         },
       });
       if (response.status === 401 || response.status === 403) {
+        await supabase.auth.signOut();
+        toast.error('Admin session is not authorized on backend. Please login again after server env is updated.');
         navigate('/admin/login');
         return;
       }
