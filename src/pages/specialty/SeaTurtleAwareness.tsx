@@ -69,7 +69,7 @@ export default function SeaTurtleAwareness() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Protect Sea Turtles</h2>
           <p className="text-gray-700 mb-4">Learn about sea turtle conservation and responsible diving practices.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=sea-turtle')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=sea-turtle&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

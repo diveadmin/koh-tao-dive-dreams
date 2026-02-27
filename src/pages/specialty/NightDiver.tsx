@@ -78,7 +78,7 @@ export default function NightDiver() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Explore After Dark</h2>
           <p className="text-gray-700 mb-4">Experience the magic of night diving with our expert instructors.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=night-diver')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=night-diver&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

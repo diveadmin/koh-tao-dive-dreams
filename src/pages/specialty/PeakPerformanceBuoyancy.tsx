@@ -78,7 +78,7 @@ export default function PeakPerformanceBuoyancy() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Perfect Your Buoyancy</h2>
           <p className="text-gray-700 mb-4">Master the art of buoyancy control for safer, more efficient dives.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=peak-buoyancy')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=peak-buoyancy&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

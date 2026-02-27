@@ -69,7 +69,7 @@ export default function DiveAgainstDebris() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Help Clean the Ocean</h2>
           <p className="text-gray-700 mb-4">Join our ocean cleanup efforts and make a real difference for the environment.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=dive-against-debris')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=dive-against-debris&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

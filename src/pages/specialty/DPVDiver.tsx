@@ -79,7 +79,7 @@ export default function DPVDiver() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Ride with DPV Scooters</h2>
           <p className="text-gray-700 mb-4">Experience diving with propulsion vehicles to cover more distance with less effort.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=dpv')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=dpv&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

@@ -32,7 +32,7 @@ export default function AdaptiveSupport() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Ready to Dive?</h2>
           <p className="text-gray-700 mb-4">Contact us to discuss your individual requirements and schedule.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=adaptive-support')}>Enquire / Book</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=adaptive-support&type=course')}>Enquire / Book</Button>
         </Card>
 
         <div className="mt-12">

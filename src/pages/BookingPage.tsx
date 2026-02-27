@@ -48,6 +48,12 @@ const COURSE_FALLBACKS: Record<string, { item: string; price?: number; currency?
   'whaleshark': { item: 'Whale Shark Awareness Specialty', price: 3500, currency: 'THB' },
   'underwater-naturalist': { item: 'PADI Underwater Naturalist Specialty', price: 3500, currency: 'THB' },
   'adaptive-support': { item: 'Adaptive Support Diver Specialty', price: 4000, currency: 'THB' },
+  'current-diver': { item: 'PADI Current Diver Specialty', currency: 'THB' },
+  'photography': { item: 'PADI Underwater Photography Specialty', currency: 'THB' },
+  'equipment-specialist': { item: 'PADI Equipment Specialist', currency: 'THB' },
+  'boat-diver': { item: 'PADI Boat Diver Specialty', currency: 'THB' },
+  'divemaster-internship': { item: 'PADI Divemaster Internship', currency: 'THB' },
+  'instructor-internship': { item: 'PADI Instructor Internship', currency: 'THB' },
 };
 
 const ADDONS = [

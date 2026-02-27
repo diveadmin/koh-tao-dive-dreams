@@ -69,7 +69,7 @@ export default function SharkConservation() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Support Shark Conservation</h2>
           <p className="text-gray-700 mb-4">Learn about sharks and become an advocate for these magnificent ocean predators.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=shark-conservation')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=shark-conservation&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

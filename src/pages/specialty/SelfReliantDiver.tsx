@@ -79,7 +79,7 @@ export default function SelfReliantDiver() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Become Self Reliant</h2>
           <p className="text-gray-700 mb-4">Build the confidence and skills to dive independently and safely.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=self-reliant')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=self-reliant&type=course')}>Book Now</Button>
         </Card>
 
         <div className="mt-12">

@@ -89,7 +89,7 @@ export default function UnderwaterNaturalist() {
         <Card className="mb-8 p-6 bg-green-50">
           <h2 className="text-2xl font-bold mb-6">Explore Marine Life</h2>
           <p className="text-gray-700 mb-4">Discover the wonders of underwater ecosystems. Join our underwater naturalist course.</p>
-          <Button size="lg" onClick={() => navigate('/booking?course=underwater-naturalist')}>Book Now</Button>
+          <Button size="lg" onClick={() => navigate('/booking?course=underwater-naturalist&type=course')}>Book Now</Button>
         </Card>
 
         {/* Contact */}
