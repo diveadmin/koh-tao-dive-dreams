@@ -42,7 +42,7 @@ const statusConfig = {
   cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-800 border-red-200', icon: XCircle },
 };
 
-const PAYPAL_EMAIL = 'payments@divinginasia.com';
+const PAYPAL_ME_LINK = (import.meta.env.VITE_PAYPAL_LINK || 'https://paypal.me/divinginasia').replace(/\/+$/, '');
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -281,14 +281,11 @@ const Admin = () => {
   };
 
   const buildPayPalLink = (booking: BookingInquiry, amount: number) => {
-    const params = new URLSearchParams({
-      cmd: '_xclick',
-      business: PAYPAL_EMAIL,
-      item_name: `${booking.course_title || 'Booking'} (${booking.id})`,
-      amount: amount.toFixed(2),
-      currency_code: 'THB',
-    });
-    return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
+    const safeAmount = Math.max(0, amount);
+    const amountLabel = Number.isInteger(safeAmount)
+      ? String(safeAmount)
+      : safeAmount.toFixed(2).replace(/\.00$/, '');
+    return `${PAYPAL_ME_LINK}/${amountLabel}THB`;
   };
 
   const openInvoiceDialog = (booking: BookingInquiry) => {
