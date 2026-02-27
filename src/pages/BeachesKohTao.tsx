@@ -49,7 +49,7 @@ const beaches = [
   {
     name: "Aow Leuk Beach",
     subtitle: "Instagram Paradise",
-    image: "/images/turtle.avif",
+    image: "/images/aowluk.jpg",
     description: "This beautiful beach sits in a stunning bay on the south east side of Koh Tao — one of the most picturesque bays in the entire Samui Archipelago. On a clear day you have a stunning backdrop of Koh Phangan with the iconic Shark Island in the foreground, less than 1km by kayak. A 100 baht entrance fee includes fresh water and a sun lounger with umbrella. Colourful coral reef lines both sides of the bay, and the sheltered middle is perfect for swimming.",
     location: "South East",
     tags: ["Snorkeling", "Sun Loungers", "Coral Reef", "Photography"],
