@@ -127,7 +127,7 @@ const BeachesKohTao = () => (
       <div className="flex flex-wrap justify-center gap-4">
         <a href="/koh-tao-dive-sites" className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition">Explore Dive Sites</a>
         <a href="/marine-life" className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg border border-blue-400 hover:bg-blue-400 transition">Koh Tao Marine Life</a>
-        <a href="/contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">Book a Trip</a>
+        <a href="/#contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">Book a Trip</a>
       </div>
     </section>
   </main>
