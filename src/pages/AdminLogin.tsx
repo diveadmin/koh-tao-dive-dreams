@@ -11,7 +11,7 @@ import { Lock, User } from 'lucide-react';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +33,7 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email: username, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error || !data.session) throw error || new Error('Login failed');
 
       if (!hasAdminAccess(data.user)) {
@@ -45,7 +45,12 @@ const AdminLogin = () => {
       navigate('/admin');
     } catch (error) {
       console.error('Supabase login error', error);
-      toast.error('Invalid username or password');
+      const message = error instanceof Error ? error.message : 'Login failed';
+      if (message === 'Admin access required') {
+        toast.error('Login succeeded, but this account is not authorized for admin access.');
+      } else {
+        toast.error('Invalid email or password');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -64,15 +69,15 @@ const AdminLogin = () => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="username"
-                  type="text"
-                  placeholder="Enter username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="admin@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
                   required
                 />
