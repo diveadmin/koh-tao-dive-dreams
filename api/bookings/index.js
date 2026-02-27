@@ -31,12 +31,20 @@ const mapBooking = (record) => {
     name: fields.name || '',
     email: fields.email || '',
     phone: fields.phone || null,
+    item_type: fields.item_type || null,
     course_title: fields.course_title || '',
     preferred_date: fields.preferred_date || null,
     experience_level: fields.experience_level || null,
+    addons: fields.addons || null,
+    addons_json: fields.addons_json || null,
+    addons_total: typeof fields.addons_total === 'number' ? fields.addons_total : 0,
+    subtotal_amount: typeof fields.subtotal_amount === 'number' ? fields.subtotal_amount : null,
+    total_payable_now: typeof fields.total_payable_now === 'number' ? fields.total_payable_now : null,
+      internal_notes: fields.internal_notes || null,
     message: fields.message || null,
     status: fields.status || 'pending',
     created_at: fields.created_at || null,
+      updated_at: fields.updated_at || null,
   };
 };
 
@@ -98,12 +106,20 @@ export default async function handler(req, res) {
         name: body.name,
         email: body.email,
         ...(body.phone ? { phone: body.phone } : {}),
+        ...(body.item_type ? { item_type: body.item_type } : {}),
         course_title: body.course_title || '',
         preferred_date: body.preferred_date || new Date().toISOString().slice(0, 10),
         ...(body.experience_level ? { experience_level: body.experience_level } : {}),
+        ...(body.addons ? { addons: body.addons } : {}),
+        ...(body.addons_json ? { addons_json: body.addons_json } : {}),
+        ...(typeof body.addons_total === 'number' ? { addons_total: body.addons_total } : {}),
+        ...(typeof body.subtotal_amount === 'number' ? { subtotal_amount: body.subtotal_amount } : {}),
+        ...(typeof body.total_payable_now === 'number' ? { total_payable_now: body.total_payable_now } : {}),
+          ...(body.internal_notes ? { internal_notes: body.internal_notes } : {}),
         ...(body.message ? { message: body.message } : {}),
         status: body.status || 'pending',
         created_at: body.created_at || new Date().toISOString(),
+          updated_at: body.updated_at || null,
       };
 
       const response = await fetch(airtableUrl(BOOKINGS_TABLE), {

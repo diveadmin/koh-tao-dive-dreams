@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Trash2, RefreshCw, Users, CheckCircle, Clock, XCircle, LogOut } from 'lucide-react';
+import { Trash2, RefreshCw, Users, CheckCircle, Clock, XCircle, LogOut, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { hasAdminAccess } from '@/lib/adminAccess';
@@ -17,12 +18,20 @@ interface BookingInquiry {
   name: string;
   email: string;
   phone: string | null;
+  item_type: string | null;
   course_title: string;
   preferred_date: string | null;
   experience_level: string | null;
+  addons: string | null;
+  addons_json: string | null;
+  addons_total: number;
+  subtotal_amount: number | null;
+  total_payable_now: number | null;
+  internal_notes: string | null;
   message: string | null;
   status: string;
   created_at: string;
+  updated_at: string | null;
 }
 
 const statusConfig = {
@@ -45,6 +54,10 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [notesBooking, setNotesBooking] = useState<BookingInquiry | null>(null);
+  const [notesDraft, setNotesDraft] = useState('');
+  const [isSavingNotes, setIsSavingNotes] = useState(false);
+  const [invoiceBooking, setInvoiceBooking] = useState<BookingInquiry | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [authToken, setAuthToken] = useState<string | null>(null);
 
@@ -198,6 +211,150 @@ const Admin = () => {
     }
   };
 
+  const openNotesDialog = (booking: BookingInquiry) => {
+    setNotesBooking(booking);
+    setNotesDraft(booking.internal_notes || '');
+  };
+
+  const getAddonsList = (booking: BookingInquiry) => {
+    if (!booking.addons_json) return [] as Array<{ label?: string; amount?: number }>;
+    try {
+      const parsed = JSON.parse(booking.addons_json);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const getInvoiceNumbers = (booking: BookingInquiry) => {
+    const subtotal = typeof booking.subtotal_amount === 'number' ? booking.subtotal_amount : null;
+    const addonsTotal = typeof booking.addons_total === 'number' ? booking.addons_total : 0;
+    const dueNow = typeof booking.total_payable_now === 'number' ? booking.total_payable_now : 0;
+    const grandTotal = subtotal !== null ? subtotal + addonsTotal : null;
+    const balanceDue = grandTotal !== null ? Math.max(grandTotal - dueNow, 0) : null;
+    return { subtotal, addonsTotal, dueNow, grandTotal, balanceDue };
+  };
+
+  const buildInvoiceHtml = (booking: BookingInquiry) => {
+    const addons = getAddonsList(booking);
+    const { subtotal, addonsTotal, dueNow, grandTotal, balanceDue } = getInvoiceNumbers(booking);
+    const invoiceNo = `INV-${booking.id.slice(0, 8).toUpperCase()}`;
+    const issueDate = format(new Date(), 'yyyy-MM-dd');
+    const itemName = booking.course_title || 'Booking';
+
+    const addonRows = addons.length
+      ? addons
+          .map((addon) => {
+            const label = addon.label || 'Add-on';
+            const amount = typeof addon.amount === 'number' ? addon.amount : 0;
+            return `<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb;">${label}</td><td style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:right;">฿${amount}</td></tr>`;
+          })
+          .join('')
+      : '<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb;">No add-ons</td><td style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:right;">฿0</td></tr>';
+
+    return `
+      <html>
+        <head>
+          <title>${invoiceNo}</title>
+          <meta charset="utf-8" />
+        </head>
+        <body style="font-family:Arial,sans-serif;color:#111827;padding:24px;max-width:800px;margin:0 auto;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
+            <div>
+              <h1 style="margin:0;font-size:26px;">Pro Diving Asia</h1>
+              <div style="color:#6b7280;margin-top:4px;">Koh Tao, Thailand</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:22px;font-weight:700;">Invoice</div>
+              <div style="color:#6b7280;">${invoiceNo}</div>
+              <div style="color:#6b7280;">Date: ${issueDate}</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <div style="font-weight:600;">Bill To</div>
+            <div>${booking.name}</div>
+            <div>${booking.email}</div>
+            <div>${booking.phone || '-'}</div>
+          </div>
+
+          <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:8px;background:#f3f4f6;border-bottom:1px solid #d1d5db;">Description</th>
+                <th style="text-align:right;padding:8px;background:#f3f4f6;border-bottom:1px solid #d1d5db;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px;border-bottom:1px solid #e5e7eb;">${itemName}${booking.item_type ? ` (${booking.item_type})` : ''}</td>
+                <td style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:right;">${subtotal !== null ? `฿${subtotal}` : '-'}</td>
+              </tr>
+              ${addonRows}
+            </tbody>
+          </table>
+
+          <div style="margin-left:auto;max-width:320px;">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Add-ons total</span><strong>฿${addonsTotal}</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Total payable now</span><strong>฿${dueNow}</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #d1d5db;margin-top:8px;"><span>Grand total</span><strong>${grandTotal !== null ? `฿${grandTotal}` : '-'}</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Balance due</span><strong>${balanceDue !== null ? `฿${balanceDue}` : '-'}</strong></div>
+          </div>
+
+          <p style="margin-top:24px;color:#6b7280;font-size:12px;">Thank you for booking with Pro Diving Asia.</p>
+        </body>
+      </html>
+    `;
+  };
+
+  const handlePrintInvoice = (booking: BookingInquiry) => {
+    const popup = window.open('', '_blank', 'width=900,height=700');
+    if (!popup) {
+      toast.error('Please allow popups to print invoice.');
+      return;
+    }
+
+    popup.document.open();
+    popup.document.write(buildInvoiceHtml(booking));
+    popup.document.close();
+    popup.focus();
+    popup.print();
+  };
+
+  const handleSaveNotes = async () => {
+    if (!notesBooking || !authToken) return;
+    setIsSavingNotes(true);
+
+    try {
+      const response = await fetch(apiUrl(`/api/bookings/${notesBooking.id}`), {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ internal_notes: notesDraft.trim() || null }),
+      });
+
+      if (response.status === 401 || response.status === 403) {
+        await supabase.auth.signOut();
+        toast.error('Admin session expired. Please login again.');
+        navigate('/admin/login');
+        return;
+      }
+
+      if (!response.ok) throw new Error('Failed to save notes');
+
+      toast.success('Internal notes saved');
+      setNotesBooking(null);
+      await fetchBookings();
+    } catch (error) {
+      console.error('Error saving notes:', error);
+      toast.error('Failed to save notes');
+    } finally {
+      setIsSavingNotes(false);
+    }
+  };
+
   const filteredBookings = statusFilter === 'all' 
     ? bookings 
     : bookings.filter(b => b.status === statusFilter);
@@ -307,7 +464,11 @@ const Admin = () => {
                       <TableHead>Email</TableHead>
                       <TableHead>Phone</TableHead>
                       <TableHead>Course/Dive</TableHead>
+                      <TableHead>Type</TableHead>
                       <TableHead>Preferred Date</TableHead>
+                      <TableHead>Add-ons</TableHead>
+                      <TableHead>Payable</TableHead>
+                      <TableHead>Notes</TableHead>
                       <TableHead>Level</TableHead>
                       <TableHead>Message</TableHead>
                       <TableHead></TableHead>
@@ -361,10 +522,16 @@ const Admin = () => {
                           </TableCell>
                           <TableCell>{booking.phone || '-'}</TableCell>
                           <TableCell>{booking.course_title}</TableCell>
+                          <TableCell className="capitalize">{booking.item_type || '-'}</TableCell>
                           <TableCell>
                             {booking.preferred_date 
                               ? format(new Date(booking.preferred_date), 'MMM d, yyyy')
                               : '-'}
+                          </TableCell>
+                          <TableCell>{booking.addons || '-'}</TableCell>
+                          <TableCell>{typeof booking.total_payable_now === 'number' ? `฿${booking.total_payable_now}` : '-'}</TableCell>
+                          <TableCell className="max-w-xs truncate" title={booking.internal_notes || ''}>
+                            {booking.internal_notes || '-'}
                           </TableCell>
                           <TableCell>{booking.experience_level || '-'}</TableCell>
                           <TableCell className="max-w-xs truncate" title={booking.message || ''}>
@@ -379,6 +546,12 @@ const Admin = () => {
                                 className="text-destructive hover:text-destructive"
                               >
                                 <Trash2 className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" onClick={() => openNotesDialog(booking)}>
+                                Notes
+                              </Button>
+                              <Button variant="ghost" size="sm" onClick={() => setInvoiceBooking(booking)}>
+                                <FileText className="h-4 w-4 mr-1" /> Invoice
                               </Button>
                               <Button variant="ghost" size="sm" onClick={() => handleSendInvoice(booking)}>
                                 Send Invoice
@@ -411,6 +584,94 @@ const Admin = () => {
             </Button>
             <Button variant="destructive" onClick={handleDeleteBooking}>
               Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!notesBooking} onOpenChange={() => setNotesBooking(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Internal Notes</DialogTitle>
+            <DialogDescription>
+              {notesBooking ? `Booking: ${notesBooking.course_title} — ${notesBooking.name}` : 'Add private staff notes for this booking.'}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={notesDraft}
+            onChange={(e) => setNotesDraft(e.target.value)}
+            rows={6}
+            placeholder="Add internal comments, follow-up notes, reminders..."
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setNotesBooking(null)} disabled={isSavingNotes}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveNotes} disabled={isSavingNotes}>
+              {isSavingNotes ? 'Saving...' : 'Save Notes'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!invoiceBooking} onOpenChange={() => setInvoiceBooking(null)}>
+        <DialogContent className="sm:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle>Invoice Preview</DialogTitle>
+            <DialogDescription>
+              {invoiceBooking ? `Invoice for ${invoiceBooking.name} — ${invoiceBooking.course_title}` : 'Invoice preview'}
+            </DialogDescription>
+          </DialogHeader>
+
+          {invoiceBooking && (
+            <div className="space-y-4 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="font-semibold">Customer</div>
+                  <div>{invoiceBooking.name}</div>
+                  <div>{invoiceBooking.email}</div>
+                  <div>{invoiceBooking.phone || '-'}</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-semibold">Invoice #</div>
+                  <div>{`INV-${invoiceBooking.id.slice(0, 8).toUpperCase()}`}</div>
+                  <div>{format(new Date(), 'yyyy-MM-dd')}</div>
+                </div>
+              </div>
+
+              <div className="border rounded-md overflow-hidden">
+                <table className="w-full">
+                  <thead className="bg-muted">
+                    <tr>
+                      <th className="text-left p-2">Description</th>
+                      <th className="text-right p-2">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t">
+                      <td className="p-2">{invoiceBooking.course_title}{invoiceBooking.item_type ? ` (${invoiceBooking.item_type})` : ''}</td>
+                      <td className="p-2 text-right">{typeof invoiceBooking.subtotal_amount === 'number' ? `฿${invoiceBooking.subtotal_amount}` : '-'}</td>
+                    </tr>
+                    <tr className="border-t">
+                      <td className="p-2">Add-ons</td>
+                      <td className="p-2 text-right">฿{invoiceBooking.addons_total || 0}</td>
+                    </tr>
+                    <tr className="border-t font-semibold">
+                      <td className="p-2">Payable now</td>
+                      <td className="p-2 text-right">{typeof invoiceBooking.total_payable_now === 'number' ? `฿${invoiceBooking.total_payable_now}` : '-'}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setInvoiceBooking(null)}>
+              Close
+            </Button>
+            <Button onClick={() => invoiceBooking && handlePrintInvoice(invoiceBooking)}>
+              Print / Save PDF
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -45,12 +45,20 @@ const mapBooking = (record) => {
     name: fields.name || '',
     email: fields.email || '',
     phone: fields.phone || null,
+    item_type: fields.item_type || null,
     course_title: fields.course_title || '',
     preferred_date: fields.preferred_date || null,
     experience_level: fields.experience_level || null,
+    addons: fields.addons || null,
+    addons_json: fields.addons_json || null,
+    addons_total: typeof fields.addons_total === 'number' ? fields.addons_total : 0,
+    subtotal_amount: typeof fields.subtotal_amount === 'number' ? fields.subtotal_amount : null,
+    total_payable_now: typeof fields.total_payable_now === 'number' ? fields.total_payable_now : null,
+    internal_notes: fields.internal_notes || null,
     message: fields.message || null,
     status: fields.status || 'pending',
     created_at: fields.created_at || null,
+    updated_at: fields.updated_at || null,
   };
 };
 
@@ -120,7 +128,24 @@ app.get('/api/bookings', async (req, res) => {
 
 app.post('/api/bookings', async (req, res) => {
   if (!ensureAirtable(res)) return;
-  const { id, name, email, phone, course_title, preferred_date, experience_level, message, status, created_at } = req.body;
+  const {
+    id,
+    name,
+    email,
+    phone,
+    item_type,
+    course_title,
+    preferred_date,
+    experience_level,
+    addons,
+    addons_json,
+    addons_total,
+    subtotal_amount,
+    total_payable_now,
+    message,
+    status,
+    created_at,
+  } = req.body;
   if (!name || !email) {
     return res.status(400).json({ error: 'Missing required fields: name and email' });
   }
@@ -135,9 +160,15 @@ app.post('/api/bookings', async (req, res) => {
           name,
           email,
           ...(phone ? { phone } : {}),
+          ...(item_type ? { item_type } : {}),
           course_title: course_title || '',
           preferred_date: preferred_date || new Date().toISOString().slice(0, 10),
           ...(experience_level ? { experience_level } : {}),
+          ...(addons ? { addons } : {}),
+          ...(addons_json ? { addons_json } : {}),
+          ...(typeof addons_total === 'number' ? { addons_total } : {}),
+          ...(typeof subtotal_amount === 'number' ? { subtotal_amount } : {}),
+          ...(typeof total_payable_now === 'number' ? { total_payable_now } : {}),
           ...(message ? { message } : {}),
           status: status || 'pending',
           created_at: created_at || new Date().toISOString(),
@@ -208,6 +239,39 @@ app.delete('/api/bookings/:id', async (req, res) => {
     }
 
     return res.json({ message: 'Booking deleted' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch('/api/bookings/:id', async (req, res) => {
+  if (!ensureAirtable(res)) return;
+  const { id } = req.params;
+
+  try {
+    const record = await findBookingRecordById(id);
+    if (!record) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+
+    const updates = req.body || {};
+    const response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${record.id}`, {
+      method: 'PATCH',
+      headers: airtableHeaders(),
+      body: JSON.stringify({
+        fields: {
+          ...updates,
+          updated_at: new Date().toISOString(),
+        },
+      }),
+    });
+    const payload = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: payload?.error?.message || 'Failed to update booking' });
+    }
+
+    return res.status(200).json(mapBooking(payload));
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

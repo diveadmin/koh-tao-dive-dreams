@@ -83,6 +83,13 @@ const       BookingPage: React.FC = () => {
     setIsSubmitting(true);
     try {
       const amountMajor = depositMajor + totalAddons;
+      const selectedAddonsList = isDiveBooking
+        ? ADDONS.filter((addon) => selectedAddons[addon.id]).map((addon) => ({
+            id: addon.id,
+            label: addon.label,
+            amount: addon.amount,
+          }))
+        : [];
       const addonsText = isDiveBooking
         ? (ADDONS.filter(a => selectedAddons[a.id]).map(a => a.label).join(', ') || 'None')
         : 'N/A (course booking)';
@@ -125,9 +132,15 @@ const       BookingPage: React.FC = () => {
           name: data.name,
           email: data.email,
           phone: data.phone || undefined,
+          item_type: itemType,
           course_title: itemTitle,
           preferred_date: data.preferred_date || new Date().toISOString().slice(0, 10),
           experience_level: data.experience_level || undefined,
+          addons: addonsText,
+          addons_json: JSON.stringify(selectedAddonsList),
+          addons_total: totalAddons,
+          subtotal_amount: isDiveBooking ? null : courseCostMajor,
+          total_payable_now: amountMajor,
           message: data.message || undefined,
           status: 'pending',
           created_at: new Date().toISOString(),
