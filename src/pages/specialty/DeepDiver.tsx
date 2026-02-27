@@ -29,7 +29,7 @@ export default function DeepDiver() {
 
         {/* Overview */}
         <Card className="mb-8 p-6">
-          <h2 className="text-2xl font-bold mb-4">Course Overview</h2>
+          <h2 className="text-2xl font-bold mb-4">Cursusoverzicht</h2>
           <p className="text-gray-700 mb-4">
             The PADI Deep Diver Specialty course allows you to safely explore depths of up to 40 meters (130 feet). Learn essential techniques for deep diving, including gas management, narcosis awareness, and efficient buoyancy control at depth.
           </p>
@@ -38,9 +38,9 @@ export default function DeepDiver() {
           </p>
         </Card>
 
-        {/* What You'll Learn */}
+        {/* Wat je leert */}
         <Card className="mb-8 p-6">
-          <h2 className="text-2xl font-bold mb-4">What You'll Learn</h2>
+          <h2 className="text-2xl font-bold mb-4">Wat je leert</h2>
           <ul className="list-disc list-inside space-y-3 text-gray-700">
             <li>Hazards of deep diving and nitrogen narcosis</li>
             <li>Proper planning and execution of deep dives</li>
