@@ -366,47 +366,30 @@ const Admin = () => {
 
     try {
       const noteValue = notesDraft.trim();
-      const attempts: Array<{ path: string; method: 'PATCH' | 'PUT' }> = [
-        { path: `/api/bookings/${notesBooking.id}`, method: 'PATCH' },
-        { path: `/api/bookings/${notesBooking.id}`, method: 'PUT' },
-        { path: `/api/admin/bookings/${notesBooking.id}`, method: 'PATCH' },
-      ];
+      const response = await fetchAdminApi(`/api/bookings/${notesBooking.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ internal_notes: noteValue }),
+      });
 
-      let response: Response | null = null;
-      let lastError = 'Failed to save notes';
-
-      for (const attempt of attempts) {
-        response = await fetchAdminApi(attempt.path, {
-          method: attempt.method,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({ internal_notes: noteValue }),
-        });
-
-        if (response.status === 401 || response.status === 403) {
-          await supabase.auth.signOut();
-          toast.error('Admin session expired. Please login again.');
-          navigate('/admin/login');
-          return;
-        }
-
-        if (response.ok) {
-          toast.success('Internal notes saved');
-          setNotesBooking(null);
-          await fetchBookings();
-          return;
-        }
-
-        const payload = await response.json().catch(() => ({}));
-        lastError = payload?.error || `Failed to save notes (${response.status})`;
-
-        if (![404, 405].includes(response.status)) {
-          break;
-        }
+      if (response.status === 401 || response.status === 403) {
+        await supabase.auth.signOut();
+        toast.error('Admin session expired. Please login again.');
+        navigate('/admin/login');
+        return;
       }
-      throw new Error(lastError);
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload?.error || `Failed to save notes (${response.status})`);
+      }
+
+      toast.success('Internal notes saved');
+      setNotesBooking(null);
+      await fetchBookings();
     } catch (error) {
       console.error('Error saving notes:', error);
       const message = error instanceof Error ? error.message : 'Failed to save notes';
