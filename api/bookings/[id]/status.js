@@ -1,3 +1,5 @@
+import { applyCors, handleOptions } from '../../_lib/cors.js';
+
 const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
 const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
@@ -27,6 +29,9 @@ const getHeaders = () => ({
 });
 
 export default async function handler(req, res) {
+  if (handleOptions(req, res)) return;
+  applyCors(res);
+
   if (req.method !== 'PATCH' && req.method !== 'PUT') {
     res.setHeader('Allow', 'PATCH, PUT');
     return res.status(405).json({ error: 'Method not allowed' });
@@ -77,7 +82,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      booking: { id: updatePayload?.fields?.id || id, ...updatePayload?.fields },
+    booking: { id: updatePayload?.fields?.id || id, ...updatePayload?.fields },
     });
   } catch (err) {
     console.error('api/bookings/[id]/status error', err);

@@ -1,3 +1,5 @@
+import { applyCors, handleOptions } from '../../_lib/cors.js';
+
 const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
 const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
@@ -45,6 +47,9 @@ const findAirtableRecordByPublicId = async (publicId) => {
 };
 
 export default async function handler(req, res) {
+  if (handleOptions(req, res)) return;
+  applyCors(res);
+
   if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) {
     return res.status(500).json({ error: 'Airtable is not configured. Set AIRTABLE_PERSONAL_ACCESS_TOKEN and AIRTABLE_BASE_ID.' });
   }
