@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
+import { hasAdminAccess } from '@/lib/adminAccess';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
@@ -18,8 +19,10 @@ const AdminLogin = () => {
     // Check if already logged in
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+      if (user && hasAdminAccess(user)) {
         navigate('/admin');
+      } else if (user) {
+        await supabase.auth.signOut();
       }
     };
     checkUser();
@@ -32,6 +35,12 @@ const AdminLogin = () => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email: username, password });
       if (error || !data.session) throw error || new Error('Login failed');
+
+      if (!hasAdminAccess(data.user)) {
+        await supabase.auth.signOut();
+        throw new Error('Admin access required');
+      }
+
       toast.success('Login successful');
       navigate('/admin');
     } catch (error) {

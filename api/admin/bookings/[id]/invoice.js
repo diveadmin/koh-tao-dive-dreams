@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
+import { requireAdmin } from '../../../_lib/auth.js';
 
 const DATA_DIR = path.resolve(process.cwd(), 'data');
 const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
@@ -8,6 +9,9 @@ const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
 const readBookings = () => JSON.parse(fs.readFileSync(BOOKINGS_FILE, 'utf8') || '[]');
 
 export default async function handler(req, res) {
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
+
   try {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
     if (!fs.existsSync(BOOKINGS_FILE)) return res.status(404).json({ error: 'No bookings' });

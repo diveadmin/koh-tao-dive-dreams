@@ -1,4 +1,5 @@
 import { applyCors, handleOptions } from '../_lib/cors.js';
+import { requireAdmin } from '../_lib/auth.js';
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
@@ -54,6 +55,9 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
+      const adminUser = await requireAdmin(req, res);
+      if (!adminUser) return;
+
       const paramsWithSort = new URLSearchParams();
       paramsWithSort.set('maxRecords', '500');
       paramsWithSort.set('sort[0][field]', 'created_at');

@@ -14,7 +14,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Layout from "./components/Layout";
 import OpenWater from "./pages/OpenWater";
@@ -92,6 +93,8 @@ import DivemasterInternship from "./pages/internship/Divemaster";
 import InstructorInternship from "./pages/internship/Instructor";
 
 import "./i18n";
+import { supabase } from "@/integrations/supabase/client";
+import { hasAdminAccess } from "@/lib/adminAccess";
 
 const queryClient = new QueryClient();
 
@@ -103,6 +106,45 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
+};
+
+const RequireAdmin = ({ children }: { children: JSX.Element }) => {
+  const [status, setStatus] = useState<'loading' | 'allowed' | 'denied'>('loading');
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const [{ data: userData }, { data: sessionData }] = await Promise.all([
+        supabase.auth.getUser(),
+        supabase.auth.getSession(),
+      ]);
+
+      const user = userData.user;
+      const session = sessionData.session;
+
+      if (user && session?.access_token && hasAdminAccess(user)) {
+        setStatus('allowed');
+        return;
+      }
+
+      setStatus('denied');
+    };
+
+    checkAdmin();
+  }, []);
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (status === 'denied') {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return children;
 };
 
 const App = () => (
@@ -138,8 +180,8 @@ const App = () => (
           <Route path="/dive-sites/mango-bay" element={<MangoBay />} />
           <Route path="/accommodation-booking" element={<BookingAffiliate />} />
           <Route path="/trip-booking" element={<TripAffiliate />} />
-          <Route path="/admin/affiliate-stats" element={<AffiliateStats />} />
-          <Route path="/admin/trip-affiliate-stats" element={<TripAffiliateStats />} />
+          <Route path="/admin/affiliate-stats" element={<RequireAdmin><AffiliateStats /></RequireAdmin>} />
+          <Route path="/admin/trip-affiliate-stats" element={<RequireAdmin><TripAffiliateStats /></RequireAdmin>} />
           <Route path="/courses/open-water" element={<OpenWater />} />
           <Route path="/courses/advanced" element={<Advanced />} />
           <Route path="/courses/efr" element={<EFR />} />
@@ -187,7 +229,7 @@ const App = () => (
           <Route path="/internship/instructor" element={<InstructorInternship />} />
 
           <Route path="/booking" element={<BookingPage />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
           <Route path="/admin/login" element={<AdminLogin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/Accommodation" element={<Accommodation />} />

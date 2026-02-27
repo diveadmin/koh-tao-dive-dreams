@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { nanoid } from 'nanoid';
+import { requireAdmin } from '../../_lib/auth.js';
 
 const DATA_DIR = path.resolve(process.cwd(), 'data');
 const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
@@ -11,6 +12,9 @@ const ensureDataFile = () => {
 };
 
 export default async function handler(req, res) {
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
+
   ensureDataFile();
 
   try {

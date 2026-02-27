@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '../../../_lib/auth.js';
 
 const DATA_DIR = path.resolve(process.cwd(), 'data');
 const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
@@ -8,6 +9,9 @@ const readBookings = () => JSON.parse(fs.readFileSync(BOOKINGS_FILE, 'utf8') || 
 const writeBookings = (items) => fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(items, null, 2));
 
 export default async function handler(req, res) {
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
+
   try {
     if (!fs.existsSync(BOOKINGS_FILE)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });

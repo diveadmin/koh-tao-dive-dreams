@@ -1,4 +1,5 @@
 import { applyCors, handleOptions } from '../../_lib/cors.js';
+import { requireAdmin } from '../../_lib/auth.js';
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
@@ -53,6 +54,9 @@ export default async function handler(req, res) {
   if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) {
     return res.status(500).json({ error: 'Airtable is not configured. Set AIRTABLE_PERSONAL_ACCESS_TOKEN and AIRTABLE_BASE_ID.' });
   }
+
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
 
   try {
     const { id } = req.query || {};

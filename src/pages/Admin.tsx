@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import { hasAdminAccess } from '@/lib/adminAccess';
 
 interface BookingInquiry {
   id: string;
@@ -44,15 +46,49 @@ const Admin = () => {
   const [bookings, setBookings] = useState<BookingInquiry[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // For local testing, just fetch bookings (no auth required)
-    fetchBookings();
+    const initAuth = async () => {
+      try {
+        const [{ data: userData }, { data: sessionData }] = await Promise.all([
+          supabase.auth.getUser(),
+          supabase.auth.getSession(),
+        ]);
+
+        const user = userData.user;
+        const token = sessionData.session?.access_token || null;
+
+        if (!user || !token || !hasAdminAccess(user)) {
+          navigate('/admin/login');
+          return;
+        }
+
+        setAuthToken(token);
+        await fetchBookings(token);
+      } catch (error) {
+        console.error('Admin auth init failed:', error);
+        navigate('/admin/login');
+      }
+    };
+
+    initAuth();
   }, []);
 
-  const fetchBookings = async () => {
+  const fetchBookings = async (tokenArg?: string) => {
+    const token = tokenArg || authToken;
+    if (!token) return;
+
     try {
-      const response = await fetch(apiUrl('/api/bookings'));
+      const response = await fetch(apiUrl('/api/bookings'), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 401 || response.status === 403) {
+        navigate('/admin/login');
+        return;
+      }
       if (!response.ok) throw new Error('Failed to fetch bookings');
       const data = await response.json();
       setBookings(data);
@@ -65,12 +101,21 @@ const Admin = () => {
   };
 
   const handleStatusChange = async (bookingId: string, newStatus: string) => {
+    if (!authToken) return;
+
     try {
       const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
         body: JSON.stringify({ status: newStatus }),
       });
+      if (response.status === 401 || response.status === 403) {
+        navigate('/admin/login');
+        return;
+      }
       if (!response.ok) throw new Error('Failed to update status');
 
       // Refetch bookings to ensure UI is up to date
@@ -84,11 +129,19 @@ const Admin = () => {
 
   const handleDeleteBooking = async () => {
     if (!deleteId) return;
+    if (!authToken) return;
 
     try {
       const response = await fetch(apiUrl(`/api/bookings/${deleteId}`), {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
       });
+      if (response.status === 401 || response.status === 403) {
+        navigate('/admin/login');
+        return;
+      }
       if (!response.ok) throw new Error('Failed to delete booking');
 
       // Refetch bookings to ensure UI is up to date
@@ -157,11 +210,7 @@ const Admin = () => {
   }
 
   const handleLogout = async () => {
-    // Clear any stored auth data
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminAuth');
-    sessionStorage.removeItem('adminToken');
-    sessionStorage.removeItem('adminAuth');
+    await supabase.auth.signOut();
     
     toast.success('Logged out successfully');
     navigate('/admin/login');
