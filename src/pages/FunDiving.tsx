@@ -116,11 +116,11 @@ const FunDiving = () => {
               className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg"
               onClick={() => {
                 // If already on this page, smooth scroll with offset. Otherwise request anchor and navigate here.
-                const el = document.getElementById('fun-dive-main');
+                const el = document.getElementById('fun-dive-tabs');
                 if (el) {
-                  scrollToWithOffset('fun-dive-main');
+                  scrollToWithOffset('fun-dive-tabs');
                 } else {
-                  try { sessionStorage.setItem('scrollTo', 'fun-dive-main'); } catch (_) {}
+                  try { sessionStorage.setItem('scrollTo', 'fun-dive-tabs'); } catch (_) {}
                   navigate('/fun-diving-koh-tao');
                 }
               }}
