@@ -86,6 +86,13 @@ const FunDiving = () => {
         });
       });
       try { sessionStorage.removeItem('scrollTo'); } catch (_) {}
+    } else {
+      setActiveTab('overview');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          tryAutoScroll('fun-dive-main');
+        });
+      });
     }
   }, [location]);
 
