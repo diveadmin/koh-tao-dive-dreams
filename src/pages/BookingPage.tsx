@@ -26,6 +26,7 @@ const bookingSchema = z.object({
 type BookingFormData = z.infer<typeof bookingSchema>;
 
 const PAYPAL_LINK = 'https://paypal.me/divinginasia';
+const COURSE_DEPOSIT_RATE = 0.2;
 
 const ADDONS = [
   { id: 'equipment', label: 'Equipment rental', amount: 300 },
@@ -46,7 +47,11 @@ const       BookingPage: React.FC = () => {
   const apiUrl = (path: string) => `${apiBase}${path}`;
   const itemTitle = searchParams.get('item') || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
-  const depositMajor = Number(searchParams.get('deposit') || '0');
+  const courseCostMajor = Number(searchParams.get('price') || '0');
+  const depositFromQuery = Number(searchParams.get('deposit') || '0');
+  const depositMajor = itemType === 'course'
+    ? (courseCostMajor > 0 ? Math.round(courseCostMajor * COURSE_DEPOSIT_RATE) : depositFromQuery)
+    : depositFromQuery;
   const depositCurrency = searchParams.get('currency') || 'THB';
 
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>({});
@@ -56,7 +61,15 @@ const       BookingPage: React.FC = () => {
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: { name: '', email: '', phone: '', preferred_date: new Date().toISOString().slice(0, 10), experience_level: '', message: '', paymentChoice: 'none' },
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      preferred_date: new Date().toISOString().slice(0, 10),
+      experience_level: '',
+      message: '',
+      paymentChoice: itemType === 'course' ? 'now' : 'none',
+    },
   });
 
   const [showPaymentLinks, setShowPaymentLinks] = useState(false);
@@ -176,8 +189,18 @@ const       BookingPage: React.FC = () => {
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-lg font-semibold">Deposit</div>
-              <div className="text-2xl font-bold">{depositMajor > 0 ? `฿${depositMajor}` : 'No deposit required'}</div>
+              {itemType === 'course' ? (
+                <>
+                  <div className="text-lg font-semibold">Course cost</div>
+                  <div className="text-2xl font-bold">{courseCostMajor > 0 ? `฿${courseCostMajor}` : 'Contact us'}</div>
+                  <div className="text-sm text-muted-foreground mt-1">Deposit payable now (20%): {depositMajor > 0 ? `฿${depositMajor}` : 'Contact us'}</div>
+                </>
+              ) : (
+                <>
+                  <div className="text-lg font-semibold">Deposit</div>
+                  <div className="text-2xl font-bold">{depositMajor > 0 ? `฿${depositMajor}` : 'No deposit required'}</div>
+                </>
+              )}
             </div>
             <div className="text-right">
               <div className="text-lg font-semibold">Add-ons</div>
@@ -199,7 +222,7 @@ const       BookingPage: React.FC = () => {
         </div>
 
         <div className="mb-6 text-right">
-          <div className="text-sm text-muted-foreground">Total deposit (incl. add-ons):</div>
+          <div className="text-sm text-muted-foreground">Total payable now (incl. add-ons):</div>
           <div className="text-2xl font-bold">฿{depositMajor + totalAddons}</div>
         </div>
 
@@ -274,17 +297,6 @@ const       BookingPage: React.FC = () => {
                     <label className="flex items-center gap-2">
                       <input
                         type="radio"
-                        id="payment-none"
-                        name="paymentChoice"
-                        value="none"
-                        checked={field.value === 'none'}
-                        onChange={() => field.onChange('none')}
-                      />
-                      <span>Pay later (inquire only)</span>
-                    </label>
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
                         id="payment-now"
                         name="paymentChoice"
                         value="now"
@@ -292,6 +304,17 @@ const       BookingPage: React.FC = () => {
                         onChange={() => field.onChange('now')}
                       />
                       <span>Pay deposit now with PayPal</span>
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="payment-none"
+                        name="paymentChoice"
+                        value="none"
+                        checked={field.value === 'none'}
+                        onChange={() => field.onChange('none')}
+                      />
+                      <span>Pay later (inquire only)</span>
                     </label>
                   </div>
                 </FormControl>
