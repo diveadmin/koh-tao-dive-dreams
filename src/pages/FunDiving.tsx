@@ -43,6 +43,16 @@ const FunDiving = () => {
     }
   ];
 
+  const allDiveSites = [
+    { name: 'Sail Rock', path: '/dive-sites/sail-rock' },
+    { name: 'Chumphon Pinnacle', path: '/dive-sites/chumphon-pinnacle' },
+    { name: 'Japanese Gardens', path: '/dive-sites/japanese-gardens' },
+    { name: 'HTMS Sattakut', path: '/dive-sites/htms-sattakut' },
+    { name: 'Twins Pinnacle', path: '/dive-sites/twins-pinnacle' },
+    { name: 'Shark Island', path: '/dive-sites/shark-island' },
+    { name: 'Mango Bay', path: '/dive-sites/mango-bay' },
+  ];
+
   const marineLife = [
     { name: "Whalesharks", description: "Gentle giants that can be spotted at Sail Rock and Chumphon Pinnacles" },
     { name: "Reef Squid", description: "Colorful cephalopods often seen in deeper waters" },
@@ -273,6 +283,21 @@ const FunDiving = () => {
                     </CardContent>
                   </Card>
                 ))}
+              </div>
+
+              <div className="mt-10">
+                <h3 className="text-2xl font-bold text-center mb-4">All Dive Sites</h3>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {allDiveSites.map((site) => (
+                    <Link
+                      key={site.path}
+                      to={site.path}
+                      className="inline-flex items-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50"
+                    >
+                      {site.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
