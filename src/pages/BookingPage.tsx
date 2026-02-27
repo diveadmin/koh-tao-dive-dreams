@@ -47,6 +47,7 @@ const       BookingPage: React.FC = () => {
   const apiUrl = (path: string) => `${apiBase}${path}`;
   const itemTitle = searchParams.get('item') || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
+  const isDiveBooking = itemType === 'dive';
   const courseCostMajor = Number(searchParams.get('price') || '0');
   const depositFromQuery = Number(searchParams.get('deposit') || '0');
   const depositMajor = itemType === 'course'
@@ -56,8 +57,9 @@ const       BookingPage: React.FC = () => {
 
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>({});
   const totalAddons = useMemo(() => {
+    if (!isDiveBooking) return 0;
     return ADDONS.reduce((sum, a) => sum + (selectedAddons[a.id] ? a.amount : 0), 0);
-  }, [selectedAddons]);
+  }, [isDiveBooking, selectedAddons]);
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
@@ -81,7 +83,9 @@ const       BookingPage: React.FC = () => {
     setIsSubmitting(true);
     try {
       const amountMajor = depositMajor + totalAddons;
-      const addonsText = ADDONS.filter(a => selectedAddons[a.id]).map(a => a.label).join(', ') || 'None';
+      const addonsText = isDiveBooking
+        ? (ADDONS.filter(a => selectedAddons[a.id]).map(a => a.label).join(', ') || 'None')
+        : 'N/A (course booking)';
 
       // Prepare Web3Forms payload
       const payload = {
@@ -202,27 +206,31 @@ const       BookingPage: React.FC = () => {
                 </>
               )}
             </div>
-            <div className="text-right">
-              <div className="text-lg font-semibold">Add-ons</div>
-              <div className="text-sm text-muted-foreground">Select extras below</div>
-            </div>
+            {isDiveBooking && (
+              <div className="text-right">
+                <div className="text-lg font-semibold">Add-ons</div>
+                <div className="text-sm text-muted-foreground">Select extras below</div>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
-          {ADDONS.map((a) => (
-            <label key={a.id} className="flex items-center gap-3 p-4 border rounded">
-              <input type="checkbox" checked={!!selectedAddons[a.id]} onChange={() => setSelectedAddons(s => ({ ...s, [a.id]: !s[a.id] }))} />
-              <div>
-                <div className="font-medium">{a.label}</div>
-                <div className="text-sm text-muted-foreground">฿{a.amount}</div>
-              </div>
-            </label>
-          ))}
-        </div>
+        {isDiveBooking && (
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {ADDONS.map((a) => (
+              <label key={a.id} className="flex items-center gap-3 p-4 border rounded">
+                <input type="checkbox" checked={!!selectedAddons[a.id]} onChange={() => setSelectedAddons(s => ({ ...s, [a.id]: !s[a.id] }))} />
+                <div>
+                  <div className="font-medium">{a.label}</div>
+                  <div className="text-sm text-muted-foreground">฿{a.amount}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+        )}
 
         <div className="mb-6 text-right">
-          <div className="text-sm text-muted-foreground">Total payable now (incl. add-ons):</div>
+          <div className="text-sm text-muted-foreground">{isDiveBooking ? 'Total payable now (incl. add-ons):' : 'Total payable now:'}</div>
           <div className="text-2xl font-bold">฿{depositMajor + totalAddons}</div>
         </div>
 
