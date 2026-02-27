@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ScubaDiver: React.FC = () => {
   const navigate = useNavigate();
+  const bookingUrl = '/booking?item=PADI%20Scuba%20Diver%20Course&type=course&price=8500&currency=THB';
 
   return (
     <div className="min-h-screen bg-background">
@@ -14,7 +15,7 @@ const ScubaDiver: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold">PADI Scuba Diver Course</h1>
           <p className="mt-4 max-w-2xl">Experience the underwater world with confidence. The PADI Scuba Diver course is perfect for those who want to try scuba diving before committing to full certification.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate('/booking')}>Book Scuba Diver</Button>
+            <Button size="lg" onClick={() => navigate(bookingUrl)}>Book Scuba Diver</Button>
           </div>
         </div>
       </section>
@@ -60,7 +61,7 @@ const ScubaDiver: React.FC = () => {
               <CardContent>
                 <p className="text-2xl font-bold text-sky-600 mb-3">฿8,500</p>
                 <p className="text-sm text-muted-foreground mb-4">Includes all training, equipment, and 2 open water dives</p>
-                <Button onClick={() => navigate('/booking')}>Book Scuba Diver</Button>
+                <Button onClick={() => navigate(bookingUrl)}>Book Scuba Diver</Button>
               </CardContent>
             </Card>
           </aside>

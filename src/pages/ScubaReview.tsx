@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ScubaReview: React.FC = () => {
   const navigate = useNavigate();
+  const bookingUrl = '/booking?item=Scuba%20Review%20Course&type=course&price=2500&currency=THB';
 
   return (
     <div className="min-h-screen bg-background">
@@ -14,7 +15,7 @@ const ScubaReview: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold">Scuba Review Course</h1>
           <p className="mt-4 max-w-2xl">Refresh your scuba diving skills and knowledge with our comprehensive review course.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate('/booking')}>Book Scuba Review</Button>
+            <Button size="lg" onClick={() => navigate(bookingUrl)}>Book Scuba Review</Button>
           </div>
         </div>
       </section>
@@ -59,7 +60,7 @@ const ScubaReview: React.FC = () => {
               <CardContent>
                 <p className="text-2xl font-bold text-sky-600 mb-3">฿2,500</p>
                 <p className="text-sm text-muted-foreground mb-4">Includes review materials and supervised practice dives</p>
-                <Button onClick={() => navigate('/booking')}>Book Review Course</Button>
+                <Button onClick={() => navigate(bookingUrl)}>Book Review Course</Button>
               </CardContent>
             </Card>
           </aside>

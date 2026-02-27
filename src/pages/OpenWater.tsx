@@ -19,6 +19,7 @@ const imageList = [
 
 const OpenWater: React.FC = () => {
   const navigate = useNavigate();
+  const bookingUrl = '/booking?item=PADI%20Open%20Water%20Course&type=course&price=12900&currency=THB';
   const randomImage = useMemo(() => {
     return imageList[Math.floor(Math.random() * imageList.length)];
   }, []);
@@ -29,7 +30,7 @@ const OpenWater: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold">PADI Open Water Course</h1>
           <p className="mt-4 max-w-2xl">The PADI Open Water Diver course is the world's most popular scuba course. Learn the fundamentals of scuba diving and get certified to dive independently with a buddy, to 18 metres/60 feet.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate('/booking')}>Book Open Water</Button>
+            <Button size="lg" onClick={() => navigate(bookingUrl)}>Book Open Water</Button>
           </div>
         </div>
       </section>
@@ -104,7 +105,7 @@ const OpenWater: React.FC = () => {
                   <li>• Experienced PADI instructors</li>
                   <li>• Flexible start dates</li>
                 </ul>
-                <Button onClick={() => navigate('/booking')}>Book Now</Button>
+                <Button onClick={() => navigate(bookingUrl)}>Book Now</Button>
               </CardContent>
             </Card>
           </aside>
@@ -120,7 +121,7 @@ const OpenWater: React.FC = () => {
             <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
             <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
           </div>
-          <Button onClick={() => navigate('/booking')}>Send Booking Request</Button>
+          <Button onClick={() => navigate(bookingUrl)}>Send Booking Request</Button>
         </section>
       </main>
     </div>

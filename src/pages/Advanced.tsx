@@ -18,6 +18,7 @@ const imageList = [
 
 const Advanced: React.FC = () => {
   const navigate = useNavigate();
+  const bookingUrl = '/booking?item=Advanced%20Open%20Water&type=course&price=8500&currency=THB';
   // Pick a random image on each render
   const randomImage = useMemo(() => {
     return imageList[Math.floor(Math.random() * imageList.length)];
@@ -29,7 +30,7 @@ const Advanced: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold">Advanced Open Water</h1>
           <p className="mt-4 max-w-2xl">Expand your skills with five Adventure Dives including deep and navigation; perfect for divers who want to explore deeper sites and build confidence.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate('/booking')}>Book Advanced</Button>
+            <Button size="lg" onClick={() => navigate(bookingUrl)}>Book Advanced</Button>
           </div>
         </div>
       </section>
@@ -81,7 +82,7 @@ const Advanced: React.FC = () => {
               <CardContent>
                 <p className="text-2xl font-bold text-sky-600 mb-3">฿8,500</p>
                 <p className="text-sm text-muted-foreground mb-4">Includes materials & equipment</p>
-                <Button onClick={() => navigate('/booking')}>Book Advanced</Button>
+                <Button onClick={() => navigate(bookingUrl)}>Book Advanced</Button>
               </CardContent>
             </Card>
           </aside>
@@ -97,7 +98,7 @@ const Advanced: React.FC = () => {
             <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
             <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
           </div>
-          <Button onClick={() => navigate('/booking')}>Send Booking Request</Button>
+          <Button onClick={() => navigate(bookingUrl)}>Send Booking Request</Button>
         </section>
       </main>
     </div>

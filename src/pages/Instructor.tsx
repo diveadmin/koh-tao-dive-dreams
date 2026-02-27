@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Instructor: React.FC = () => {
   const navigate = useNavigate();
+  const bookingUrl = '/booking?item=PADI%20Open%20Water%20Scuba%20Instructor&type=course&price=60000&currency=THB';
   return (
     <div className="min-h-screen bg-background">
       <section className="relative h-72 md:h-96 flex items-center" style={{backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/photo-1682686580849-3e7f67df4015.avif')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
@@ -15,7 +16,7 @@ const Instructor: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold">PADI Open Water Scuba Instructor</h1>
           <p className="mt-4 max-w-2xl">Train to become a PADI Instructor and teach divers worldwide. The Instructor Development Course (IDC) prepares candidates to lead courses and certify students.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate('/booking')}>Enquire About Instructor</Button>
+            <Button size="lg" onClick={() => navigate(bookingUrl)}>Enquire About Instructor</Button>
           </div>
         </div>
       </section>
@@ -69,7 +70,7 @@ const Instructor: React.FC = () => {
               <CardContent>
                 <p className="text-2xl font-bold text-sky-600 mb-3">฿60,000+</p>
                 <p className="text-sm text-muted-foreground mb-4">Contact us for a tailored Instructor pathway and exam dates.</p>
-                <Button onClick={() => navigate('/booking')}>Enquire / Apply</Button>
+                <Button onClick={() => navigate(bookingUrl)}>Enquire / Apply</Button>
               </CardContent>
             </Card>
           </aside>
@@ -85,7 +86,7 @@ const Instructor: React.FC = () => {
             <a href="/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
             <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
           </div>
-          <Button onClick={() => navigate('/booking')}>Send Booking Request</Button>
+          <Button onClick={() => navigate(bookingUrl)}>Send Booking Request</Button>
         </section>
       </main>
         <Contact />
