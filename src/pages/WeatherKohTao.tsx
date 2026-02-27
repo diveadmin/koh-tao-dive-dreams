@@ -3,8 +3,10 @@ import React from 'react';
 const WeatherKohTao = () => (
   <main className="max-w-4xl mx-auto">
     {/* Hero Section */}
-    <section className="relative h-64 md:h-96 flex items-center justify-center bg-cover bg-center mb-8" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/weather.png')" }}>
-      <div className="text-center text-white z-10">
+    <section className="relative h-64 md:h-96 flex items-center justify-center mb-8 overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/images/weather.png')] bg-cover bg-center" />
+      <div className="absolute inset-0 bg-black/35" />
+      <div className="text-center text-white z-10 relative">
         <h1 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Weer op Koh Tao</h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto drop-shadow">Plan je reis met inzicht in het tropische klimaat van Koh Tao.</p>
       </div>

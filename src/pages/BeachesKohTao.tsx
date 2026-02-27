@@ -78,11 +78,10 @@ const beaches = [
 const BeachesKohTao = () => (
   <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
     {/* Hero Section */}
-    <section
-      className="relative h-64 md:h-[70vh] flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/sexy.png')" }}
-    >
-      <div className="text-center text-white z-10 px-4">
+    <section className="relative h-64 md:h-[70vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/images/sexy.png')] bg-cover bg-center" />
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="text-center text-white z-10 px-4 relative">
         <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">Stranden van Koh Tao</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto drop-shadow text-white/90">
           Koh Tao is gezegend met prachtige natuur: groene jungle, baaien met palmen en tropisch turquoise water aan witte zandstranden.

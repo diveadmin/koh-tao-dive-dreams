@@ -120,13 +120,13 @@ const Contact = () => {
             <div className="mt-8">
               <h4 className="font-semibold text-lg mb-4">Volg ons</h4>
               <div className="flex space-x-4">
-                <a href="https://www.facebook.com/profile.php?id=61553713498498" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="https://www.facebook.com/profile.php?id=61553713498498" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="text-blue-400 hover:text-blue-300 transition-colors">
                   <Facebook className="h-6 w-6" />
                 </a>
-                <a href="https://www.instagram.com/pro_diving_asia/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="https://www.instagram.com/pro_diving_asia/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" className="text-blue-400 hover:text-blue-300 transition-colors">
                   <Instagram className="h-6 w-6" />
                 </a>
-                <a href="https://wa.me/66612345678" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors">
+                <a href="https://wa.me/66612345678" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp" className="text-green-400 hover:text-green-300 transition-colors">
                   <MessageCircle className="h-6 w-6" />
                 </a>
               </div>
@@ -155,7 +155,7 @@ const Contact = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Onderwerp</label>
-                <select name="subject" value={formData.subject} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white">
+                <select name="subject" value={formData.subject} onChange={handleInputChange} title="Onderwerp" className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white">
                   <option>Cursusinformatie</option>
                   <option>Boeking duiktrip</option>
                   <option>Materiaalverhuur</option>
