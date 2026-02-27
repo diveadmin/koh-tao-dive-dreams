@@ -59,21 +59,13 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
     <div className="min-h-screen bg-background">
 
       {/* Hero Section */}
-      <section
-        className={`relative flex items-center justify-center ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}
-        style={{
-          backgroundImage: noOverlay
-            ? `url('${hero}')`
-            : `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${hero}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        <div className="absolute inset-0" />
+      <section className={`relative flex items-center justify-center overflow-hidden ${fullHeightHero ? 'min-h-[calc(100vh-4rem)]' : 'h-96'}`}>
+        <img src={hero} alt={name} className="absolute inset-0 w-full h-full object-cover" />
+        {!noOverlay && <div className="absolute inset-0 bg-black/35" />}
         <div className={`relative z-10 text-center px-4 ${noOverlay ? 'bg-black/30 rounded-xl py-6' : 'text-white'}`}>
           <Link to="/koh-tao-dive-sites" className="inline-flex items-center text-white/80 hover:text-white mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dive Sites
+            Terug naar duiklocaties
           </Link>
           <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">{name}</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto text-white drop-shadow-lg">{description}</p>
@@ -94,7 +86,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Overview */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Overview</CardTitle>
+                <CardTitle className="text-2xl">Overzicht</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">{detailedDescription}</p>
@@ -102,33 +94,33 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
                 <div className="grid md:grid-cols-2 gap-4 mb-6">
                   <div className="flex items-center gap-2">
                     <Waves className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Depth:</span>
+                    <span className="font-medium">Diepte:</span>
                     <span>{depth}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Location:</span>
+                    <span className="font-medium">Locatie:</span>
                     <span>{location}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Eye className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Visibility:</span>
+                    <span className="font-medium">Zicht:</span>
                     <span>{visibility}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Fish className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Current:</span>
+                    <span className="font-medium">Stroming:</span>
                     <span>{current}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="font-medium">Difficulty:</span>
+                  <span className="font-medium">Niveau:</span>
                   <Badge className={getDifficultyColor(difficulty)}>{difficulty}</Badge>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">Best Time:</span>
+                  <span className="font-medium">Beste periode:</span>
                   <span className="text-muted-foreground">{bestTime}</span>
                 </div>
               </CardContent>
@@ -137,7 +129,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Marine Life */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Marine Life Highlights</CardTitle>
+                <CardTitle className="text-2xl">Hoogtepunten marien leven</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -154,7 +146,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Diving Tips */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Diving Tips</CardTitle>
+                <CardTitle className="text-2xl">Duiktips</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
@@ -174,23 +166,23 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Quick Facts */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Facts</CardTitle>
+                <CardTitle>Snelle feiten</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div>
-                  <span className="font-medium text-sm">Depth Range:</span>
+                  <span className="font-medium text-sm">Dieptebereik:</span>
                   <p className="text-sm text-muted-foreground">{depth}</p>
                 </div>
                 <div>
-                  <span className="font-medium text-sm">Difficulty:</span>
+                  <span className="font-medium text-sm">Niveau:</span>
                   <p className="text-sm text-muted-foreground">{difficulty}</p>
                 </div>
                 <div>
-                  <span className="font-medium text-sm">Location:</span>
+                  <span className="font-medium text-sm">Locatie:</span>
                   <p className="text-sm text-muted-foreground">{location}</p>
                 </div>
                 <div>
-                  <span className="font-medium text-sm">Best Time:</span>
+                  <span className="font-medium text-sm">Beste periode:</span>
                   <p className="text-sm text-muted-foreground">{bestTime}</p>
                 </div>
               </CardContent>
@@ -199,7 +191,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Highlights */}
             <Card>
               <CardHeader>
-                <CardTitle>What to See</CardTitle>
+                <CardTitle>Wat kun je zien</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
@@ -213,14 +205,14 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
             {/* Book Now */}
             <Card>
               <CardHeader>
-                <CardTitle>Ready to Dive?</CardTitle>
+                <CardTitle>Klaar om te duiken?</CardTitle>
               </CardHeader>
               <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Experience {name} with our expert guides and premium equipment.
+                    Ervaar {name} met onze ervaren gidsen en premium materiaal.
                   </p>
                   <Button className="w-full" size="lg" onClick={() => navigate(`/booking?item=${encodeURIComponent(name)}&type=dive`)}>
-                    Book This Dive Site
+                    Boek deze duiklocatie
                   </Button>
                 </CardContent>
             </Card>
@@ -229,7 +221,7 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
 
         {/* Gallery Section */}
         <section className="mt-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Gallery</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Galerij</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {images.map((image, index) => (
               <div key={index} className="aspect-video bg-muted rounded-lg overflow-hidden">
@@ -246,11 +238,11 @@ const DiveSiteDetail: React.FC<DiveSiteDetailProps> = ({
         {/* Booking Section */}
         <section className="mt-16">
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Book Your Dive at {name}</h2>
+            <h2 className="text-3xl font-bold mb-4">Boek je duik bij {name}</h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Ready to explore this incredible dive site? Contact us to arrange your diving adventure.
+              Klaar om deze geweldige duiklocatie te verkennen? Neem contact op om je duikavontuur te regelen.
             </p>
-            <Button onClick={() => navigate(`/booking?item=${encodeURIComponent(name)}&type=dive`)} className="px-6 py-3 bg-blue-600 text-white rounded-lg">Go to booking page</Button>
+            <Button onClick={() => navigate(`/booking?item=${encodeURIComponent(name)}&type=dive`)} className="px-6 py-3 bg-blue-600 text-white rounded-lg">Ga naar boekingspagina</Button>
           </div>
         </section>
       </div>

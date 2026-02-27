@@ -96,7 +96,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Marine Life
+          Terug naar marien leven
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -107,7 +107,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Fish className="h-5 w-5 text-blue-600" />
-                  Overview
+                  Overzicht
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -115,7 +115,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-2">
                     <Waves className="h-4 w-4 text-blue-500" />
-                    <span className="text-sm"><strong>Size:</strong> {size}</span>
+                    <span className="text-sm"><strong>Grootte:</strong> {size}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-green-500" />
@@ -123,11 +123,11 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
                   </div>
                   <div className="flex items-center gap-2">
                     <Heart className="h-4 w-4 text-red-500" />
-                    <span className="text-sm"><strong>Diet:</strong> {diet}</span>
+                    <span className="text-sm"><strong>Voeding:</strong> {diet}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-orange-500" />
-                    <span className="text-sm"><strong>Best Time:</strong> {bestTime}</span>
+                    <span className="text-sm"><strong>Beste periode:</strong> {bestTime}</span>
                   </div>
                 </div>
               </CardContent>
@@ -136,7 +136,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
             {/* Behavior */}
             <Card>
               <CardHeader>
-                <CardTitle>Behavior & Ecology</CardTitle>
+                <CardTitle>Gedrag & ecologie</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 leading-relaxed">{behavior}</p>
@@ -146,7 +146,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
             {/* Interesting Facts */}
             <Card>
               <CardHeader>
-                <CardTitle>Interesting Facts</CardTitle>
+                <CardTitle>Interessante feiten</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
@@ -165,7 +165,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Eye className="h-5 w-5 text-blue-600" />
-                  Photography Tips
+                  Fotografietips
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -186,21 +186,21 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
             {/* Quick Facts */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Facts</CardTitle>
+                <CardTitle>Snelle feiten</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Conservation Status</span>
+                  <span className="text-sm font-medium text-gray-500">Beschermingsstatus</span>
                   <Badge className={`ml-2 ${getStatusColor(conservationStatus)}`}>
                     {conservationStatus}
                   </Badge>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Frequency</span>
+                  <span className="text-sm font-medium text-gray-500">Frequentie</span>
                   <p className="text-sm text-gray-700">{frequency}</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Best Time to See</span>
+                  <span className="text-sm font-medium text-gray-500">Beste periode om te zien</span>
                   <p className="text-sm text-gray-700">{bestTime}</p>
                 </div>
               </CardContent>
@@ -209,22 +209,22 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
             {/* Related Links */}
             <Card>
               <CardHeader>
-                <CardTitle>Explore More</CardTitle>
+                <CardTitle>Ontdek meer</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <Link to="/marine-life">
                   <Button variant="outline" className="w-full justify-start">
-                    All Marine Life
+                    Alle mariene soorten
                   </Button>
                 </Link>
-                <Link to="/dive-sites">
+                <Link to="/koh-tao-dive-sites">
                   <Button variant="outline" className="w-full justify-start">
-                    Dive Sites
+                    Duiklocaties
                   </Button>
                 </Link>
                 <Link to="/courses">
                   <Button variant="outline" className="w-full justify-start">
-                    PADI Courses
+                    PADI-cursussen
                   </Button>
                 </Link>
               </CardContent>
@@ -233,7 +233,7 @@ const MarineLifeDetail: React.FC<MarineLifeDetailProps> = ({
             {/* Image Gallery */}
             <Card>
               <CardHeader>
-                <CardTitle>Gallery</CardTitle>
+                <CardTitle>Galerij</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-2">

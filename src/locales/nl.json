@@ -1,9 +1,9 @@
 {
   "nav": {
-    "home": "Home",
+    "home": "Start",
     "courses": "Cursussen",
     "diveSites": "Duiklocaties",
-    "marineLife": "Marieleven",
+    "marineLife": "Marien leven",
     "gallery": "Galerij",
     "contact": "Contact",
     "admin": "Admin"
@@ -123,29 +123,60 @@
     "perPerson": "per persoon",
     "duration": "Duur",
     "maxDepth": "Max diepte",
-    "courseIncludes": "Cursus omvat"
+    "courseIncludes": "Cursus omvat",
+    "readMore": "Lees meer over deze cursus",
+    "viewCourse": "Bekijk cursus"
   },
   "diveSites": {
-    "title": "Duiklocaties",
-    "subtitle": "Verken Koh Tao's ongelooflijke onderwaterwereld",
+    "title": "Duiklocaties van wereldklasse",
+    "subtitle": "Verken de spectaculairste onderwaterlocaties van Koh Tao, elk met uniek zeeleven en prachtige koraalformaties",
     "sites": {
+      "sailRock": {
+        "name": "Sail Rock",
+        "depth": "8-40m",
+        "level": "Gevorderd",
+        "highlights": ["Walvishaaien", "Stierhaaien", "Verticale swim-through"],
+        "description": "De topduiklocatie in de Golf van Thailand, beroemd om ontmoetingen met walvishaaien."
+      },
       "chumphon": {
-        "title": "Chumphon Pinnacle",
-        "description": "Een massieve granieten pinakel die oprijst uit de diepte, bedekt met zachte koralen en thuisbasis voor rifhaaien en schildpadden."
+        "name": "Chumphon Pinnacle",
+        "depth": "14-32m",
+        "level": "Gemiddeld",
+        "highlights": ["Barracuda's", "Trevally", "Koraaltuinen"],
+        "description": "Onderwaterberg begroeid met kleurrijke zachte koralen en vol actief zeeleven."
       },
-      "sailrock": {
-        "title": "Sail Rock",
-        "description": "Icoonvorming van rots met sterke stromingen, perfect voor gevorderde duikers die op zoek zijn naar spannende drift duiken."
+      "southwest": {
+        "name": "Southwest Pinnacle",
+        "depth": "14-33m",
+        "level": "Gemiddeld",
+        "highlights": ["Walvishaaien", "Grote groupers", "Koraalformaties"],
+        "description": "Een verzonken pinnacle met uitstekende kans op ontmoetingen met groot zeeleven."
       },
-      "japanese": {
-        "title": "Japanese Gardens",
-        "description": "Mooie koraaltuinen met uitstekende zichtbaarheid, ideaal voor alle vaardigheidsniveaus."
+      "sharkIsland": {
+        "name": "Shark Island",
+        "depth": "5-18m",
+        "level": "Beginner",
+        "highlights": ["Rifhaaien", "Murenen", "Makkelijke duik"],
+        "description": "Perfect voor beginners met milde stroming en veel zeeleven."
       },
       "whiteRock": {
-        "title": "White Rock",
-        "description": "Ondiep rif met ongelooflijk zeeleven, perfect voor training en macrofotografie."
+        "name": "White Rock",
+        "depth": "8-22m",
+        "level": "Beginner",
+        "highlights": ["Koraaltuinen", "Tropische vissen", "Fotografie"],
+        "description": "Prachtige koraalformaties en divers zeeleven in ondiep, rustig water."
+      },
+      "greenRock": {
+        "name": "Green Rock",
+        "depth": "6-18m",
+        "level": "Beginner",
+        "highlights": ["Keizervissen", "Vlindervissen", "Kleurrijk rif"],
+        "description": "Bekend om kleurrijke rifvissen en mooie koraalformaties."
       }
-    }
+    },
+    "bookButton": "Boek deze duik",
+    "depth": "Diepte",
+    "highlights": "Hoogtepunten"
   },
   "gallery": {
     "title": "Fotogalerij",
