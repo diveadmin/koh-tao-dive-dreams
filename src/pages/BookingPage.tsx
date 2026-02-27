@@ -1,7 +1,6 @@
 // Rezdy integration removed — use internal booking flow
 import React, { useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,7 +16,7 @@ const bookingSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(100),
   email: z.string().trim().email('Invalid email address').max(255),
   phone: z.string().trim().max(20).optional(),
-  preferred_date: z.string().optional(),
+  preferred_date: z.string().trim().min(1, 'Preferred date is required'),
   experience_level: z.string().optional(),
   message: z.string().trim().max(1000).optional(),
   paymentChoice: z.enum(['now', 'link', 'none']).optional(),
@@ -57,7 +56,7 @@ const       BookingPage: React.FC = () => {
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: { name: '', email: '', phone: '', preferred_date: '', experience_level: '', message: '', paymentChoice: 'none' },
+    defaultValues: { name: '', email: '', phone: '', preferred_date: new Date().toISOString().slice(0, 10), experience_level: '', message: '', paymentChoice: 'none' },
   });
 
   const [showPaymentLinks, setShowPaymentLinks] = useState(false);
@@ -101,17 +100,18 @@ const       BookingPage: React.FC = () => {
       console.log('Web3Forms response:', res.status, responseData);
 
       // Persist booking via local API
+      let persisted = false;
       try {
         const bookingId = crypto.randomUUID();
         const body = {
           id: bookingId,
           name: data.name,
           email: data.email,
-          phone: data.phone,
+          phone: data.phone || undefined,
           course_title: itemTitle,
-          preferred_date: data.preferred_date,
-          experience_level: data.experience_level,
-          message: data.message,
+          preferred_date: data.preferred_date || new Date().toISOString().slice(0, 10),
+          experience_level: data.experience_level || undefined,
+          message: data.message || undefined,
           status: 'pending',
           created_at: new Date().toISOString(),
         };
@@ -126,6 +126,7 @@ const       BookingPage: React.FC = () => {
           const errText = await fnRes.text().catch(() => 'unknown');
           console.warn('Local API persist failed', fnRes.status, errText);
         } else {
+          persisted = true;
           console.log('Booking persisted via local API', bookingId);
         }
       } catch (e) {
@@ -134,7 +135,11 @@ const       BookingPage: React.FC = () => {
 
       // Notify user based on Web3Forms result, but booking is already persisted
       if (res.ok && responseData.success) {
-        toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
+        if (persisted) {
+          toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
+        } else {
+          toast.error('Inquiry sent, but booking was not saved to CRM. Please contact admin or retry.');
+        }
         if (data.paymentChoice === 'now' && amountMajor > 0) {
           setShowPaymentLinks(true);
         } else {
@@ -144,7 +149,11 @@ const       BookingPage: React.FC = () => {
       } else {
         const errMsg = responseData?.message || responseData?.error || `HTTP ${res.status}`;
         console.error('Web3Forms error:', errMsg, responseData);
-        toast.error(`Inquiry saved but delivery failed: ${errMsg}. Admin will be notified.`);
+        if (persisted) {
+          toast.error(`Inquiry saved but delivery failed: ${errMsg}. Admin will be notified.`);
+        } else {
+          toast.error(`Submission reached neither CRM nor email reliably (${errMsg}). Please retry.`);
+        }
       }
     } catch (err) {
       console.error('Form submission error:', err);

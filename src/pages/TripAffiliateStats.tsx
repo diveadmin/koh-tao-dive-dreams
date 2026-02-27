@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,21 +25,32 @@ const TripAffiliateStats = () => {
   const [clicks, setClicks] = useState<ClickRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
 
   const fetchClicks = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('affiliate_clicks')
-      .select('*')
-      .eq('affiliate_id', TRIP_ALLIANCE_ID)
-      .order('clicked_at', { ascending: false })
-      .limit(500);
+    setError(null);
 
-    if (error) {
-      setError(error.message);
-    } else {
-      setClicks(data || []);
+    try {
+      const response = await fetch(apiUrl(`/api/affiliate-clicks?affiliate_id=${encodeURIComponent(TRIP_ALLIANCE_ID)}&limit=500`));
+      const data = await response.json().catch(() => []);
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to fetch affiliate clicks');
+      }
+
+      setClicks(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err?.message || 'Failed to fetch affiliate clicks');
     }
+
     setLoading(false);
   };
 
@@ -90,7 +100,7 @@ const TripAffiliateStats = () => {
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 mb-6">
-            {error} — make sure the <code>affiliate_clicks</code> table exists in Supabase.
+            {error} — make sure Airtable is configured and the <code>affiliate_clicks</code> table exists.
           </div>
         )}
 
