@@ -8,13 +8,8 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/images/photo-1682686580849-3e7f67df4015.avif')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-blue-900/40"></div>
+      <div className="absolute inset-0 bg-[url('/images/whale-shark-snorkelling-fos-sustainable-certification-medium-1.webp')] bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-blue-900/20 to-blue-900/35"></div>
       </div>
 
       <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
