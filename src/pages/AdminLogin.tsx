@@ -42,8 +42,7 @@ const AdminLogin = () => {
         throw new Error('Admin access required');
       }
 
-      toast.success('Login successful');
-      navigate('/admin');
+      navigate('/admin', { replace: true });
     } catch (error) {
       console.error('Supabase login error', error);
       const message = error instanceof Error ? error.message : 'Login failed';

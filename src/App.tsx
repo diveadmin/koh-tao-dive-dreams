@@ -113,15 +113,10 @@ const RequireAdmin = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     const checkAdmin = async () => {
-      const [{ data: userData }, { data: sessionData }] = await Promise.all([
-        supabase.auth.getUser(),
-        supabase.auth.getSession(),
-      ]);
-
+      const { data: userData } = await supabase.auth.getUser();
       const user = userData.user;
-      const session = sessionData.session;
 
-      if (user && session?.access_token && hasAdminAccess(user)) {
+      if (user && hasAdminAccess(user)) {
         setStatus('allowed');
         return;
       }

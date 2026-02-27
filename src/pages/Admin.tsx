@@ -57,9 +57,20 @@ const Admin = () => {
         ]);
 
         const user = userData.user;
-        const token = sessionData.session?.access_token || null;
+        let token = sessionData.session?.access_token || null;
 
-        if (!user || !token || !hasAdminAccess(user)) {
+        if (!user || !hasAdminAccess(user)) {
+          navigate('/admin/login');
+          return;
+        }
+
+        if (!token) {
+          const { data: refreshed } = await supabase.auth.refreshSession();
+          token = refreshed.session?.access_token || null;
+        }
+
+        if (!token) {
+          toast.error('Unable to establish session token. Please log in again.');
           navigate('/admin/login');
           return;
         }
