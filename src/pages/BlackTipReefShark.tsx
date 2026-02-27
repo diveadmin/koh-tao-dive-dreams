@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const BlackTipReefShark = () => {
   return (
     <MarineLifeDetail
-      name="Black Tip Reef Shark"
+      name="Zwartpuntrifhaai"
       scientificName="Carcharhinus melanopterus"
-      description="Common reef sharks with distinctive black tips on their fins, important for maintaining healthy coral reef ecosystems."
-      size="Up to 2m (6.5ft), 13kg"
-      habitat="Coral reefs, shallow coastal waters"
-      conservationStatus="Near Threatened"
-      diet="Fish, crustaceans, cephalopods"
-      behavior="Active hunters during the day, rest in caves at night. Play important role in controlling fish populations on reefs."
-      bestTime="Year-round, especially during breeding season"
-      frequency="Very common on shallow reefs"
-      detailedDescription="The black tip reef shark is one of the most commonly encountered sharks in Koh Tao's coral reefs and plays a vital role in maintaining ecosystem balance. Named for the distinctive black tips on their fins, these sharks are active hunters during the day and can often be seen patrolling the reefs or resting in small caves. They are generally not aggressive towards humans and provide an exciting but safe diving experience. During breeding season, young sharks are particularly abundant, offering amazing photo opportunities for both divers and snorkelers."
+      description="Veelvoorkomende rifhaai met herkenbare zwarte puntjes op de vinnen, belangrijk voor een gezond koraalrifecosysteem."
+      size="Tot 2m (6,5ft), 13kg"
+      habitat="Koraalriffen, ondiep kustwater"
+      conservationStatus="Bijna bedreigd"
+      diet="Vis, schaaldieren, koppotigen"
+      behavior="Actieve jager overdag, rust 's nachts in grotten. Speelt een belangrijke rol in het reguleren van vispopulaties op riffen."
+      bestTime="Hele jaar, vooral tijdens het voortplantingsseizoen"
+      frequency="Zeer veelvoorkomend op ondiepe riffen"
+      detailedDescription="De zwartpuntrifhaai is een van de meest geziene haaisoorten op de riffen van Koh Tao en is cruciaal voor de ecologische balans. De soort is genoemd naar de zwarte uiteinden van de vinnen. Overdag patrouilleren ze actief over het rif en rusten ze soms in kleine grotten. Ze zijn doorgaans niet agressief richting mensen en zorgen voor een spannende maar veilige duikervaring. Tijdens het voortplantingsseizoen zijn jonge haaien extra vaak te zien, wat mooie fotokansen geeft voor duikers en snorkelaars."
       interestingFacts={[
-        "Black tip reef sharks can live up to 12 years",
-        "They give birth to live young (viviparous)",
-        "Females can have up to 4 pups per litter",
-        "They are most active during the day",
-        "Despite their name, they are generally harmless to humans",
-        "They help control fish populations on coral reefs"
+        "Zwartpuntrifhaaien kunnen tot 12 jaar oud worden",
+        "Ze krijgen levende jongen (levendbarend)",
+        "Vrouwtjes kunnen tot 4 jongen per worp krijgen",
+        "Ze zijn vooral overdag actief",
+        "Ondanks hun naam zijn ze meestal ongevaarlijk voor mensen",
+        "Ze helpen vispopulaties op koraalriffen in balans te houden"
       ]}
       photographyTips={[
-        "Approach slowly and calmly",
-        "Shoot from below for dramatic fin shots",
-        "Include the black fin tips in your composition",
-        "Use available light for natural colors",
-        "Be patient and let them approach you",
-        "Capture both swimming and resting behaviors"
+        "Benader langzaam en rustig",
+        "Fotografeer van onderen voor krachtige vinbeelden",
+        "Zorg dat de zwarte vinpunten duidelijk in beeld zijn",
+        "Gebruik beschikbaar licht voor natuurlijke kleuren",
+        "Wees geduldig en laat de haai naar jou toe komen",
+        "Leg zowel zwemmend als rustend gedrag vast"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

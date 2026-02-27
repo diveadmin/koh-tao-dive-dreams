@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const Nudibranchs = () => {
   return (
     <MarineLifeDetail
-      name="Nudibranchs"
-      scientificName="Various species (Gastropoda)"
-      description="Colorful sea slugs with incredible patterns and shapes, absolutely perfect for macro photography."
-      size="1-15cm depending on species"
-      habitat="Coral reefs, sand flats, rocky areas"
-      conservationStatus="Not Evaluated"
-      diet="Sponges, hydroids, ascidians, other nudibranchs"
-      behavior="Slow-moving grazers, feed on specific prey items, some display warning colors for toxicity, hermaphroditic."
-      bestTime="Year-round, especially after strong currents"
-      frequency="Common in suitable habitats with patient observation"
-      detailedDescription="Nudibranchs are living works of art found throughout Koh Tao's reefs. These shell-less mollusks display incredible diversity of colors, patterns, and body shapes. With hundreds of different species ranging from tiny finger-sized to large palm-sized specimens, nudibranchs offer endless fascination for macro photographers and nature enthusiasts. Their incredible variety and willingness to pose for photographs make them favorite subjects for underwater photography."
+      name="Naaktslakken"
+      scientificName="Diverse soorten (Gastropoda)"
+      description="Kleurrijke zeenaaktslakken met ongelooflijke patronen en vormen, perfect voor macrofotografie."
+      size="1-15cm afhankelijk van soort"
+      habitat="Koraalriffen, zandvlaktes, rotsachtige zones"
+      conservationStatus="Niet geëvalueerd"
+      diet="Sponzen, hydroïdpoliepen, zakpijpen, andere naaktslakken"
+      behavior="Langzame grazers die vaak gespecialiseerd voedsel eten; sommige tonen waarschuwingskleuren vanwege giftigheid; hermafrodiet."
+      bestTime="Hele jaar, vooral na sterkere stroming"
+      frequency="Veelvoorkomend in geschikt habitat bij geduldige observatie"
+      detailedDescription="Naaktslakken zijn levende kunstwerkjes die je overal op de riffen van Koh Tao kunt vinden. Deze schelploze weekdieren tonen een enorme variatie in kleur, patroon en lichaamsvorm. Met honderden soorten, van vingertopformaat tot bijna handgroot, blijven ze eindeloos boeiend voor macrofotografen en natuurliefhebbers. Juist door hun variatie en fotogenieke gedrag zijn ze geliefde onderwerpen in onderwaterfotografie."
       interestingFacts={[
-        "Nudibranchs come in hundreds of species with stunning color variations",
-        "Many species are toxic or venomous, and their bright colors advertise this danger",
-        "Most nudibranchs are hermaphrodites, having both male and female organs",
-        "They feed on specific prey items - some eat sponges, others eat hydroids",
-        "They are excellent macro photography subjects due to their beauty and variety",
-        "New nudibranch species are still being discovered in tropical waters"
+        "Naaktslakken bestaan in honderden soorten met spectaculaire kleurvariaties",
+        "Veel soorten zijn giftig en waarschuwen daarvoor met felle kleuren",
+        "De meeste naaktslakken zijn hermafrodiet met zowel mannelijke als vrouwelijke organen",
+        "Ze eten vaak zeer specifieke prooien - sommige sponzen, andere hydroïden",
+        "Door hun vorm en kleur zijn ze ideale macro-onderwerpen",
+        "In tropische wateren worden nog steeds nieuwe soorten ontdekt"
       ]}
       photographyTips={[
-        "Use macro lenses (30-60mm) to fill the frame with detail",
-        "Manual focus is essential for achieving sharpness on small subjects",
-        "Use focus lights to illuminate and highlight details",
-        "Shoot macro to show incredible detail of gills and tentacles",
-        "Be patient and wait for them to move into ideal positions",
-        "Proper lighting brings out the incredible colors and patterns"
+        "Gebruik macrolenzen (30-60mm) om het frame met detail te vullen",
+        "Handmatige focus is essentieel voor scherpte op kleine onderwerpen",
+        "Gebruik focuslicht om details goed uit te lichten",
+        "Fotografeer close-up voor kieuwen, voelsprieten en textuur",
+        "Wees geduldig en wacht op een goede positie",
+        "Goede belichting laat kleuren en patronen echt uitkomen"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

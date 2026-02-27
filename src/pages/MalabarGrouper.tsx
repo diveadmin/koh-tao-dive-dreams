@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const MalabarGrouper = () => {
   return (
     <MarineLifeDetail
-      name="Malabar Grouper"
+      name="Malabar Tandbaars"
       scientificName="Epinephelus malabaricus"
-      description="Large predatory grouper fish found in deeper waters, known for their impressive size and ambush hunting tactics."
-      size="Up to 2.3m (7.5ft), 100kg"
-      habitat="Deep reefs, rock formations, pinnacles"
-      conservationStatus="Not Evaluated"
-      diet="Fish, crustaceans, cephalopods"
-      behavior="Ambush predator that hides in caves and crevices, emerges quickly to catch prey. Solitary or in pairs, uses powerful suction feeding."
-      bestTime="Year-round"
-      frequency="Common at deeper dive sites"
-      detailedDescription="The Malabar grouper is one of the largest and most impressive grouper species found at Koh Tao's deeper dive sites. These powerful predators are known for their ability to rapidly extract victims from coral crevices using powerful suction feeding. They are relatively shy and tend to retreat into caves when divers approach, but patient observation often rewards with sightings of these magnificent fish. Their impressive size and predatory nature make them a highlight of deep reef diving."
+      description="Grote roofvis uit de tandbaarsfamilie die op dieper water voorkomt, bekend om zijn indrukwekkende formaat en hinderlaagjacht."
+      size="Tot 2,3m (7,5ft), 100kg"
+      habitat="Diepe riffen, rotsformaties, pinnacles"
+      conservationStatus="Niet geëvalueerd"
+      diet="Vis, schaaldieren, koppotigen"
+      behavior="Hinderlaagjager die zich verschuilt in grotten en spleten en razendsnel toeslaat. Leeft solitair of in paren en gebruikt krachtige zuigvoeding."
+      bestTime="Hele jaar"
+      frequency="Veelvoorkomend op diepere duiklocaties"
+      detailedDescription="De Malabar tandbaars is een van de grootste en meest indrukwekkende tandbaarssoorten op de diepere duiksites van Koh Tao. Deze krachtige roofvis kan prooien snel uit koraalspleten trekken door sterke zuigkracht. Ze zijn relatief schuw en trekken zich vaak terug in grotten wanneer duikers naderen, maar met geduld zijn mooie waarnemingen mogelijk. Door hun formaat en jachtgedrag zijn ze een hoogtepunt van diep rifduiken."
       interestingFacts={[
-        "Malabar groupers can weigh up to 100kg and reach 2.3 meters in length",
-        "They use suction feeding to rapidly capture prey from coral crevices",
-        "They can live up to 40+ years in the wild",
-        "They are protogynous hermaphrodites, meaning females can change to males",
-        "They are found throughout the Indo-Pacific region in appropriate habitat",
-        "They play an important role in reef ecosystem balance as apex predators"
+        "Malabar tandbaarzen kunnen tot 100 kg wegen en 2,3 meter lang worden",
+        "Ze gebruiken zuigvoeding om prooi snel uit koraalspleten te halen",
+        "In het wild kunnen ze meer dan 40 jaar oud worden",
+        "Ze zijn protogyne hermafrodieten: vrouwtjes kunnen mannetjes worden",
+        "Ze komen voor in de hele Indo-Pacifische regio in geschikt habitat",
+        "Als toppredator spelen ze een belangrijke rol in de rifbalans"
       ]}
       photographyTips={[
-        "Use wide-angle lenses to capture their impressive size and depth",
-        "Shoot from below to emphasize their power and dominance",
-        "Move slowly and pause frequently to avoid startling them",
-        "Include reef context and cave formations in your composition",
-        "Capture mid-water movements and feeding behaviors when possible",
-        "Always respect their space and maintain a safe distance"
+        "Gebruik groothoek om hun formaat en diepte goed te tonen",
+        "Fotografeer van onderen om kracht en aanwezigheid te benadrukken",
+        "Beweeg langzaam en pauzeer regelmatig om ze niet te laten schrikken",
+        "Neem rifcontext en grotstructuren mee in je compositie",
+        "Probeer zwemmend gedrag en jachtmomenten vast te leggen",
+        "Respecteer altijd hun ruimte en houd veilige afstand"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

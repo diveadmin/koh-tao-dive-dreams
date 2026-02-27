@@ -4,36 +4,36 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const GreenSeaTurtle = () => {
   return (
     <MarineLifeDetail
-      name="Green Sea Turtle"
+      name="Groene Zeeschildpad"
       scientificName="Chelonia mydas"
-      description="Herbivorous sea turtles that graze on seagrass and algae, important for maintaining healthy marine ecosystems."
-      size="Up to 1.5m (5ft), 150-200kg"
-      habitat="Shallow coastal waters, seagrass beds, coral reefs"
-      conservationStatus="Endangered"
-      diet="Seagrass, algae, marine plants"
-      behavior="Spends most time grazing on seagrass beds, migrates long distances for nesting. Hatchlings make dangerous journey from beach to sea."
-      bestTime="Year-round, especially in shallow bays"
-      frequency="Common in suitable habitats"
+      description="Plantenetende zeeschildpadden die op zeegras en algen grazen en zo gezonde mariene ecosystemen helpen behouden."
+      size="Tot 1,5m (5ft), 150-200kg"
+      habitat="Ondiep kustwater, zeegrasvelden, koraalriffen"
+      conservationStatus="Bedreigd"
+      diet="Zeegras, algen, zeeplanten"
+      behavior="Brengt het grootste deel van de tijd grazend door op zeegrasvelden en migreert over lange afstanden om te nestelen. Jonge schildpadden maken een gevaarlijke tocht van strand naar zee."
+      bestTime="Hele jaar, vooral in ondiepe baaien"
+      frequency="Veelvoorkomend in geschikte leefgebieden"
       fullHeightHero={true}
       heroImageFit="cover"
       noOverlay={true}
       secondaryImage="/images/3turtle.png"
-      detailedDescription="The green sea turtle is one of the most common sea turtles in Koh Tao's waters and plays a crucial role in maintaining the health of seagrass beds and coral reefs. These gentle herbivores spend their days grazing on seagrass and algae, helping to keep these important habitats in balance. Adult turtles are frequently seen in shallow bays and coral reef areas, while hatchlings can sometimes be observed making their perilous journey from nesting beaches to the open sea. Conservation efforts in Thailand have helped protect these ancient mariners, and seeing them in their natural habitat is always a special experience."
+      detailedDescription="De groene zeeschildpad is een van de meest voorkomende zeeschildpadden rond Koh Tao en speelt een belangrijke rol in de gezondheid van zeegrasvelden en koraalriffen. Deze rustige planteneters brengen hun dagen door met grazen op zeegras en algen, waardoor deze habitats in balans blijven. Volwassen dieren worden vaak gezien in ondiepe baaien en rifgebieden, terwijl jonge schildpadjes soms te zien zijn tijdens hun risicovolle tocht van het neststrand naar open zee. Beschermingsmaatregelen in Thailand hebben geholpen deze oeroude zeereizigers te beschermen, en een ontmoeting in het wild blijft altijd bijzonder."
       interestingFacts={[
-        "Green sea turtles can live up to 80 years",
-        "They are named for their green body fat, not their shell",
-        "Females return to the same beach where they hatched to lay eggs",
-        "They can hold their breath for up to 7 hours while resting",
-        "Hatchlings must reach the sea within 72 hours or die",
-        "They migrate thousands of kilometers between feeding and nesting grounds"
+        "Groene zeeschildpadden kunnen tot 80 jaar oud worden",
+        "Ze zijn genoemd naar hun groene lichaamsvet, niet naar hun schild",
+        "Vrouwtjes keren terug naar het strand waar ze zelf uitkwamen om eieren te leggen",
+        "Tijdens rust kunnen ze tot 7 uur hun adem inhouden",
+        "Jonge schildpadjes moeten binnen 72 uur de zee bereiken om te overleven",
+        "Ze migreren duizenden kilometers tussen foerageer- en nestgebieden"
       ]}
       photographyTips={[
-        "Approach slowly and avoid sudden movements",
-        "Shoot from water level for dramatic perspective",
-        "Include the turtle's environment in your composition",
-        "Use natural light and avoid flash",
-        "Be patient and let the turtle come to you",
-        "Respect their space and don't chase them"
+        "Benader langzaam en vermijd plotselinge bewegingen",
+        "Fotografeer op waterniveau voor een sterke perspectiefwerking",
+        "Neem ook de leefomgeving van de schildpad mee in je compositie",
+        "Gebruik natuurlijk licht en vermijd flits",
+        "Wees geduldig en laat de schildpad naar jou toe komen",
+        "Respecteer hun ruimte en jaag ze niet op"
       ]}
       images={[
         "/images/green-sea-turtle.png",

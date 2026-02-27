@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const GreatBarracuda = () => {
   return (
     <MarineLifeDetail
-      name="Great Barracuda"
+      name="Grote Barracuda"
       scientificName="Sphyraena barracuda"
-      description="Impressive predatory fish with razor-sharp teeth, known for their sleek silver bodies and hunting in packs."
-      size="Up to 2m (6.5ft), 50kg"
-      habitat="Coral reefs, offshore waters, wrecks"
-      conservationStatus="Least Concern"
-      diet="Fish, squid, crustaceans"
-      behavior="Ambush predators that hunt in packs, using speed and sharp teeth. Often seen around pinnacles and wrecks."
-      bestTime="Year-round"
-      frequency="Common at deeper sites"
-      detailedDescription="The great barracuda is one of the most impressive predatory fish in Koh Tao's waters, with their sleek silver bodies and intimidating rows of razor-sharp teeth. These powerful hunters can reach speeds of up to 40km/h in short bursts, making them formidable predators. While they look menacing, barracuda are generally not aggressive towards divers unless provoked. They are frequently seen at deeper dive sites like Sail Rock and Chumphon Pinnacle, where they hunt in packs around the granite formations. Their presence indicates a healthy ecosystem with abundant prey species."
+      description="Indrukwekkende roofvis met messcherpe tanden, bekend om zijn gestroomlijnde zilveren lichaam en jacht in groepen."
+      size="Tot 2m (6,5ft), 50kg"
+      habitat="Koraalriffen, open water, wrakken"
+      conservationStatus="Niet bedreigd"
+      diet="Vis, inktvis, schaaldieren"
+      behavior="Hinderlaagjager die met snelheid en scherpe tanden in groepen jaagt. Vaak gezien rond pinnacles en wrakken."
+      bestTime="Hele jaar"
+      frequency="Veelvoorkomend op diepere duiksites"
+      detailedDescription="De grote barracuda is een van de meest indrukwekkende roofvissen in de wateren rond Koh Tao, met een strak zilverkleurig lichaam en opvallende rijen scherpe tanden. Deze krachtige jagers kunnen in korte sprints snelheden tot 40 km/u halen. Hoewel ze intimiderend ogen, zijn barracuda's doorgaans niet agressief naar duikers tenzij ze worden geprovoceerd. Je ziet ze vaak op diepere locaties zoals Sail Rock en Chumphon Pinnacle, waar ze in scholen rond granieten formaties jagen. Hun aanwezigheid wijst op een gezond ecosysteem met voldoende prooisoorten."
       interestingFacts={[
-        "Barracuda can swim at speeds up to 40km/h",
-        "They have two rows of razor-sharp teeth",
-        "Despite their appearance, they rarely attack humans",
-        "They can grow up to 2 meters long",
-        "Barracuda hunt in packs for better success",
-        "They have excellent eyesight and can see polarized light"
+        "Barracuda's kunnen snelheden tot 40 km/u halen",
+        "Ze hebben twee rijen messcherpe tanden",
+        "Ondanks hun uiterlijk vallen ze zelden mensen aan",
+        "Ze kunnen tot 2 meter lang worden",
+        "Barracuda's jagen in groepen voor meer succes",
+        "Ze hebben uitstekend zicht en kunnen gepolariseerd licht waarnemen"
       ]}
       photographyTips={[
-        "Shoot from a safe distance to avoid startling them",
-        "Capture their sleek profile and sharp teeth",
-        "Use fast shutter speeds to freeze their quick movements",
-        "Include the pack behavior in your shots",
-        "Shoot against blue water for dramatic effect",
-        "Be aware of your surroundings when they're present"
+        "Fotografeer op veilige afstand om ze niet te laten schrikken",
+        "Leg hun gestroomlijnde profiel en scherpe tanden vast",
+        "Gebruik snelle sluitertijden om hun bewegingen te bevriezen",
+        "Probeer groepsgedrag mee te nemen in je beelden",
+        "Fotografeer tegen blauw water voor een sterk effect",
+        "Blijf alert op je omgeving wanneer ze in de buurt zijn"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

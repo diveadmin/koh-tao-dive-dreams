@@ -5,32 +5,32 @@ const MangoBay = () => {
   return (
     <DiveSiteDetail
       name="Mango Bay"
-      description="Shallow coral reefs perfect for relaxed diving with thriving marine ecosystems."
+      description="Ondiepe koraalriffen, perfect voor ontspannen duiken met een levendig marien ecosysteem."
       depth="5-18m"
       difficulty="Beginner"
-      location="West coast bay"
-      highlights={["Colorful Corals", "Reef Fish", "Sea Anemones"]}
-      detailedDescription="Mango Bay is a beautiful shallow dive site located on Koh Tao's west coast, perfect for beginner divers and those seeking a relaxed diving experience. The site features a thriving coral reef ecosystem with colorful hard and soft corals, sea anemones, and abundant marine life. The shallow depths make it ideal for extended dives and multiple visits to the same area. The bay's protected location provides calm waters and excellent visibility, making it perfect for learning diving skills and enjoying the underwater world at a comfortable pace."
-      bestTime="Year-round, best during calm weather"
-      current="Very light, protected bay location"
-      visibility="15-25m, good clarity in protected waters"
+      location="Baai aan de westkust"
+      highlights={["Kleurrijk koraal", "Rifvissen", "Zeeanemonen"]}
+      detailedDescription="Mango Bay is een mooie ondiepe duiklocatie aan de westkust van Koh Tao, ideaal voor beginners en duikers die rustig willen duiken. De site heeft een gezond rifecosysteem met kleurrijke harde en zachte koralen, zeeanemonen en veel onderwaterleven. Door de geringe diepte is de plek geschikt voor langere duiken en herhaalde verkenning van hetzelfde gebied. De beschutte ligging van de baai zorgt voor kalm water en goed zicht, waardoor het een uitstekende plek is om duikvaardigheden te leren en ontspannen van de onderwaterwereld te genieten."
+      bestTime="Hele jaar, beste bij rustig weer"
+      current="Zeer licht, beschutte baai"
+      visibility="15-25m, goed zicht in beschut water"
       marineLife={[
-        "Colorful reef fish",
-        "Clownfish and anemones",
-        "Parrotfish and wrasse",
-        "Butterflyfish",
-        "Angelfish species",
-        "Small reef sharks"
+        "Kleurrijke rifvissen",
+        "Clownvissen en anemonen",
+        "Papegaaivissen en lipvissen",
+        "Vlindervissen",
+        "Diverse keizersvissen",
+        "Kleine rifhaaien"
       ]}
       tips={[
-        "Perfect for beginner divers and training",
-        "Excellent for snorkeling as well",
-        "Look for seagrass grazers and reef life",
-        "Great for underwater photography",
-        "Calm waters ideal for learning buoyancy",
-        "Multiple coral bommies to explore",
-        "Good site for extended dives",
-        "Perfect for Open Water certification dives"
+        "Perfect voor beginners en trainingsduiken",
+        "Ook uitstekend geschikt om te snorkelen",
+        "Kijk uit naar grazers in zeegras en rifleven",
+        "Mooie plek voor onderwaterfotografie",
+        "Rustig water ideaal om drijfvermogen te leren",
+        "Meerdere koraalbommies om te verkennen",
+        "Geschikt voor langere duiken",
+        "Perfect voor Open Water-brevetduiken"
       ]}
       fullHeightHero={true}
       noOverlay={true}

@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const Cephalopods = () => {
   return (
     <MarineLifeDetail
-      name="Cephalopods"
-      scientificName="Various species (Cephalopoda)"
-      description="Intelligent invertebrates including octopuses and squid, masters of camouflage and problem-solving with incredible abilities."
-      size="5cm-3m depending on species"
-      habitat="Coral reefs, sand flats, rocky areas, deep water"
-      conservationStatus="Not Evaluated"
-      diet="Fish, crustaceans, mollusks, other cephalopods"
-      behavior="Masters of camouflage, change color and texture in seconds, solitary and highly intelligent, nocturnal hunters."
-      bestTime="Year-round, dawn and dusk more active"
-      frequency="Regular sightings with patience and macro lens"
-      detailedDescription="Cephalopods are among the most fascinating invertebrates found in Koh Tao's waters. With their incredible intelligence, problem-solving abilities, and instant camouflage techniques, they represent some of the most advanced invertebrate life on Earth. Their ability to change color, pattern, and texture in milliseconds is a marvel to witness. Both octopuses and squid are favorite subjects for divers and macro photographers, offering endless opportunities for observation and photography."
+      name="Koppotigen"
+      scientificName="Diverse soorten (Cephalopoda)"
+      description="Intelligente ongewervelden zoals octopussen en inktvissen, meesters in camouflage en probleemoplossing."
+      size="5cm-3m afhankelijk van soort"
+      habitat="Koraalriffen, zandvlaktes, rotszones, diep water"
+      conservationStatus="Niet geëvalueerd"
+      diet="Vis, schaaldieren, weekdieren, andere koppotigen"
+      behavior="Meesters in camouflage; veranderen in seconden van kleur en textuur, leven vaak solitair en jagen vooral in de schemer of nacht."
+      bestTime="Hele jaar, actiever bij zonsopkomst en zonsondergang"
+      frequency="Regelmatige waarnemingen met geduld en macrolens"
+      detailedDescription="Koppotigen behoren tot de meest fascinerende ongewervelden in de wateren van Koh Tao. Met hun hoge intelligentie, probleemoplossend vermogen en directe camouflage horen ze bij de meest geavanceerde ongewervelde dieren op aarde. Hun vermogen om binnen milliseconden kleur, patroon en textuur te veranderen is indrukwekkend om te zien. Zowel octopussen als inktvissen zijn favoriete onderwerpen voor duikers en macrofotografen en bieden eindeloze mogelijkheden voor observatie en fotografie."
       interestingFacts={[
-        "Cephalopods have three hearts - two pump blood to the gills, one to the body",
-        "Their blood is blue due to copper-based hemocyanin instead of iron-based hemoglobin",
-        "They are among the most intelligent invertebrates, capable of solving complex problems",
-        "Some species can change color and pattern in milliseconds through chromatophore cells",
-        "Several species are highly venomous, including the blue-ringed octopus",
-        "They can squeeze through any opening larger than their hard beak"
+        "Koppotigen hebben drie harten: twee voor de kieuwen en één voor het lichaam",
+        "Hun bloed is blauw door koperhoudend hemocyanine in plaats van ijzerhoudend hemoglobine",
+        "Ze behoren tot de intelligentste ongewervelden en kunnen complexe problemen oplossen",
+        "Sommige soorten veranderen in milliseconden van kleur en patroon via chromatoforen",
+        "Verschillende soorten zijn sterk giftig, waaronder de blauwgeringde octopus",
+        "Ze kunnen zich door elke opening wringen die groter is dan hun harde snavel"
       ]}
       photographyTips={[
-        "Use macro lenses (30-60mm) for detailed shots of eyes and suckers",
-        "Shoot during dawn and dusk when cephalopods are most active",
-        "Be extremely patient and still - sudden movements scare them away",
-        "Capture close-ups of the eye and sucker details",
-        "Use proper lighting to show off their incredible color-changing abilities",
-        "Manual focus is essential for sharp macro photography"
+        "Gebruik macrolenzen (30-60mm) voor detailopnames van ogen en zuignappen",
+        "Fotografeer in de schemer wanneer koppotigen het actiefst zijn",
+        "Blijf zeer rustig en stil, plotselinge bewegingen jagen ze weg",
+        "Maak close-ups van ogen en zuignapdetails",
+        "Gebruik goede belichting om kleurverandering zichtbaar te maken",
+        "Handmatige focus is essentieel voor scherpe macrofoto's"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

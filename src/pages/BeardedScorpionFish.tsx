@@ -4,32 +4,32 @@ import MarineLifeDetail from '../components/MarineLifeDetail';
 const BeardedScorpionFish = () => {
   return (
     <MarineLifeDetail
-      name="Bearded Scorpion Fish"
+      name="Baardschorpioenvis"
       scientificName="Scorpaenopsis barbata"
-      description="Master cryptic fish with venomous spines, perfectly camouflaged as coral and sponges."
-      size="Up to 30cm (12 inches)"
-      habitat="Coral reefs, rocky areas, deep reef"
-      conservationStatus="Not Evaluated"
-      diet="Fish, crustaceans"
-      behavior="Ambush predator, stays motionless for hours, uses incredible camouflage to hunt, venomous spines for defense."
-      bestTime="Year-round, more active at night"
-      frequency="Uncommon, requires careful observation and expert guides"
-      detailedDescription="One of the most difficult fish to spot in Koh Tao's waters, the bearded scorpion fish is a master of disguise. It perfectly mimics the surrounding coral, sponges, and reef structure, remaining motionless for extended periods as it waits for unsuspecting prey to pass within striking distance. Finding these cryptic predators requires patience, careful observation, and an experienced guide. Their venomous spines serve as a defense mechanism against predators."
+      description="Meester in camouflage met giftige stekels, perfect vermomd als koraal en spons."
+      size="Tot 30cm (12 inch)"
+      habitat="Koraalriffen, rotsachtige zones, diep rif"
+      conservationStatus="Niet geëvalueerd"
+      diet="Vis, schaaldieren"
+      behavior="Hinderlaagjager die urenlang roerloos blijft; gebruikt extreme camouflage om te jagen en giftige stekels ter verdediging."
+      bestTime="Hele jaar, actiever in de nacht"
+      frequency="Niet heel algemeen, vraagt nauwkeurige observatie en ervaren gidsen"
+      detailedDescription="De baardschorpioenvis is een van de lastigst te vinden vissen in de wateren rond Koh Tao en een echte vermommingsspecialist. Hij lijkt vaak perfect op omliggend koraal, spons en rifstructuur en blijft lange tijd stil liggen tot een prooi binnen bereik komt. Het vinden van deze cryptische roofvis vraagt geduld, goed kijkwerk en een ervaren gids. De giftige stekels dienen als bescherming tegen predatoren."
       interestingFacts={[
-        "Bearded scorpion fish have venomous spines they use for defense",
-        "They are so cryptic that they can stay in the same location for days",
-        "They can mimic multiple surface textures and colors simultaneously",
-        "They have very slow metabolisms and move infrequently",
-        "They are nearly invisible to untrained eyes",
-        "Their camouflage is considered one of the best in the reef ecosystem"
+        "Baardschorpioenvissen hebben giftige stekels voor verdediging",
+        "Ze zijn zo cryptisch dat ze dagenlang op dezelfde plek kunnen blijven",
+        "Ze kunnen meerdere texturen en kleuren tegelijk nabootsen",
+        "Ze hebben een traag metabolisme en bewegen weinig",
+        "Voor ongetrainde ogen zijn ze bijna onzichtbaar",
+        "Hun camouflage behoort tot de beste in het rifecosysteem"
       ]}
       photographyTips={[
-        "Use macro lenses to photograph after locating with dive guide's help",
-        "Scan reef surfaces carefully for subtle color and texture changes",
-        "Use focus lights to illuminate details when photographing",
-        "Be ready to shoot quickly when spotted as they may move away",
-        "Include surrounding coral and context in your composition",
-        "Extreme patience and a good dive guide are essential for success"
+        "Gebruik een macrolens en laat je helpen door een gids om ze eerst te vinden",
+        "Scan rifoppervlakken zorgvuldig op subtiele kleur- en textuurverschillen",
+        "Gebruik focuslicht om details zichtbaar te maken",
+        "Wees klaar om snel te fotograferen zodra je er één ziet",
+        "Neem de omliggende rifcontext mee in je compositie",
+        "Veel geduld en een goede duikgids zijn essentieel"
       ]}
       fullHeightHero={true}
       heroImageFit="cover"

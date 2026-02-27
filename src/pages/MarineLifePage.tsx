@@ -17,23 +17,23 @@ interface MarineSpecies {
 const MarineLifePage = () => {
   const pelagicSpecies = [
     {
-      name: "Whaleshark",
+      name: "Walvishaai",
       description: "De grootste vis ter wereld. Deze vriendelijke reuzen worden regelmatig gezien in diepere wateren rond Koh Tao, vooral tijdens planktonbloei.",
-      size: "Up to 12m",
-      habitat: "Diepe offshore wateren",
+      size: "Tot 12m",
+      habitat: "Diep water uit de kust",
       season: "Hele jaar, piek nov-mrt",
       link: "/marine-life/whaleshark"
     },
     {
-      name: "Great Barracuda",
-      description: "Indrukwekkende roofvissen die in groepen jagen rond offshore pinnacles, met snelheden tot 40 km/u.",
-      size: "Up to 2m",
-      habitat: "Diepe pinnacles",
+      name: "Grote barracuda",
+      description: "Indrukwekkende roofvissen die in groepen jagen rond rotspieken uit de kust, met snelheden tot 40 km/u.",
+      size: "Tot 2m",
+      habitat: "Diepe rotspieken",
       season: "Hele jaar",
       link: "/marine-life/great-barracuda"
     },
     {
-      name: "Manta Rays",
+      name: "Mantaroggen",
       description: "Elegante planktoneters die tijdens het voeden spectaculaire draaibewegingen maken.",
       size: "Spanwijdte tot 7m",
       habitat: "Diepe wateren",
@@ -41,10 +41,10 @@ const MarineLifePage = () => {
       link: null
     },
     {
-      name: "Malabar Grouper",
-      description: "Grote roofzuchtige grouper die in dieper water leeft en bekendstaat om hinderlaagjacht.",
-      size: "Up to 2.3m, 100kg",
-      habitat: "Diepe riffen, pinnacles",
+      name: "Malabar tandbaars",
+      description: "Grote roofzuchtige tandbaars die in dieper water leeft en bekendstaat om hinderlaagjacht.",
+      size: "Tot 2,3m, 100kg",
+      habitat: "Diepe riffen en rotspieken",
       season: "Hele jaar",
       link: "/marine-life/malabar-grouper"
     }
@@ -52,17 +52,17 @@ const MarineLifePage = () => {
 
   const reefSharks = [
     {
-      name: "Black Tip Reef Shark",
+      name: "Zwartpuntrifhaai",
       description: "Veelvoorkomende rifhaaien met kenmerkende zwarte vinpunten, vaak jagend in ondiep water.",
-      size: "Up to 2m",
+      size: "Tot 2m",
       habitat: "Koraalriffen",
       season: "Hele jaar",
       link: "/marine-life/black-tip-reef-shark"
     },
     {
-      name: "Grey Reef Shark",
+      name: "Grijze rifhaai",
       description: "Schuwere rifhaaien die dieper water verkiezen en minder vaak worden gezien.",
-      size: "Up to 2.5m",
+      size: "Tot 2,5m",
       habitat: "Diepe riffen",
       season: "Hele jaar",
       link: null
@@ -71,17 +71,17 @@ const MarineLifePage = () => {
 
   const seaTurtles = [
     {
-      name: "Green Sea Turtle",
+      name: "Groene zeeschildpad",
       description: "Plantenetende zeeschildpadden die grazen op zeegras en algen, vaak gezien in ondiepe baaien.",
-      size: "Up to 1.5m",
+      size: "Tot 1,5m",
       habitat: "Ondiepe baaien en riffen",
       season: "Hele jaar",
       link: "/marine-life/green-sea-turtle"
     },
     {
-      name: "Hawksbill Sea Turtle",
+      name: "Karetschildpad",
       description: "Mooie schildpadden met een kenmerkende snavelvormige bek, bekend om het eten van sponsen.",
-      size: "Up to 1m",
+      size: "Tot 1m",
       habitat: "Koraalriffen",
       season: "Hele jaar",
       link: "/marine-life/hawksbill-sea-turtle"
@@ -90,7 +90,7 @@ const MarineLifePage = () => {
 
   const macroLife = [
     {
-      name: "Nudibranchs",
+      name: "Naaktslakken",
       description: "Kleurrijke zeenaaktslakken met bijzondere patronen en vormen, perfect voor macrofotografie.",
       size: "1-15cm",
       habitat: "Koraalriffen",
@@ -98,23 +98,23 @@ const MarineLifePage = () => {
       link: "/marine-life/nudibranchs"
     },
     {
-      name: "Banded Sea Krait",
+      name: "Gebandeerde zeekrait",
       description: "Giftige zeeslangen die in ondiep water op vis en paling jagen.",
-      size: "Up to 1.5m",
+      size: "Tot 1,5m",
       habitat: "Ondiepe riffen",
       season: "Hele jaar",
       link: "/marine-life/banded-sea-krait"
     },
     {
-      name: "Bearded Scorpion Fish",
+      name: "Baardschorpioenvis",
       description: "Meester in camouflage met giftige stekels, perfect vermomd als koraal.",
-      size: "Up to 30cm",
+      size: "Tot 30cm",
       habitat: "Koraalriffen",
       season: "Hele jaar",
       link: "/marine-life/bearded-scorpion-fish"
     },
     {
-      name: "Cephalopods",
+      name: "Koppotigen",
       description: "Intelligente octopussen en inktvissen, meesters in camouflage en probleemoplossing.",
       size: "5cm-3m",
       habitat: "Koraalriffen en diep water",
