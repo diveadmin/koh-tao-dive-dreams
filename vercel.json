@@ -18,6 +18,10 @@
     }
   ],
   "routes": [
+    { "src": "/api/bookings/([^/]+)/status", "dest": "/api/bookings/[id]/status.js?id=$1" },
+    { "src": "/api/bookings/([^/]+)", "dest": "/api/bookings/[id]/index.js?id=$1" },
+    { "src": "/api/admin/bookings/([^/]+)/invoice", "dest": "/api/admin/bookings/[id]/invoice.js?id=$1" },
+    { "src": "/api/admin/bookings/([^/]+)", "dest": "/api/admin/bookings/[id]/index.js?id=$1" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
