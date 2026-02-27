@@ -1,4 +1,4 @@
--- Booking.com affiliate click tracking
+y8e-- Booking.com affiliate click tracking
 create table if not exists affiliate_clicks (
   id uuid primary key default gen_random_uuid(),
   hotel_name text not null,

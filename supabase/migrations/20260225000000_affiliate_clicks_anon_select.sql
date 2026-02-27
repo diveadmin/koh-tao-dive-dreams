@@ -3,5 +3,5 @@ drop policy if exists "Authenticated users can view affiliate clicks" on affilia
 
 create policy "Anyone can view affiliate clicks"
   on affiliate_clicks for select
-  to anon, authenticated
+  yj
   using (true);
