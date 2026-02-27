@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Fish, Waves, MapPin, Clock, DollarSign, Users } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { tryAutoScroll, scrollToWithOffset } from '@/lib/scroll';
 
@@ -15,24 +15,28 @@ const FunDiving = () => {
   const diveSites = [
     {
       name: "Sail Rock",
+      path: '/dive-sites/sail-rock',
       description: "Premier deep dive site with large schools of fish, whalesharks, and giant barracuda.",
       depth: "18-40m",
       highlights: ["Whalesharks", "Giant Barracuda", "Malabar Grouper"]
     },
     {
       name: "Chumphon Pinnacles",
+      path: '/dive-sites/chumphon-pinnacle',
       description: "Granite pinnacles offering excellent opportunities to see whalesharks and large schools of trevally.",
       depth: "15-30m",
       highlights: ["Whalesharks", "Trevally Schools", "Eagle Rays"]
     },
     {
       name: "Japanese Gardens",
+      path: '/dive-sites/japanese-gardens',
       description: "Diverse coral reefs with colorful marine life and swim-throughs.",
       depth: "12-25m",
       highlights: ["Pink Tailed Triggerfish", "Ocellated Eagle Rays", "Colorful Corals"]
     },
     {
       name: "Mango Bay",
+      path: '/dive-sites/mango-bay',
       description: "Shallow coral reefs perfect for relaxed diving with abundant marine life.",
       depth: "5-18m",
       highlights: ["Colorful Corals", "Tropical Fish", "Seagrass Meadows"]
@@ -243,7 +247,11 @@ const FunDiving = () => {
                     <CardHeader>
                       <div className="flex items-center gap-2 mb-2">
                         <MapPin className="w-5 h-5 text-blue-600" />
-                        <CardTitle className="text-xl">{site.name}</CardTitle>
+                        <CardTitle className="text-xl">
+                          <Link to={site.path} className="hover:text-blue-600 underline-offset-4 hover:underline">
+                            {site.name}
+                          </Link>
+                        </CardTitle>
                         <Badge variant="secondary">{site.depth}</Badge>
                       </div>
                       <CardDescription>{site.description}</CardDescription>
@@ -253,6 +261,11 @@ const FunDiving = () => {
                         {site.highlights.map((highlight, i) => (
                           <Badge key={i} variant="outline">{highlight}</Badge>
                         ))}
+                      </div>
+                      <div className="mt-4">
+                        <Link to={site.path} className="text-sm font-medium text-blue-600 hover:underline underline-offset-4">
+                          View dive site details
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>
