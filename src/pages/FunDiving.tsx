@@ -62,6 +62,9 @@ const FunDiving = () => {
 
   const getTabForAnchor = (anchor: string) => {
     switch (anchor) {
+      case 'world-class-dive-sites':
+      case 'sites':
+        return 'sites';
       case 'schedule':
       case 'pricing':
         return 'schedule';
@@ -238,7 +241,7 @@ const FunDiving = () => {
 
         {/* Dive Sites */}
         <TabsContent value="sites" className="transition-none">
-          <section className="py-16 px-4 bg-muted/50">
+          <section id="world-class-dive-sites" className="py-16 px-4 bg-muted/50">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-4xl font-bold text-center mb-12">Best Koh Tao Fun Diving Trips</h2>
               <div className="grid md:grid-cols-2 gap-8">
@@ -540,7 +543,7 @@ const FunDiving = () => {
                 Ready to explore Koh Tao's amazing underwater world? You can get in touch for a booking enquiry or use the form below to book directly.
               </p>
                 <div className="mb-4 flex flex-col items-center gap-2">
-                  <a href="/#fun-dive-main" className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">Fun Dive Info</a>
+                  <Link to="/fun-diving-koh-tao#world-class-dive-sites" className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">Fun Dive Info</Link>
                   <a href="/courses#course-openWater" className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded font-semibold">Book Course (PADI)</a>
                   <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
                   <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
