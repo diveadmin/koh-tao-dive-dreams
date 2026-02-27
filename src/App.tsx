@@ -177,6 +177,10 @@ const App = () => (
           <Route path="/trip-booking" element={<TripAffiliate />} />
           <Route path="/admin/affiliate-stats" element={<RequireAdmin><AffiliateStats /></RequireAdmin>} />
           <Route path="/admin/trip-affiliate-stats" element={<RequireAdmin><TripAffiliateStats /></RequireAdmin>} />
+          <Route path="/admin/affiliate-stats/" element={<Navigate to="/admin/affiliate-stats" replace />} />
+          <Route path="/admin/trip-affiliate-stats/" element={<Navigate to="/admin/trip-affiliate-stats" replace />} />
+          <Route path="/admin/affilate-stats" element={<Navigate to="/admin/affiliate-stats" replace />} />
+          <Route path="/admin/trip-affilate-stats" element={<Navigate to="/admin/trip-affiliate-stats" replace />} />
           <Route path="/courses/open-water" element={<OpenWater />} />
           <Route path="/courses/advanced" element={<Advanced />} />
           <Route path="/courses/efr" element={<EFR />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -102,6 +102,8 @@ const buildTripUrl = (hotelName?: string) => {
 
 const TripAffiliate = () => {
   const [clicking, setClicking] = useState<string | null>(null);
+  const [totalClicks, setTotalClicks] = useState<number | null>(null);
+  const [lastClickAt, setLastClickAt] = useState<string | null>(null);
   const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
   const apiBaseNormalized = apiBaseRaw
     ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
@@ -110,6 +112,24 @@ const TripAffiliate = () => {
     : '';
   const apiBase = apiBaseNormalized.replace(/\/+$/, '');
   const apiUrl = (path: string) => `${apiBase}${path}`;
+
+  const fetchClickSummary = async () => {
+    try {
+      const response = await fetch(apiUrl(`/api/affiliate-clicks?affiliate_id=${encodeURIComponent(ALLIANCE_ID)}&limit=500`));
+      const data = await response.json().catch(() => []);
+      if (!response.ok || !Array.isArray(data)) return;
+
+      setTotalClicks(data.length);
+      const latest = data.find((row: any) => row?.clicked_at)?.clicked_at || null;
+      setLastClickAt(latest);
+    } catch {
+      // optional UI signal only
+    }
+  };
+
+  useEffect(() => {
+    fetchClickSummary();
+  }, []);
 
   const trackAffiliateClick = async (payload: {
     hotel_name: string;
@@ -140,6 +160,7 @@ const TripAffiliate = () => {
       user_agent: navigator.userAgent,
     });
     window.open(affiliateUrl, '_blank', 'noopener,noreferrer');
+    fetchClickSummary();
     setClicking(null);
   };
 
@@ -153,6 +174,7 @@ const TripAffiliate = () => {
       user_agent: navigator.userAgent,
     });
     window.open(searchUrl, '_blank', 'noopener,noreferrer');
+    fetchClickSummary();
   };
 
   return (
@@ -188,6 +210,15 @@ const TripAffiliate = () => {
 
       {/* Hotels Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="mb-6 rounded-lg border bg-white p-4 text-sm text-gray-700">
+          <p className="font-medium">Trip.com Alliance ID is set. Clicks are being tracked and commission will be attributed on completed bookings.</p>
+          <p className="text-gray-500 mt-1">
+            Total tracked clicks: <span className="font-semibold text-gray-800">{totalClicks ?? '—'}</span>
+            {' · '}
+            Last click: <span className="font-semibold text-gray-800">{lastClickAt ? new Date(lastClickAt).toLocaleString() : '—'}</span>
+          </p>
+        </div>
+
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Top-Rated Koh Tao Accommodations</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
