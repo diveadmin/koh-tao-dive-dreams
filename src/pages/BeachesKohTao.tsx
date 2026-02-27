@@ -4,7 +4,7 @@ const beaches = [
   {
     name: "Mae Haad Beach",
     subtitle: "North & South",
-    image: "/images/photo-1613853250147-2f73e55c1561.avif",
+    image: "/images/maehad.jpg",
     description: "Often overlooked due to their proximity to the pier, both north and south sections of Mae Haad beach offer a great place to spend a day. The south section stretches from Coconut Monkey coffee shop all the way to Sensi Paradise resort — clean, white and sandy. Near the resort is a 60-year-old shipwreck, a great snorkeling location with its own marine ecosystem. The north side features a safe swimming area cordoned off from boat traffic, kept in pristine condition and cleaned daily. A very popular spot to watch Koh Tao's famous sunsets.",
     location: "West Coast",
     tags: ["Snorkeling", "Swimming", "Sunset Watching", "Family Friendly"],
@@ -13,7 +13,7 @@ const beaches = [
   {
     name: "Sai Nuan Beach",
     subtitle: "Hidden Gem",
-    image: "/images/photo-1659518893171-b15e20a8e201.avif",
+    image: "/images/sanjuan.jpg",
     description: "A hidden gem and throwback to the days when the first backpackers arrived on Koh Tao. Sai Nuan is actually two scenic beaches separated by a rocky outcrop. The first has a grass area with a tree swing and hammocks between palm trees. The small Sai Thong resort of wooden Thai-style bungalows adds to the relaxed, peaceful atmosphere. On a clear day expect white sand, coconut palms, and a clear warm turquoise sea. One of the least crowded beaches on the island.",
     location: "South West",
     tags: ["Secluded", "Peaceful", "Snorkeling", "Hammocks"],
@@ -22,7 +22,7 @@ const beaches = [
   {
     name: "June Juea Beach",
     subtitle: "Most Remote",
-    image: "/images/photo-1682686580849-3e7f67df4015.avif",
+    image: "/images/JunejueaBeach.jpg",
     description: "Possibly the most remote beach on Koh Tao and certainly one of the smallest, June Juea is one of the most picturesque and secluded places to watch the sunset. Located on the south west side of the island, you can reach it by continuing the coastal walk from Sai Nuan, or walking from Chalok Baan Kao. The bay is made up of small areas of sand between large rocks and trees that provide natural shade. Perfect for getting away from it all.",
     location: "South West",
     tags: ["Remote", "Sunset", "Secluded", "Swimming"],
@@ -31,7 +31,7 @@ const beaches = [
   {
     name: "Freedom Beach",
     subtitle: "South Side Favourite",
-    image: "/images/photo-1647825194145-2d94e259c745.avif",
+    image: "/images/freedom-beach-resort.jpg",
     description: "Another small secluded beach, Freedom beach is probably the most popular small beach on Koh Tao. Located on the south side, it's best reached by scooter — about 10 minutes from Sairee. The 100 baht entrance fee gives access to John Suwan Viewpoint, Taa Toh beach, and Freedom Beach. Beautiful white sandy beach with shade from Pemphis Acidula trees with hammocks, a shallow reef for snorkeling, and a beachside restaurant overlooking Chalok Baan Kao bay.",
     location: "South Coast",
     tags: ["Snorkeling", "Hammocks", "Restaurant", "Day Trip"],
