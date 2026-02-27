@@ -60,6 +60,8 @@ const Admin = () => {
   const [notesBooking, setNotesBooking] = useState<BookingInquiry | null>(null);
   const [notesDraft, setNotesDraft] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
+  const [actionBooking, setActionBooking] = useState<BookingInquiry | null>(null);
+  const [isSendingInvoice, setIsSendingInvoice] = useState(false);
   const [invoiceBooking, setInvoiceBooking] = useState<BookingInquiry | null>(null);
   const [invoiceAmountDraft, setInvoiceAmountDraft] = useState('');
   const [invoicePayPalLink, setInvoicePayPalLink] = useState('');
@@ -218,6 +220,7 @@ const Admin = () => {
   };
 
   const handleSendInvoice = async (booking: BookingInquiry) => {
+    setIsSendingInvoice(true);
     try {
       const amount = booking.message || booking.course_title || '';
       const payload: Record<string, unknown> = {
@@ -245,6 +248,8 @@ const Admin = () => {
     } catch (err) {
       console.error('Send invoice error', err);
       toast.error('Failed to send invoice');
+    } finally {
+      setIsSendingInvoice(false);
     }
   };
 
@@ -638,25 +643,9 @@ const Admin = () => {
                             {booking.message || '-'}
                           </TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-2">
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                onClick={() => setDeleteId(booking.id)}
-                                className="text-destructive hover:text-destructive"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => openNotesDialog(booking)}>
-                                Notes
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => openInvoiceDialog(booking)}>
-                                <FileText className="h-4 w-4 mr-1" /> Invoice
-                              </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleSendInvoice(booking)}>
-                                Send Invoice
-                              </Button>
-                            </div>
+                            <Button variant="outline" size="sm" onClick={() => setActionBooking(booking)}>
+                              Manage
+                            </Button>
                           </TableCell>
                         </TableRow>
                       );
@@ -684,6 +673,66 @@ const Admin = () => {
             </Button>
             <Button variant="destructive" onClick={handleDeleteBooking}>
               Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!actionBooking} onOpenChange={() => setActionBooking(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Booking Actions</DialogTitle>
+            <DialogDescription>
+              {actionBooking ? `${actionBooking.name} — ${actionBooking.course_title}` : 'Choose an action'}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (!actionBooking) return;
+                setActionBooking(null);
+                openNotesDialog(actionBooking);
+              }}
+            >
+              Notes
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (!actionBooking) return;
+                setActionBooking(null);
+                openInvoiceDialog(actionBooking);
+              }}
+            >
+              <FileText className="h-4 w-4 mr-1" /> Invoice
+            </Button>
+            <Button
+              variant="outline"
+              onClick={async () => {
+                if (!actionBooking) return;
+                await handleSendInvoice(actionBooking);
+              }}
+              disabled={isSendingInvoice}
+            >
+              {isSendingInvoice ? 'Sending...' : 'Send Invoice'}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (!actionBooking) return;
+                setDeleteId(actionBooking.id);
+                setActionBooking(null);
+              }}
+            >
+              <Trash2 className="h-4 w-4 mr-1" /> Delete
+            </Button>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setActionBooking(null)}>
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>
