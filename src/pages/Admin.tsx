@@ -348,6 +348,7 @@ const Admin = () => {
         <body style="font-family:Arial,sans-serif;color:#111827;padding:24px;max-width:800px;margin:0 auto;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
             <div>
+              <img src="/images/logo.avif" alt="Pro Diving Asia" style="height:56px;width:auto;display:block;margin-bottom:10px;" />
               <h1 style="margin:0;font-size:26px;">Pro Diving Asia</h1>
               <div style="color:#6b7280;margin-top:4px;">Koh Tao, Thailand</div>
             </div>
@@ -729,6 +730,7 @@ const Admin = () => {
             <div className="space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-4">
                 <div>
+                  <img src="/images/logo.avif" alt="Pro Diving Asia" className="h-12 w-auto mb-2" />
                   <div className="font-semibold">Customer</div>
                   <div>{invoiceBooking.name}</div>
                   <div>{invoiceBooking.email}</div>
