@@ -86,6 +86,8 @@ import Photography from "./pages/specialty/Photography";
 import EmergencyO2Provider from "./pages/specialty/EmergencyO2Provider";
 import EquipmentSpecialist from "./pages/specialty/EquipmentSpecialist";
 import UnderwaterNaturalist from "./pages/specialty/UnderwaterNaturalist";
+import Photography from "./pages/specialty/Photography";
+import CurrentDiver from "./pages/specialty/CurrentDiver";
 
 // Internship Programs
 import DivemasterInternship from "./pages/internship/Divemaster";
