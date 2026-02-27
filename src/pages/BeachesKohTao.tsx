@@ -4,6 +4,7 @@ const beaches = [
   {
     name: "Mae Haad Beach",
     subtitle: "North & South",
+    image: "/images/photo-1613853250147-2f73e55c1561.avif",
     description: "Often overlooked due to their proximity to the pier, both north and south sections of Mae Haad beach offer a great place to spend a day. The south section stretches from Coconut Monkey coffee shop all the way to Sensi Paradise resort — clean, white and sandy. Near the resort is a 60-year-old shipwreck, a great snorkeling location with its own marine ecosystem. The north side features a safe swimming area cordoned off from boat traffic, kept in pristine condition and cleaned daily. A very popular spot to watch Koh Tao's famous sunsets.",
     location: "West Coast",
     tags: ["Snorkeling", "Swimming", "Sunset Watching", "Family Friendly"],
@@ -12,6 +13,7 @@ const beaches = [
   {
     name: "Sai Nuan Beach",
     subtitle: "Hidden Gem",
+    image: "/images/photo-1659518893171-b15e20a8e201.avif",
     description: "A hidden gem and throwback to the days when the first backpackers arrived on Koh Tao. Sai Nuan is actually two scenic beaches separated by a rocky outcrop. The first has a grass area with a tree swing and hammocks between palm trees. The small Sai Thong resort of wooden Thai-style bungalows adds to the relaxed, peaceful atmosphere. On a clear day expect white sand, coconut palms, and a clear warm turquoise sea. One of the least crowded beaches on the island.",
     location: "South West",
     tags: ["Secluded", "Peaceful", "Snorkeling", "Hammocks"],
@@ -20,6 +22,7 @@ const beaches = [
   {
     name: "June Juea Beach",
     subtitle: "Most Remote",
+    image: "/images/photo-1682686580849-3e7f67df4015.avif",
     description: "Possibly the most remote beach on Koh Tao and certainly one of the smallest, June Juea is one of the most picturesque and secluded places to watch the sunset. Located on the south west side of the island, you can reach it by continuing the coastal walk from Sai Nuan, or walking from Chalok Baan Kao. The bay is made up of small areas of sand between large rocks and trees that provide natural shade. Perfect for getting away from it all.",
     location: "South West",
     tags: ["Remote", "Sunset", "Secluded", "Swimming"],
@@ -28,6 +31,7 @@ const beaches = [
   {
     name: "Freedom Beach",
     subtitle: "South Side Favourite",
+    image: "/images/photo-1647825194145-2d94e259c745.avif",
     description: "Another small secluded beach, Freedom beach is probably the most popular small beach on Koh Tao. Located on the south side, it's best reached by scooter — about 10 minutes from Sairee. The 100 baht entrance fee gives access to John Suwan Viewpoint, Taa Toh beach, and Freedom Beach. Beautiful white sandy beach with shade from Pemphis Acidula trees with hammocks, a shallow reef for snorkeling, and a beachside restaurant overlooking Chalok Baan Kao bay.",
     location: "South Coast",
     tags: ["Snorkeling", "Hammocks", "Restaurant", "Day Trip"],
@@ -36,6 +40,7 @@ const beaches = [
   {
     name: "Tanote Beach",
     subtitle: "Tanote Bay — East Coast",
+    image: "/images/photo-1682687982423-295485af248a.avif",
     description: "Situated on the east side of Koh Tao, Tanote Bay is easily accessible via the concrete road on a scooter. For early risers it's perfect for watching the sunrise facing east. Surrounded by steep jungle-covered hills, the beach stretches across the bay offering room for activities, swimming, snorkeling, and sunbathing. A large granite rock just offshore is the best rock jumping location on Koh Tao. Excellent marine life makes it a popular snorkeling and occasional diving spot.",
     location: "East Coast",
     tags: ["Rock Jumping", "Sunrise", "Snorkeling", "Diving", "Restaurant"],
@@ -44,6 +49,7 @@ const beaches = [
   {
     name: "Aow Leuk Beach",
     subtitle: "Instagram Paradise",
+    image: "/images/turtle.avif",
     description: "This beautiful beach sits in a stunning bay on the south east side of Koh Tao — one of the most picturesque bays in the entire Samui Archipelago. On a clear day you have a stunning backdrop of Koh Phangan with the iconic Shark Island in the foreground, less than 1km by kayak. A 100 baht entrance fee includes fresh water and a sun lounger with umbrella. Colourful coral reef lines both sides of the bay, and the sheltered middle is perfect for swimming.",
     location: "South East",
     tags: ["Snorkeling", "Sun Loungers", "Coral Reef", "Photography"],
@@ -52,6 +58,7 @@ const beaches = [
   {
     name: "Sairee Beach",
     subtitle: "The Main Beach — 2km Long",
+    image: "/images/photo-1618865181016-a80ad83a06d3.avif",
     description: "World-famous Sairee Beach is the busiest and longest beach on Koh Tao at almost 2 kilometres. The main tourist hub, Sairee has bars, restaurants, and resorts with soft white sand and plenty of shade. Activities include tree swings, paddleboarding, kayaking, beach volleyball, swimming, and snorkeling. Walk the full length along the path behind beachfront properties past shops and resort entrances. Popular sunset bars with music make evenings unforgettable on the west-facing shore.",
     location: "West Coast",
     tags: ["Bars & Restaurants", "Paddleboarding", "Kayaking", "Sunset", "Nightlife"],
@@ -60,6 +67,7 @@ const beaches = [
   {
     name: "Koh Nang Yuan",
     subtitle: "The Iconic Island — 800m Offshore",
+    image: "/images/japanandwins.jpg",
     description: "Koh Nang Yuan is a separate island located approximately 800 metres off the north west coast of Koh Tao, accessible by long-tail boat. Probably the most photographed beach in Thailand — a unique inter-connected sandbar connecting three land masses. With a stunning Viewpoint to climb and snorkeling one of Thailand's most diverse coral reefs, it's on every visitor's bucket list. At low tide the sandbar connects the land masses with soft white sand and sun loungers.",
     location: "North West (Separate Island)",
     tags: ["Iconic", "Viewpoint", "Snorkeling", "Coral Reef", "Photography"],
@@ -94,14 +102,18 @@ const BeachesKohTao = () => (
     <section className="max-w-5xl mx-auto px-4 pb-16 space-y-10">
       {beaches.map((beach, i) => (
         <div key={beach.name} className={`bg-white rounded-2xl shadow-md overflow-hidden flex flex-col md:flex-row ${i % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
-          <div className="md:w-2/5 bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center p-10">
-            <div className="text-center text-white">
-              <div className="text-6xl font-bold opacity-20 mb-2">{String(i + 1).padStart(2, '0')}</div>
-              <h3 className="text-2xl font-bold">{beach.name}</h3>
-              <p className="text-blue-100 italic mt-1">{beach.subtitle}</p>
-              <div className="mt-3 flex items-center justify-center gap-1 text-sm text-blue-100">
+          <div className="md:w-2/5 relative min-h-[280px] md:min-h-full bg-gradient-to-br from-blue-500 to-teal-500">
+            <img src={beach.image} alt={beach.name} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
+            <div className="relative h-full flex items-end p-6">
+              <div className="text-white">
+                <div className="text-5xl font-bold opacity-20 leading-none mb-2">{String(i + 1).padStart(2, '0')}</div>
+                <h3 className="text-2xl font-bold">{beach.name}</h3>
+                <p className="text-blue-100 italic mt-1">{beach.subtitle}</p>
+                <div className="mt-3 flex items-center gap-1 text-sm text-blue-100">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
                 {beach.location}
+                </div>
               </div>
             </div>
           </div>
