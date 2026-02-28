@@ -1,7 +1,7 @@
 import { create } from 'ipfs-http-client';
 
-const projectId = process.env.INFURA_PROJECT_ID;
-const projectSecret = process.env.INFURA_PROJECT_SECRET;
+const projectId = import.meta.env.VITE_INFURA_PROJECT_ID;
+const projectSecret = import.meta.env.VITE_INFURA_PROJECT_SECRET;
 const auth =
   'Basic ' + btoa(projectId + ':' + projectSecret);
 
