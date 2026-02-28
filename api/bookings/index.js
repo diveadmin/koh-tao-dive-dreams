@@ -123,42 +123,24 @@ export default async function handler(req, res) {
   if (handleOptions(req, res)) return;
   applyCors(res);
 
-  if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) {
-    return res.status(500).json({ error: 'Airtable is not configured. Set AIRTABLE_PERSONAL_ACCESS_TOKEN and AIRTABLE_BASE_ID.' });
-  }
+  // Airtable references removed
 
   try {
     if (req.method === 'GET') {
       const adminUser = await requireAdmin(req, res);
       if (!adminUser) return;
 
-      const paramsWithSort = new URLSearchParams();
-      paramsWithSort.set('maxRecords', '500');
-      paramsWithSort.set('sort[0][field]', 'created_at');
-      paramsWithSort.set('sort[0][direction]', 'desc');
+      // Fetch bookings from Supabase
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      let response = await fetch(airtableUrl(BOOKINGS_TABLE, paramsWithSort.toString()), {
-        method: 'GET',
-        headers: getHeaders(),
-      });
-      let payload = await response.json();
-
-      if (!response.ok && payload?.error?.message?.includes('Unknown field name: "created_at"')) {
-        const paramsNoSort = new URLSearchParams();
-        paramsNoSort.set('maxRecords', '500');
-        response = await fetch(airtableUrl(BOOKINGS_TABLE, paramsNoSort.toString()), {
-          method: 'GET',
-          headers: getHeaders(),
-        });
-        payload = await response.json();
+      if (error) {
+        return res.status(500).json({ error: error.message });
       }
 
-      if (!response.ok) {
-        return res.status(response.status).json({ error: payload?.error?.message || 'Failed to fetch bookings' });
-      }
-
-      const bookings = (payload.records || []).map(mapBooking);
-      return res.status(200).json(bookings);
+      return res.status(200).json(data);
     }
 
     if (req.method === 'POST') {
