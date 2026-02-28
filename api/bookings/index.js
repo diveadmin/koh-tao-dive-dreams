@@ -1,3 +1,8 @@
+import { handleOptions } from '../_lib/cors.js';
+// ...existing code...
+if (handleOptions(req, res)) return;
+// ...rest of your handler...
+
 import { applyCors, handleOptions } from '../_lib/cors.js';
 import { requireAdmin } from '../_lib/auth.js';
 
