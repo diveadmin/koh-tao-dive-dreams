@@ -29,7 +29,10 @@ const isBookingClick = (row: ClickRow) => {
   if (affiliateId === BOOKING_AFFILIATE_ID) return true;
 
   const url = row.hotel_url || '';
-  return /(?:[?&]aid=2787354(?:&|$))/i.test(url);
+  if (/(^|\.)booking\.com/i.test(url)) return true;
+  if (/[?&]aid=\d+/i.test(url)) return true;
+
+  return false;
 };
 
 const AffiliateStats = () => {

@@ -14,7 +14,10 @@ const isTripClick = (row: ClickRow) => {
   if (affiliateId === TRIP_ALLIANCE_ID) return true;
 
   const url = row.hotel_url || '';
-  return /(?:[?&]allianceid=7864578(?:&|$))/i.test(url);
+  if (/(^|\.)trip\.com/i.test(url)) return true;
+  if (/[?&]allianceid=\d+/i.test(url)) return true;
+
+  return false;
 };
 
 interface ClickRow {
