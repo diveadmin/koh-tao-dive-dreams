@@ -201,7 +201,7 @@ const       BookingPage: React.FC = () => {
         if (persisted) {
           toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
         } else {
-          toast.error('Inquiry sent, but booking was not saved to CRM. Check API/Airtable field names.');
+          toast.error('Inquiry sent, but booking was not saved to CRM. Check API/Supabase field names.');
         }
         if (data.paymentChoice === 'now' && amountMajor > 0) {
           setShowPaymentLinks(true);

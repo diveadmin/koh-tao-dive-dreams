@@ -103,11 +103,6 @@ const findBookingRecordById = async (id) => {
     params.set('maxRecords', '1');
     params.set('filterByFormula', formula);
 
-    const response = await fetch(airtableUrl(BOOKINGS_TABLE, params.toString()), {
-      method: 'GET',
-      headers: airtableHeaders(),
-    });
-    const payload = await response.json();
     return { response, payload };
   };
 

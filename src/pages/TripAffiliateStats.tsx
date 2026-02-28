@@ -179,7 +179,7 @@ const TripAffiliateStats = () => {
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 mb-6">
-            {error} — make sure Airtable is configured and the <code>affiliate_clicks</code> table exists.
+            {error} — make sure Supabase is configured and the <code>affiliate_clicks</code> table exists.
           </div>
         )}
 
