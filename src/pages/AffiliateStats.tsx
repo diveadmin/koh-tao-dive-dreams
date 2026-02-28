@@ -62,7 +62,8 @@ const AffiliateStats = () => {
       }
 
       const rows = Array.isArray(data) ? data : [];
-      setClicks(rows.filter(isBookingClick));
+      const filteredRows = rows.filter(isBookingClick);
+      setClicks(filteredRows.length > 0 ? filteredRows : rows);
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
     }

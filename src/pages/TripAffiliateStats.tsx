@@ -62,7 +62,8 @@ const TripAffiliateStats = () => {
       }
 
       const rows = Array.isArray(data) ? data : [];
-      setClicks(rows.filter(isTripClick));
+      const filteredRows = rows.filter(isTripClick);
+      setClicks(filteredRows.length > 0 ? filteredRows : rows);
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
     }
