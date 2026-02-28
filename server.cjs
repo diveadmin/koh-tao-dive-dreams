@@ -143,46 +143,7 @@ app.post('/api/bookings', async (req, res) => {
     email,
     phone,
     item_type,
-    course_title,
-    preferred_date,
-    experience_level,
-    addons,
-    addons_json,
-    addons_total,
-    subtotal_amount,
-    total_payable_now,
-    message,
-    status,
-    created_at,
-  } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Missing required fields: name and email' });
-  }
-
-  try {
-    let fields = {
-      id: id || (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`),
-      name,
-      email,
-      ...(phone ? { phone } : {}),
-      ...(item_type ? { item_type } : {}),
-      course_title: course_title || '',
-      preferred_date: preferred_date || new Date().toISOString().slice(0, 10),
-      ...(experience_level ? { experience_level } : {}),
-      ...(addons ? { addons } : {}),
-      ...(addons_json ? { addons_json } : {}),
-      ...(typeof addons_total === 'number' ? { addons_total } : {}),
-      ...(typeof subtotal_amount === 'number' ? { subtotal_amount } : {}),
-      ...(typeof total_payable_now === 'number' ? { total_payable_now } : {}),
-      ...(message ? { message } : {}),
-      status: status || 'pending',
-      created_at: created_at || new Date().toISOString(),
-    };
-
-    let response;
-    let payload;
-
-    for (let attempt = 0; attempt < 8; attempt += 1) {
+    });
       response = await fetch(airtableUrl(BOOKINGS_TABLE), {
         method: 'POST',
         headers: airtableHeaders(),
@@ -253,45 +214,6 @@ app.post('/api/bookings', async (req, res) => {
       return res.status(500).json({ error: error.message });
     }
     return res.status(201).json(data[0]);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-});
-  const { id } = req.params;
-
-  try {
-    const record = await findBookingRecordById(id);
-    if (!record) {
-      return res.status(404).json({ error: 'Booking not found' });
-    }
-
-    let fields = {
-      ...(req.body || {}),
-      updated_at: new Date().toISOString(),
-    };
-
-    let response;
-    let payload;
-
-    for (let attempt = 0; attempt < 8; attempt += 1) {
-      response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${record.id}`, {
-        method: 'PATCH',
-        headers: airtableHeaders(),
-        body: JSON.stringify({ fields }),
-      });
-      payload = await response.json();
-
-      if (response.ok) {
-        return res.status(200).json(mapBooking(payload));
-      }
-
-      const unknownField = parseUnknownFieldName(payload?.error?.message || '');
-      const nextFields = mutateFieldsForUnknown(fields, unknownField);
-      if (!nextFields) break;
-      fields = nextFields;
-    }
-
-    return res.status(response?.status || 500).json({ error: payload?.error?.message || 'Failed to update booking' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

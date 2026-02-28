@@ -38,8 +38,8 @@ const AdminLogin = () => {
       if (error || !data.session) throw error || new Error('Login failed');
 
       if (!hasAdminAccess(data.user)) {
-        await supabase.auth.signOut();
-        throw new Error('Admin access required');
+        setError('Admin access required. Please contact support.');
+        return;
       }
 
       const probeRes = await fetch('/api/bookings', {
