@@ -35,6 +35,39 @@ export type Database = {
         }
         Relationships: []
       }
+      affiliate_clicks: {
+        Row: {
+          affiliate_id: string | null
+          clicked_at: string | null
+          hotel_name: string
+          hotel_url: string
+          id: string
+          ip_address: string | null
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          affiliate_id?: string | null
+          clicked_at?: string | null
+          hotel_name: string
+          hotel_url: string
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          affiliate_id?: string | null
+          clicked_at?: string | null
+          hotel_name?: string
+          hotel_url?: string
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       booking_inquiries: {
         Row: {
           course_title: string
@@ -46,6 +79,7 @@ export type Database = {
           name: string
           phone: string | null
           preferred_date: string | null
+          status: string | null
         }
         Insert: {
           course_title: string
@@ -57,6 +91,7 @@ export type Database = {
           name: string
           phone?: string | null
           preferred_date?: string | null
+          status?: string | null
         }
         Update: {
           course_title?: string
@@ -68,6 +103,34 @@ export type Database = {
           name?: string
           phone?: string | null
           preferred_date?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          experience_level: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          experience_level?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          experience_level?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
