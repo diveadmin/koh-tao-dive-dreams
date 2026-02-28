@@ -49,13 +49,13 @@ const AdminLogin = () => {
       });
 
       if (probeRes.status === 403) {
-        await supabase.auth.signOut();
-        throw new Error('Backend admin access is not configured for this account');
+        setError('Backend admin access is not configured for this account. Please contact support.');
+        return;
       }
 
       if (probeRes.status === 401) {
-        await supabase.auth.signOut();
-        throw new Error('Session token is invalid for backend access');
+        setError('Session token is invalid for backend access. Please log in again or contact support.');
+        return;
       }
 
       if (!probeRes.ok) {

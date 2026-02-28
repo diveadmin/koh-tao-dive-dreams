@@ -1,4 +1,5 @@
 const express = require('express');
+const { requireAdmin } = require('./api/_lib/auth');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
@@ -121,6 +122,8 @@ const findBookingRecordById = async (id) => {
 // Routes
 
 app.get('/api/bookings', async (req, res) => {
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
   try {
     const { data, error } = await supabase
       .from('bookings')
