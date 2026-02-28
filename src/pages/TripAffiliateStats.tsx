@@ -35,9 +35,38 @@ interface HotelStat {
   last_clicked: string;
 }
 
+const normalizeClickRow = (row: any): ClickRow => {
+  const fields = row?.fields || {};
+  const clickedAt =
+    row?.clicked_at ||
+    row?.clickedAt ||
+    fields?.clicked_at ||
+    fields?.clickedAt ||
+    row?.createdTime ||
+    null;
+
+  return {
+    id: row?.id || fields?.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    hotel_name: row?.hotel_name || row?.hotelName || fields?.hotel_name || fields?.hotelName || fields?.name || 'Unknown hotel',
+    hotel_url: row?.hotel_url || row?.hotelUrl || fields?.hotel_url || fields?.hotelUrl || fields?.url || '',
+    affiliate_id: row?.affiliate_id || row?.affiliateId || fields?.affiliate_id || fields?.affiliateId || null,
+    clicked_at: clickedAt || new Date().toISOString(),
+    referrer: row?.referrer || fields?.referrer || null,
+  };
+};
+
+const extractClickRows = (payload: any): ClickRow[] => {
+  if (Array.isArray(payload)) return payload.map(normalizeClickRow);
+  if (Array.isArray(payload?.records)) return payload.records.map(normalizeClickRow);
+  if (Array.isArray(payload?.data)) return payload.data.map(normalizeClickRow);
+  if (Array.isArray(payload?.items)) return payload.items.map(normalizeClickRow);
+  return [];
+};
+
 const TripAffiliateStats = () => {
   const navigate = useNavigate();
   const [clicks, setClicks] = useState<ClickRow[]>([]);
+  const [rawCount, setRawCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
@@ -61,11 +90,13 @@ const TripAffiliateStats = () => {
         throw new Error(data?.error || 'Failed to fetch affiliate clicks');
       }
 
-      const rows = Array.isArray(data) ? data : [];
+      const rows = extractClickRows(data);
+      setRawCount(rows.length);
       const filteredRows = rows.filter(isTripClick);
       setClicks(filteredRows.length > 0 ? filteredRows : rows);
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
+      setRawCount(0);
     }
 
     setLoading(false);
@@ -114,6 +145,7 @@ const TripAffiliateStats = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Trip.com Affiliate Stats</h1>
             <p className="text-gray-500 mt-1">Track clicks and commission potential</p>
+            <p className="text-xs text-gray-400 mt-1">Source: {apiBase || 'same-origin'} · Raw rows: {rawCount}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button onClick={fetchClicks} variant="outline" disabled={loading}>
