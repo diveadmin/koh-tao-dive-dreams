@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const beaches = [
   {
@@ -75,25 +76,126 @@ const beaches = [
   },
 ];
 
-const BeachesKohTao = () => (
+const BeachesKohTao = () => {
+  const { i18n } = useTranslation();
+  const isDutch = i18n.language.startsWith('nl');
+
+  const content = {
+    nl: {
+      heroTitle: 'Stranden van Koh Tao',
+      heroText: 'Koh Tao is gezegend met prachtige natuur: groene jungle, baaien met palmen en tropisch turquoise water aan witte zandstranden.',
+      introTitle: 'Prachtige stranden op Koh Tao – Ontspan & geniet',
+      introText: 'Het eiland heeft talloze spectaculaire baaien en stranden. Of je nu wilt snorkelen, zonnen of gewoon ontspannen: er is altijd een strand dat bij je past.',
+      tipLabel: '💡 Tip:',
+      ctaTitle: 'Ontdek Koh Tao buiten de stranden',
+      ctaText: 'Duik op locaties van wereldklasse, ontdek indrukwekkend zeeleven of ga mee op snorkeltrip naar Koh Nang Yuan.',
+      ctaSites: 'Bekijk duiklocaties',
+      ctaMarineLife: 'Mariene leven Koh Tao',
+      ctaBook: 'Boek een trip',
+    },
+    en: {
+      heroTitle: 'Beaches of Koh Tao',
+      heroText: 'Koh Tao is blessed with stunning nature: lush jungle, palm-lined bays, and tropical turquoise water along white sandy beaches.',
+      introTitle: 'Beautiful beaches on Koh Tao – Relax & enjoy',
+      introText: 'The island has many spectacular bays and beaches. Whether you want to snorkel, sunbathe, or simply relax, there is always a beach that fits your style.',
+      tipLabel: '💡 Tip:',
+      ctaTitle: 'Discover Koh Tao beyond the beaches',
+      ctaText: 'Dive world-class sites, discover incredible marine life, or join a snorkeling trip to Koh Nang Yuan.',
+      ctaSites: 'View dive sites',
+      ctaMarineLife: 'Koh Tao marine life',
+      ctaBook: 'Book a trip',
+    },
+  };
+
+  const pageContent = isDutch ? content.nl : content.en;
+
+  const toEnglishLocation = (location: string) => {
+    const map: Record<string, string> = {
+      Westkust: 'West coast',
+      Zuidwest: 'Southwest',
+      Zuidkust: 'South coast',
+      Oostkust: 'East coast',
+      Zuidoost: 'Southeast',
+      'Noordwest (apart eiland)': 'Northwest (separate island)',
+    };
+    return map[location] || location;
+  };
+
+  const toEnglishTag = (tag: string) => {
+    const map: Record<string, string> = {
+      Snorkelen: 'Snorkeling',
+      Zwemmen: 'Swimming',
+      Zonsondergang: 'Sunset',
+      Gezinsvriendelijk: 'Family-friendly',
+      Afgelegen: 'Secluded',
+      Rustig: 'Quiet',
+      Hangmatten: 'Hammocks',
+      Rust: 'Relaxation',
+      Restaurant: 'Restaurant',
+      Dagtrip: 'Day trip',
+      'Rots springen': 'Rock jumping',
+      Zonsopkomst: 'Sunrise',
+      Duiken: 'Diving',
+      Ligbedden: 'Sun loungers',
+      Koraalrif: 'Coral reef',
+      Fotografie: 'Photography',
+      Paddleboarden: 'Paddleboarding',
+      Kajakken: 'Kayaking',
+      Nachtleven: 'Nightlife',
+      Iconisch: 'Iconic',
+      Uitzichtpunt: 'Viewpoint',
+      'Bars & restaurants': 'Bars & restaurants',
+    };
+    return map[tag] || tag;
+  };
+
+  const toEnglishSubtitle = (subtitle: string) => {
+    const map: Record<string, string> = {
+      'Noord & Zuid': 'North & South',
+      'Verborgen parel': 'Hidden gem',
+      'Meest afgelegen': 'Most secluded',
+      'Favoriet in het zuiden': 'Southern favorite',
+      'Tanote Bay — Oostkust': 'Tanote Bay — East coast',
+      'Instagram-paradijs': 'Instagram paradise',
+      'Het hoofdstrand — 2 km lang': 'The main beach — 2 km long',
+      'Het iconische eiland — 800 m uit de kust': 'The iconic island — 800 m offshore',
+    };
+    return map[subtitle] || subtitle;
+  };
+
+  const toEnglishTip = (tip: string) => {
+    const map: Record<string, string> = {
+      'Ga naar Breeze Koh Tao voor lunch en strandbedjes — perfect voor zonsondergang.': 'Head to Breeze Koh Tao for lunch and beach loungers — perfect for sunset.',
+      'Loop vanaf Mae Haad achter Sensi Paradise langs — ongeveer 25 minuten. Volg de bordjes onderweg.': 'Walk from Mae Haad past Sensi Paradise — about 25 minutes. Follow the signs along the way.',
+      'Een van de beste zonsondergangplekken op het eiland — neem wat te drinken mee en geniet.': 'One of the best sunset spots on the island — bring a drink and enjoy.',
+      'Bezoek eerst John Suwan Viewpoint en koel daarna af met een duik. Twee stranden voor één entree.': 'Visit John Suwan Viewpoint first, then cool off with a swim. Two beaches for one entrance fee.',
+      'Twee resorts aan het strand met restaurants — ideaal voor een hele dag. Kom vroeg voor de beste springplek.': 'Two beachfront resorts with restaurants — ideal for a full day. Arrive early for the best jumping spot.',
+      'Neem je eigen masker en snorkel mee of huur ter plekke — prachtig zeeleven direct vanaf het strand.': 'Bring your own mask and snorkel or rent on-site — amazing marine life right from the beach.',
+      'Loop van het ene uiteinde naar het andere — zo ontdek je eenvoudig de leukste plekjes van Sairee.': 'Walk from one end to the other to easily discover Sairee’s best spots.',
+      'Boek een halve of hele dag snorkeltour, of huur een lokale longtailboot vanaf de westkant van Koh Tao.': 'Book a half-day or full-day snorkeling trip, or hire a local longtail boat from Koh Tao’s west side.',
+    };
+    return map[tip] || tip;
+  };
+
+  return (
   <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
     {/* Hero Section */}
     <section className="relative h-64 md:h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-[url('/images/sexy.png')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-black/40" />
       <div className="text-center text-white z-10 px-4 relative">
-        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">Stranden van Koh Tao</h1>
+        <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg mb-4">{pageContent.heroTitle}</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto drop-shadow text-white/90">
-          Koh Tao is gezegend met prachtige natuur: groene jungle, baaien met palmen en tropisch turquoise water aan witte zandstranden.
+          {pageContent.heroText}
         </p>
       </div>
     </section>
 
     {/* Intro */}
     <section className="max-w-4xl mx-auto px-4 py-12 text-center">
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">Prachtige stranden op Koh Tao – Ontspan & geniet</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-4">{pageContent.introTitle}</h2>
       <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-        Het eiland heeft talloze spectaculaire baaien en stranden. Of je nu wilt snorkelen, zonnen of gewoon ontspannen: er is altijd een strand dat bij je past.
+        {pageContent.introText}
       </p>
     </section>
 
@@ -108,10 +210,10 @@ const BeachesKohTao = () => (
               <div className="text-white">
                 <div className="text-5xl font-bold opacity-20 leading-none mb-2">{String(i + 1).padStart(2, '0')}</div>
                 <h3 className="text-2xl font-bold">{beach.name}</h3>
-                <p className="text-blue-100 italic mt-1">{beach.subtitle}</p>
+                <p className="text-blue-100 italic mt-1">{isDutch ? beach.subtitle : toEnglishSubtitle(beach.subtitle)}</p>
                 <div className="mt-3 flex items-center gap-1 text-sm text-blue-100">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
-                {beach.location}
+                {isDutch ? beach.location : toEnglishLocation(beach.location)}
                 </div>
               </div>
             </div>
@@ -120,11 +222,11 @@ const BeachesKohTao = () => (
             <p className="text-gray-600 leading-relaxed">{beach.description}</p>
             <div className="flex flex-wrap gap-2">
               {beach.tags.map(tag => (
-                <span key={tag} className="bg-blue-50 text-blue-700 text-xs px-3 py-1 rounded-full border border-blue-100">{tag}</span>
+                <span key={tag} className="bg-blue-50 text-blue-700 text-xs px-3 py-1 rounded-full border border-blue-100">{isDutch ? tag : toEnglishTag(tag)}</span>
               ))}
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800">
-              <span className="font-semibold">💡 Tip: </span>{beach.tip}
+              <span className="font-semibold">{pageContent.tipLabel} </span>{isDutch ? beach.tip : toEnglishTip(beach.tip)}
             </div>
           </div>
         </div>
@@ -133,15 +235,16 @@ const BeachesKohTao = () => (
 
     {/* CTA */}
     <section className="bg-blue-600 text-white py-14 px-4 text-center">
-      <h2 className="text-3xl font-bold mb-3">Ontdek Koh Tao buiten de stranden</h2>
-      <p className="text-blue-100 max-w-xl mx-auto mb-8">Duik op locaties van wereldklasse, ontdek indrukwekkend zeeleven of ga mee op snorkeltrip naar Koh Nang Yuan.</p>
+      <h2 className="text-3xl font-bold mb-3">{pageContent.ctaTitle}</h2>
+      <p className="text-blue-100 max-w-xl mx-auto mb-8">{pageContent.ctaText}</p>
       <div className="flex flex-wrap justify-center gap-4">
-        <a href="/koh-tao-dive-sites" className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition">Bekijk duiklocaties</a>
-        <a href="/marine-life" className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg border border-blue-400 hover:bg-blue-400 transition">Mariene leven Koh Tao</a>
-        <a href="/#contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">Boek een trip</a>
+        <a href="/koh-tao-dive-sites" className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition">{pageContent.ctaSites}</a>
+        <a href="/marine-life" className="bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg border border-blue-400 hover:bg-blue-400 transition">{pageContent.ctaMarineLife}</a>
+        <a href="/#contact" className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-teal-400 transition">{pageContent.ctaBook}</a>
       </div>
     </section>
   </main>
-);
+  );
+};
 
 export default BeachesKohTao;

@@ -5,9 +5,59 @@ import { Badge } from '@/components/ui/badge';
 import BookingForm from '../components/BookingForm';
 import { MapPin, Waves, Fish, Anchor, Eye, Clock } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const DiveSitesPage = () => {
   const location = useLocation();
+  const { i18n } = useTranslation();
+  const isDutch = i18n.language.startsWith('nl');
+  const content = {
+    nl: {
+      heroTitle: 'Duiklocaties op Koh Tao',
+      heroText: 'Ontdek meer dan 25 geweldige duiklocaties rond Koh Tao, van ondiepe koraalriffen tot diepe oceaanpinnacles. Elke plek biedt unieke onderwaterervaringen en rijk zeeleven.',
+      bookDive: 'Boek je duik',
+      overviewTitle: 'Beste duiklocaties op Koh Tao',
+      overviewText: 'Koh Tao heeft meer dan 25 uitstekende duiklocaties met gevarieerde topografie en een overvloed aan zeeleven. Elke plek is uniek en biedt duikers van elk niveau iets anders, met genoeg variatie om ook ervaren duikers wekenlang te boeien.',
+      stat1Title: '25+ locaties',
+      stat1Text: 'Van ondiepe baaien tot diepe pinnacles',
+      stat2Title: 'Divers zeeleven',
+      stat2Text: 'Walvishaaien, roggen en koraalriffen',
+      stat3Title: 'Kunstmatige riffen',
+      stat3Text: 'Wrakken en structuren voor unieke duiken',
+      stat4Title: 'Alle niveaus',
+      stat4Text: 'Locaties voor beginners tot gevorderde duikers',
+      deepTitle: 'Diepe duiklocaties voor gevorderde duikers',
+      coralTitle: 'Prachtige koraalrif-locaties',
+      artificialTitle: 'Kunstmatige duiklocaties',
+      shallowTitle: 'Ondiepe duiklocaties voor beginners',
+      depth: 'Diepte',
+      bookingTitle: 'Ontdek de onderwaterwereld van Koh Tao',
+      bookingText: 'Klaar om de geweldige duiklocaties van Koh Tao te ontdekken? Onze ervaren gidsen nemen je mee naar de beste plekken voor jouw niveau en interesses.',
+    },
+    en: {
+      heroTitle: 'Dive sites around Koh Tao',
+      heroText: 'Discover more than 25 incredible dive sites around Koh Tao, from shallow coral reefs to deep ocean pinnacles. Every site offers unique underwater experiences and rich marine life.',
+      bookDive: 'Book your dive',
+      overviewTitle: 'Best dive sites around Koh Tao',
+      overviewText: 'Koh Tao has over 25 excellent dive sites with varied topography and abundant marine life. Each site is unique and offers something different for every diver level, with enough variety to keep experienced divers engaged for weeks.',
+      stat1Title: '25+ sites',
+      stat1Text: 'From shallow bays to deep pinnacles',
+      stat2Title: 'Diverse marine life',
+      stat2Text: 'Whale sharks, rays, and coral reefs',
+      stat3Title: 'Artificial reefs',
+      stat3Text: 'Wrecks and structures for unique dives',
+      stat4Title: 'All levels',
+      stat4Text: 'Sites for beginners through advanced divers',
+      deepTitle: 'Deep dive sites for advanced divers',
+      coralTitle: 'Beautiful coral reef sites',
+      artificialTitle: 'Artificial dive sites',
+      shallowTitle: 'Shallow dive sites for beginners',
+      depth: 'Depth',
+      bookingTitle: 'Discover Koh Tao’s underwater world',
+      bookingText: 'Ready to explore Koh Tao’s amazing dive sites? Our experienced guides take you to the best spots for your level and interests.',
+    },
+  };
+  const pageContent = isDutch ? content.nl : content.en;
 
   useEffect(() => {
     const hash = location.hash?.replace('#', '') || '';
@@ -26,114 +76,223 @@ const DiveSitesPage = () => {
     });
   }, [location.hash, location.pathname]);
 
-  const deepDiveSites = [
-    {
-      name: "Sail Rock",
-      path: "/dive-sites/sail-rock",
-      description: "De belangrijkste diepe duiklocatie van Koh Tao met grote visscholen, walvishaaien en reuzenbarracuda.",
-      depth: "18-40m",
-      highlights: ["Walvishaaien", "Reuzenbarracuda", "Malabar grouper", "Zeilvis"],
-      difficulty: "Gevorderd",
-      location: "40 minuten offshore"
-    },
-    {
-      name: "Chumphon Pinnacle",
-      description: "Granieten pinnacle met uitstekende kansen op walvishaaien en grote scholen trevally.",
-      depth: "15-30m",
-      highlights: ["Walvishaaien", "Trevally-scholen", "Adelaarsroggen", "Chevron-barracuda"],
-      difficulty: "Gevorderd",
-      location: "30 minuten offshore"
-    },
-    {
-      name: "South West Pinnacle",
-      description: "Diepe pinnacle, bekend om walvishaaien, brydevinvissen en grote pelagische vis.",
-      depth: "15-35m",
-      highlights: ["Walvishaaien", "Brydevinvissen", "Reuzenbarracuda", "Koningsmakreel"],
-      difficulty: "Gevorderd",
-      location: "30-40 minuten offshore"
-    }
-  ];
+  const deepDiveSites = isDutch
+    ? [
+        {
+          name: "Sail Rock",
+          path: "/dive-sites/sail-rock",
+          description: "De belangrijkste diepe duiklocatie van Koh Tao met grote visscholen, walvishaaien en reuzenbarracuda.",
+          depth: "18-40m",
+          highlights: ["Walvishaaien", "Reuzenbarracuda", "Malabar grouper", "Zeilvis"],
+          difficulty: "Gevorderd",
+          location: "40 minuten offshore"
+        },
+        {
+          name: "Chumphon Pinnacle",
+          description: "Granieten pinnacle met uitstekende kansen op walvishaaien en grote scholen trevally.",
+          depth: "15-30m",
+          highlights: ["Walvishaaien", "Trevally-scholen", "Adelaarsroggen", "Chevron-barracuda"],
+          difficulty: "Gevorderd",
+          location: "30 minuten offshore"
+        },
+        {
+          name: "South West Pinnacle",
+          description: "Diepe pinnacle, bekend om walvishaaien, brydevinvissen en grote pelagische vis.",
+          depth: "15-35m",
+          highlights: ["Walvishaaien", "Brydevinvissen", "Reuzenbarracuda", "Koningsmakreel"],
+          difficulty: "Gevorderd",
+          location: "30-40 minuten offshore"
+        }
+      ]
+    : [
+        {
+          name: "Sail Rock",
+          path: "/dive-sites/sail-rock",
+          description: "Koh Tao’s flagship deep dive site with huge fish schools, whale sharks, and giant barracuda.",
+          depth: "18-40m",
+          highlights: ["Whale sharks", "Giant barracuda", "Malabar grouper", "Sailfish"],
+          difficulty: "Gevorderd",
+          location: "40 minutes offshore"
+        },
+        {
+          name: "Chumphon Pinnacle",
+          description: "Granite pinnacle with excellent whale shark sightings and large schools of trevally.",
+          depth: "15-30m",
+          highlights: ["Whale sharks", "Trevally schools", "Eagle rays", "Chevron barracuda"],
+          difficulty: "Gevorderd",
+          location: "30 minutes offshore"
+        },
+        {
+          name: "South West Pinnacle",
+          description: "Deep pinnacle known for whale sharks, Bryde’s whales, and large pelagic fish.",
+          depth: "15-35m",
+          highlights: ["Whale sharks", "Bryde’s whales", "Giant barracuda", "Spanish mackerel"],
+          difficulty: "Gevorderd",
+          location: "30-40 minutes offshore"
+        }
+      ];
 
-  const coralReefSites = [
-    {
-      name: "Japanese Gardens",
-      description: "Gevarieerde koraalriffen met kleurrijk zeeleven en swim-throughs.",
-      depth: "12-25m",
-      highlights: ["Pink-tailed triggerfish", "Ocellated adelaarsrog", "Kleurrijk koraal", "Gemarmerde octopus"],
-      difficulty: "Gemiddeld",
-      location: "Bij Koh Nang Yuan"
-    },
-    {
-      name: "Shark Island",
-      description: "Prachtige paarse boomkoralen en gorgonen met veel zeeleven.",
-      depth: "8-20m",
-      highlights: ["Zeewaaiers", "Zweepkoralen", "Zwartpuntrifhaaien", "Tropische vissen"],
-      difficulty: "Beginner-Gemiddeld",
-      location: "Zuidkust"
-    },
-    {
-      name: "Mango Bay",
-      description: "Ondiepe koraalriffen, ideaal voor ontspannen duiken met een gezond ecosysteem.",
-      depth: "5-18m",
-      highlights: ["Kleurrijk koraal", "Rifvissen", "Zeeanemonen"],
-      difficulty: "Beginner",
-      location: "Baai aan westkust"
-    }
-  ];
+  const coralReefSites = isDutch
+    ? [
+        {
+          name: "Japanese Gardens",
+          description: "Gevarieerde koraalriffen met kleurrijk zeeleven en swim-throughs.",
+          depth: "12-25m",
+          highlights: ["Pink-tailed triggerfish", "Ocellated adelaarsrog", "Kleurrijk koraal", "Gemarmerde octopus"],
+          difficulty: "Gemiddeld",
+          location: "Bij Koh Nang Yuan"
+        },
+        {
+          name: "Shark Island",
+          description: "Prachtige paarse boomkoralen en gorgonen met veel zeeleven.",
+          depth: "8-20m",
+          highlights: ["Zeewaaiers", "Zweepkoralen", "Zwartpuntrifhaaien", "Tropische vissen"],
+          difficulty: "Beginner-Gemiddeld",
+          location: "Zuidkust"
+        },
+        {
+          name: "Mango Bay",
+          description: "Ondiepe koraalriffen, ideaal voor ontspannen duiken met een gezond ecosysteem.",
+          depth: "5-18m",
+          highlights: ["Kleurrijk koraal", "Rifvissen", "Zeeanemonen"],
+          difficulty: "Beginner",
+          location: "Baai aan westkust"
+        }
+      ]
+    : [
+        {
+          name: "Japanese Gardens",
+          description: "Varied coral reefs with colorful marine life and swim-throughs.",
+          depth: "12-25m",
+          highlights: ["Pink-tailed triggerfish", "Ocellated eagle ray", "Colorful coral", "Marbled octopus"],
+          difficulty: "Gemiddeld",
+          location: "Near Koh Nang Yuan"
+        },
+        {
+          name: "Shark Island",
+          description: "Beautiful purple soft corals and gorgonians with abundant marine life.",
+          depth: "8-20m",
+          highlights: ["Sea fans", "Whip corals", "Blacktip reef sharks", "Tropical fish"],
+          difficulty: "Beginner-Gemiddeld",
+          location: "South coast"
+        },
+        {
+          name: "Mango Bay",
+          description: "Shallow coral reefs ideal for relaxed diving with a healthy ecosystem.",
+          depth: "5-18m",
+          highlights: ["Colorful coral", "Reef fish", "Sea anemones"],
+          difficulty: "Beginner",
+          location: "Bay on west coast"
+        }
+      ];
 
-  const artificialSites = [
-    {
-      name: "HTMS Sattakut",
-      description: "Voormalig Amerikaans marineschip uit WOII, geschonken door de Thaise marine en nu een bloeiend kunstmatig rif.",
-      depth: "18-30m",
-      highlights: ["Wrakverkenning", "Marien leven", "Swim-throughs", "Historische waarde"],
-      difficulty: "Gevorderd",
-      location: "Tussen de eilanden"
-    },
-    {
-      name: "Junkyard Reef",
-      description: "Kunstmatige stalen structuren met gezond koraal en divers zeeleven.",
-      depth: "8-15m",
-      highlights: ["Kunstmatige structuren", "Gezond koraal", "Diverse vissoorten", "Natuurproject"],
-      difficulty: "Beginner-Gemiddeld",
-      location: "Westkust"
-    },
-    {
-      name: "Buoyancy World",
-      description: "Betonblokken en buizen die nieuwe ecosystemen voor zeeleven vormen.",
-      depth: "5-12m",
-      highlights: ["Betonstructuren", "Nieuwe koraalgroei", "Klein zeeleven", "Educatief"],
-      difficulty: "Beginner",
-      location: "Aow Leuk"
-    }
-  ];
+  const artificialSites = isDutch
+    ? [
+        {
+          name: "HTMS Sattakut",
+          description: "Voormalig Amerikaans marineschip uit WOII, geschonken door de Thaise marine en nu een bloeiend kunstmatig rif.",
+          depth: "18-30m",
+          highlights: ["Wrakverkenning", "Marien leven", "Swim-throughs", "Historische waarde"],
+          difficulty: "Gevorderd",
+          location: "Tussen de eilanden"
+        },
+        {
+          name: "Junkyard Reef",
+          description: "Kunstmatige stalen structuren met gezond koraal en divers zeeleven.",
+          depth: "8-15m",
+          highlights: ["Kunstmatige structuren", "Gezond koraal", "Diverse vissoorten", "Natuurproject"],
+          difficulty: "Beginner-Gemiddeld",
+          location: "Westkust"
+        },
+        {
+          name: "Buoyancy World",
+          description: "Betonblokken en buizen die nieuwe ecosystemen voor zeeleven vormen.",
+          depth: "5-12m",
+          highlights: ["Betonstructuren", "Nieuwe koraalgroei", "Klein zeeleven", "Educatief"],
+          difficulty: "Beginner",
+          location: "Aow Leuk"
+        }
+      ]
+    : [
+        {
+          name: "HTMS Sattakut",
+          description: "Former WWII US Navy ship donated by the Thai Navy, now a thriving artificial reef.",
+          depth: "18-30m",
+          highlights: ["Wreck exploration", "Marine life", "Swim-throughs", "Historic value"],
+          difficulty: "Gevorderd",
+          location: "Between the islands"
+        },
+        {
+          name: "Junkyard Reef",
+          description: "Artificial steel structures with healthy coral growth and diverse marine life.",
+          depth: "8-15m",
+          highlights: ["Artificial structures", "Healthy coral", "Diverse fish species", "Conservation project"],
+          difficulty: "Beginner-Gemiddeld",
+          location: "West coast"
+        },
+        {
+          name: "Buoyancy World",
+          description: "Concrete blocks and pipes that create new ecosystems for marine life.",
+          depth: "5-12m",
+          highlights: ["Concrete structures", "New coral growth", "Small marine life", "Educational"],
+          difficulty: "Beginner",
+          location: "Aow Leuk"
+        }
+      ];
 
-  const shallowSites = [
-    {
-      name: "Aow Leuk",
-      description: "Ondiepe baai met koraaltuinen en makkelijke duikomstandigheden.",
-      depth: "3-10m",
-      highlights: ["Koraaltuinen", "Tropische vissen", "Makkelijke toegang", "Trainingslocatie"],
-      difficulty: "Beginner",
-      location: "Westkust"
-    },
-    {
-      name: "Hin Ngam",
-      description: "Ondiep rif met kunstmatige structuren en veel zeeleven.",
-      depth: "5-12m",
-      highlights: ["Kunstmatige riffen", "Kleurrijke vissen", "Veilig duiken", "Fotografie"],
-      difficulty: "Beginner",
-      location: "Westkust"
-    },
-    {
-      name: "Tanote Bay",
-      description: "Duiklocatie aan de oostkant met macrokansen en kleurrijk rifleven.",
-      depth: "8-15m",
-      highlights: ["Hengelaarsvis", "Pijpvis", "Macrofotografie", "Kleurrijk rif"],
-      difficulty: "Gemiddeld",
-      location: "Oostkust"
-    }
-  ];
+  const shallowSites = isDutch
+    ? [
+        {
+          name: "Aow Leuk",
+          description: "Ondiepe baai met koraaltuinen en makkelijke duikomstandigheden.",
+          depth: "3-10m",
+          highlights: ["Koraaltuinen", "Tropische vissen", "Makkelijke toegang", "Trainingslocatie"],
+          difficulty: "Beginner",
+          location: "Westkust"
+        },
+        {
+          name: "Hin Ngam",
+          description: "Ondiep rif met kunstmatige structuren en veel zeeleven.",
+          depth: "5-12m",
+          highlights: ["Kunstmatige riffen", "Kleurrijke vissen", "Veilig duiken", "Fotografie"],
+          difficulty: "Beginner",
+          location: "Westkust"
+        },
+        {
+          name: "Tanote Bay",
+          description: "Duiklocatie aan de oostkant met macrokansen en kleurrijk rifleven.",
+          depth: "8-15m",
+          highlights: ["Hengelaarsvis", "Pijpvis", "Macrofotografie", "Kleurrijk rif"],
+          difficulty: "Gemiddeld",
+          location: "Oostkust"
+        }
+      ]
+    : [
+        {
+          name: "Aow Leuk",
+          description: "Shallow bay with coral gardens and easy diving conditions.",
+          depth: "3-10m",
+          highlights: ["Coral gardens", "Tropical fish", "Easy entry", "Training site"],
+          difficulty: "Beginner",
+          location: "West coast"
+        },
+        {
+          name: "Hin Ngam",
+          description: "Shallow reef with artificial structures and abundant marine life.",
+          depth: "5-12m",
+          highlights: ["Artificial reefs", "Colorful fish", "Safe diving", "Photography"],
+          difficulty: "Beginner",
+          location: "West coast"
+        },
+        {
+          name: "Tanote Bay",
+          description: "East-coast dive site with macro opportunities and colorful reef life.",
+          depth: "8-15m",
+          highlights: ["Frogfish", "Pipefish", "Macro photography", "Colorful reef"],
+          difficulty: "Gemiddeld",
+          location: "East coast"
+        }
+      ];
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -145,6 +304,21 @@ const DiveSitesPage = () => {
     }
   };
 
+  const difficultyLabel = (difficulty: string) => {
+    if (isDutch) return difficulty;
+
+    switch (difficulty) {
+      case 'Beginner-Gemiddeld':
+        return 'Beginner-Intermediate';
+      case 'Gemiddeld':
+        return 'Intermediate';
+      case 'Gevorderd':
+        return 'Advanced';
+      default:
+        return difficulty;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
 
@@ -153,15 +327,13 @@ const DiveSitesPage = () => {
         <div className="absolute inset-0 bg-[url('/images/whale.webp')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">Duiklocaties op Koh Tao</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">{pageContent.heroTitle}</h1>
           <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto">
-            Ontdek meer dan 25 geweldige duiklocaties rond Koh Tao, van ondiepe koraalriffen
-            tot diepe oceaanpinnacles. Elke plek biedt unieke onderwaterervaringen
-            en rijk zeeleven.
+            {pageContent.heroText}
           </p>
           <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg">
-              Boek je duik
+              {pageContent.bookDive}
             </Button>
           </a>
         </div>
@@ -171,11 +343,9 @@ const DiveSitesPage = () => {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-6">Beste duiklocaties op Koh Tao</h2>
+            <h2 className="text-4xl font-bold mb-6">{pageContent.overviewTitle}</h2>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
-              Koh Tao heeft meer dan 25 uitstekende duiklocaties met gevarieerde topografie
-              en een overvloed aan zeeleven. Elke plek is uniek en biedt duikers van elk niveau
-              iets anders, met genoeg variatie om ook ervaren duikers wekenlang te boeien.
+              {pageContent.overviewText}
             </p>
           </div>
 
@@ -183,40 +353,40 @@ const DiveSitesPage = () => {
             <Card className="text-center">
               <CardHeader>
                 <Waves className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <CardTitle>25+ locaties</CardTitle>
+                <CardTitle>{pageContent.stat1Title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Van ondiepe baaien tot diepe pinnacles</p>
+                <p>{pageContent.stat1Text}</p>
               </CardContent>
             </Card>
 
             <Card className="text-center">
               <CardHeader>
                 <Fish className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <CardTitle>Divers zeeleven</CardTitle>
+                <CardTitle>{pageContent.stat2Title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Walvishaaien, roggen en koraalriffen</p>
+                <p>{pageContent.stat2Text}</p>
               </CardContent>
             </Card>
 
             <Card className="text-center">
               <CardHeader>
                 <Anchor className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <CardTitle>Kunstmatige riffen</CardTitle>
+                <CardTitle>{pageContent.stat3Title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Wrakken en structuren voor unieke duiken</p>
+                <p>{pageContent.stat3Text}</p>
               </CardContent>
             </Card>
 
             <Card className="text-center">
               <CardHeader>
                 <Eye className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <CardTitle>Alle niveaus</CardTitle>
+                <CardTitle>{pageContent.stat4Title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Locaties voor beginners tot gevorderde duikers</p>
+                <p>{pageContent.stat4Text}</p>
               </CardContent>
             </Card>
           </div>
@@ -226,7 +396,7 @@ const DiveSitesPage = () => {
       {/* Deep Dive Sites */}
       <section id="schedule" className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Diepe duiklocaties voor gevorderde duikers</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{pageContent.deepTitle}</h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {deepDiveSites.map((site, index) => (
               <Card key={index} className="overflow-hidden">
@@ -244,10 +414,10 @@ const DiveSitesPage = () => {
                         )}
                       </CardTitle>
                     </div>
-                    <Badge className={getDifficultyColor(site.difficulty)}>{site.difficulty}</Badge>
+                    <Badge className={getDifficultyColor(site.difficulty)}>{difficultyLabel(site.difficulty)}</Badge>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
-                    <span>Diepte: {site.depth}</span>
+                    <span>{pageContent.depth}: {site.depth}</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {site.location}
@@ -271,7 +441,7 @@ const DiveSitesPage = () => {
       {/* Coral Reef Sites */}
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Prachtige koraalrif-locaties</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{pageContent.coralTitle}</h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {coralReefSites.map((site, index) => (
               <Card key={index} className="overflow-hidden">
@@ -281,10 +451,10 @@ const DiveSitesPage = () => {
                       <MapPin className="w-5 h-5 text-blue-600" />
                       <CardTitle className="text-xl">{site.name}</CardTitle>
                     </div>
-                    <Badge className={getDifficultyColor(site.difficulty)}>{site.difficulty}</Badge>
+                    <Badge className={getDifficultyColor(site.difficulty)}>{difficultyLabel(site.difficulty)}</Badge>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
-                    <span>Diepte: {site.depth}</span>
+                    <span>{pageContent.depth}: {site.depth}</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {site.location}
@@ -308,7 +478,7 @@ const DiveSitesPage = () => {
       {/* Artificial Sites */}
       <section className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Kunstmatige duiklocaties</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{pageContent.artificialTitle}</h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {artificialSites.map((site, index) => (
               <Card key={index} className="overflow-hidden">
@@ -318,10 +488,10 @@ const DiveSitesPage = () => {
                       <MapPin className="w-5 h-5 text-blue-600" />
                       <CardTitle className="text-xl">{site.name}</CardTitle>
                     </div>
-                    <Badge className={getDifficultyColor(site.difficulty)}>{site.difficulty}</Badge>
+                    <Badge className={getDifficultyColor(site.difficulty)}>{difficultyLabel(site.difficulty)}</Badge>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
-                    <span>Diepte: {site.depth}</span>
+                    <span>{pageContent.depth}: {site.depth}</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {site.location}
@@ -345,7 +515,7 @@ const DiveSitesPage = () => {
       {/* Shallow Sites */}
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Ondiepe duiklocaties voor beginners</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{pageContent.shallowTitle}</h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {shallowSites.map((site, index) => (
               <Card key={index} className="overflow-hidden">
@@ -355,10 +525,10 @@ const DiveSitesPage = () => {
                       <MapPin className="w-5 h-5 text-blue-600" />
                       <CardTitle className="text-xl">{site.name}</CardTitle>
                     </div>
-                    <Badge className={getDifficultyColor(site.difficulty)}>{site.difficulty}</Badge>
+                    <Badge className={getDifficultyColor(site.difficulty)}>{difficultyLabel(site.difficulty)}</Badge>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
-                    <span>Diepte: {site.depth}</span>
+                    <span>{pageContent.depth}: {site.depth}</span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {site.location}
@@ -382,12 +552,11 @@ const DiveSitesPage = () => {
       {/* Booking Section */}
       <section className="py-16 px-4 bg-muted/50">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8">Ontdek de onderwaterwereld van Koh Tao</h2>
+          <h2 className="text-4xl font-bold mb-8">{pageContent.bookingTitle}</h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Klaar om de geweldige duiklocaties van Koh Tao te ontdekken? Onze ervaren gidsen nemen
-            je mee naar de beste plekken voor jouw niveau en interesses.
+            {pageContent.bookingText}
           </p>
-          <BookingForm isOpen={false} onClose={() => {}} itemType="dive" itemTitle="Dive Sites" />
+          <BookingForm isOpen={false} onClose={() => {}} itemType="dive" itemTitle={isDutch ? 'Duiklocaties' : 'Dive Sites'} />
         </div>
       </section>
     </div>
