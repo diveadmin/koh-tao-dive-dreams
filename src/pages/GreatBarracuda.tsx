@@ -70,7 +70,7 @@ const GreatBarracuda = () => {
 
   return (
     <MarineLifeDetail
-      name="Grote Barracuda"
+      name={isDutch ? 'Grote Barracuda' : 'Great barracuda'}
       scientificName="Sphyraena barracuda"
       description={content.description}
       size={content.size}

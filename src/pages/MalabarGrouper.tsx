@@ -70,7 +70,7 @@ const MalabarGrouper = () => {
 
   return (
     <MarineLifeDetail
-      name="Malabar Tandbaars"
+      name={isDutch ? 'Malabar Tandbaars' : 'Malabar grouper'}
       scientificName="Epinephelus malabaricus"
       description={content.description}
       size={content.size}

@@ -70,8 +70,8 @@ const Cephalopods = () => {
 
   return (
     <MarineLifeDetail
-      name="Koppotigen"
-      scientificName="Diverse soorten (Cephalopoda)"
+      name={isDutch ? 'Koppotigen' : 'Cephalopods'}
+      scientificName={isDutch ? 'Diverse soorten (Cephalopoda)' : 'Various species (Cephalopoda)'}
       description={content.description}
       size={content.size}
       habitat={content.habitat}

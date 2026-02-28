@@ -70,7 +70,7 @@ const HawksbillSeaTurtle = () => {
 
   return (
     <MarineLifeDetail
-      name="Karetschildpad"
+      name={isDutch ? 'Karetschildpad' : 'Hawksbill sea turtle'}
       scientificName="Eretmochelys imbricata"
       description={content.description}
       size={content.size}

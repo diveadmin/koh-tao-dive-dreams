@@ -69,7 +69,7 @@ const BeardedScorpionFish = () => {
 
   return (
     <MarineLifeDetail
-      name="Baardschorpioenvis"
+      name={isDutch ? 'Baardschorpioenvis' : 'Bearded scorpionfish'}
       scientificName="Scorpaenopsis barbata"
       description={content.description}
       size={content.size}

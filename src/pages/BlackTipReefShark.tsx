@@ -70,7 +70,7 @@ const BlackTipReefShark = () => {
 
   return (
     <MarineLifeDetail
-      name="Zwartpuntrifhaai"
+      name={isDutch ? 'Zwartpuntrifhaai' : 'Blacktip reef shark'}
       scientificName="Carcharhinus melanopterus"
       description={content.description}
       size={content.size}

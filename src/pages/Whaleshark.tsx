@@ -68,7 +68,7 @@ const Whaleshark = () => {
 
   return (
     <MarineLifeDetail
-      name="Walvishaai"
+      name={isDutch ? 'Walvishaai' : 'Whale shark'}
       scientificName="Rhincodon typus"
       description={content.description}
       size={content.size}

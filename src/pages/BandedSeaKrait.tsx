@@ -70,7 +70,7 @@ const BandedSeaKrait = () => {
 
   return (
     <MarineLifeDetail
-      name="Gebandeerde Zeekrait"
+      name={isDutch ? 'Gebandeerde Zeekrait' : 'Banded sea krait'}
       scientificName="Laticauda colubrina"
       description={content.description}
       size={content.size}

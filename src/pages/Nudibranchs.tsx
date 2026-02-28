@@ -70,8 +70,8 @@ const Nudibranchs = () => {
 
   return (
     <MarineLifeDetail
-      name="Naaktslakken"
-      scientificName="Diverse soorten (Gastropoda)"
+      name={isDutch ? 'Naaktslakken' : 'Nudibranchs'}
+      scientificName={isDutch ? 'Diverse soorten (Gastropoda)' : 'Various species (Gastropoda)'}
       description={content.description}
       size={content.size}
       habitat={content.habitat}
