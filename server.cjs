@@ -13,50 +13,11 @@ app.use(express.json());
 // Serve static files from dist directory
 app.use(express.static(path.join(__dirname, 'dist')));
 
-const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
-const AFFILIATE_CLICKS_TABLE = process.env.AIRTABLE_AFFILIATE_CLICKS_TABLE || 'affiliate_clicks';
 
-const WRITE_ALIASES = {
-  item_type: ['Item type'],
-  course_title: ['Course/Dive'],
-  preferred_date: ['Preferred Date'],
-  experience_level: ['Experience Level'],
-  addons: ['Add-ons'],
-  addons_json: ['Add-ons JSON'],
-  addons_total: ['Add-ons total'],
-  subtotal_amount: ['Subtotal amount'],
-  total_payable_now: ['Total payable now'],
-  internal_notes: ['Internal Notes'],
-  created_at: ['Created At'],
-  updated_at: ['Updated At'],
-};
-
-const airtableConfigured = Boolean(AIRTABLE_TOKEN && AIRTABLE_BASE_ID);
-
-const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
-
-const airtableUrl = (table, query = '') => {
-  const encodedTable = encodeURIComponent(table);
-  return `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodedTable}${query ? `?${query}` : ''}`;
-};
-
-const airtableHeaders = () => ({
-  Authorization: `Bearer ${AIRTABLE_TOKEN}`,
-  'Content-Type': 'application/json',
-});
-
-const ensureAirtable = (res) => {
-  if (airtableConfigured) return true;
-  res.status(500).json({ error: 'Airtable is not configured. Set AIRTABLE_PERSONAL_ACCESS_TOKEN and AIRTABLE_BASE_ID.' });
-  return false;
-};
-
-const parseUnknownFieldName = (message = '') => {
-  const match = String(message).match(/Unknown field name:\s*"([^"]+)"/i);
-  return match?.[1] || null;
-};
+const { createClient } = require('@supabase/supabase-js');
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const mutateFieldsForUnknown = (fields, unknownField) => {
   if (!unknownField || !Object.prototype.hasOwnProperty.call(fields, unknownField)) return null;
@@ -163,35 +124,17 @@ const findBookingRecordById = async (id) => {
 };
 
 // Routes
+
 app.get('/api/bookings', async (req, res) => {
-  if (!ensureAirtable(res)) return;
   try {
-    const paramsWithSort = new URLSearchParams();
-    paramsWithSort.set('maxRecords', '500');
-    paramsWithSort.set('sort[0][field]', 'created_at');
-    paramsWithSort.set('sort[0][direction]', 'desc');
-
-    let response = await fetch(airtableUrl(BOOKINGS_TABLE, paramsWithSort.toString()), {
-      method: 'GET',
-      headers: airtableHeaders(),
-    });
-    let payload = await response.json();
-
-    if (!response.ok && payload?.error?.message?.includes('Unknown field name: "created_at"')) {
-      const paramsNoSort = new URLSearchParams();
-      paramsNoSort.set('maxRecords', '500');
-      response = await fetch(airtableUrl(BOOKINGS_TABLE, paramsNoSort.toString()), {
-        method: 'GET',
-        headers: airtableHeaders(),
-      });
-      payload = await response.json();
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
-
-    if (!response.ok) {
-      return res.status(response.status).json({ error: payload?.error?.message || 'Failed to fetch bookings' });
-    }
-
-    return res.json((payload.records || []).map(mapBooking));
+    return res.json(data);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -300,33 +243,25 @@ app.put('/api/bookings/:id/status', async (req, res) => {
   }
 });
 
-app.delete('/api/bookings/:id', async (req, res) => {
-  if (!ensureAirtable(res)) return;
-  const { id } = req.params;
+
+app.post('/api/bookings', async (req, res) => {
+  const body = req.body;
+  if (!body.name || !body.email) {
+    return res.status(400).json({ error: 'Missing required fields: name and email' });
+  }
   try {
-    const record = await findBookingRecordById(id);
-    if (!record) {
-      return res.status(404).json({ error: 'Booking not found' });
+    const { data, error } = await supabase
+      .from('bookings')
+      .insert([body])
+      .select();
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
-
-    const response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${record.id}`, {
-      method: 'DELETE',
-      headers: airtableHeaders(),
-    });
-    const payload = await response.json();
-
-    if (!response.ok) {
-      return res.status(response.status).json({ error: payload?.error?.message || 'Failed to delete booking' });
-    }
-
-    return res.json({ message: 'Booking deleted' });
+    return res.status(201).json(data[0]);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 });
-
-app.patch('/api/bookings/:id', async (req, res) => {
-  if (!ensureAirtable(res)) return;
   const { id } = req.params;
 
   try {
