@@ -13,6 +13,7 @@ const Contact = () => {
     subject: 'Course Information',
     message: ''
   });
+  const [ipfsHash, setIpfsHash] = useState("");
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const {
       name,
@@ -33,27 +34,25 @@ const Contact = () => {
         subject: formData.subject,
         message: formData.message,
       };
-      const apiBase = import.meta.env.VITE_API_BASE_URL || '';
-      const res = await fetch(`${apiBase}/api/send-booking-notification`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactPayload),
+      // Upload to IPFS
+      const { uploadBookingToIPFS } = await import('../lib/ipfs');
+      const hash = await uploadBookingToIPFS(contactPayload);
+      setIpfsHash(hash);
+      toast.success("Message stored on IPFS!");
+      // Optionally, still send to API
+      // const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+      // await fetch(`${apiBase}/api/send-booking-notification`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(contactPayload),
+      // });
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        subject: 'Course Information',
+        message: ''
       });
-      if (res.ok) {
-        toast.success("Message sent successfully! We'll get back to you soon.");
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          subject: 'Course Information',
-          message: ''
-        });
-      } else {
-        const errJson = await res.json().catch(() => null);
-        const errMsg = errJson?.error || `HTTP ${res.status}`;
-        console.error('Contact API error:', errMsg, errJson);
-        toast.error(`Send failed: ${errMsg}. Please try again.`);
-      }
     } catch (error) {
       console.error('Contact form submission failed:', error);
       toast.error(`Send failed: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
@@ -165,6 +164,9 @@ const Contact = () => {
               <button type="submit" disabled={isSubmitting} className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-semibold">
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
+              {ipfsHash && (
+                <p className="mt-4 text-green-400">IPFS Hash: <a href={`https://ipfs.io/ipfs/${ipfsHash}`} target="_blank" rel="noopener noreferrer">{ipfsHash}</a></p>
+              )}
             </form>
           </div>
         </div>
