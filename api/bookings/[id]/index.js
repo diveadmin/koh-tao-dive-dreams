@@ -110,31 +110,10 @@ export default async function handler(req, res) {
     if (!id) {
       return res.status(400).json({ error: 'Missing booking id' });
     }
-
-    const airtableRecord = await findAirtableRecordByPublicId(id);
-    if (!airtableRecord) {
       return res.status(404).json({ error: 'Booking not found' });
-    }
-
-    if (req.method === 'PATCH' || req.method === 'PUT') {
-      const updates = parseBody(req);
-      let fields = {
-        ...updates,
-        updated_at: new Date().toISOString(),
-      };
-
-      let response;
-      let payload;
-
-      for (let attempt = 0; attempt < 8; attempt += 1) {
-        response = await fetch(`${airtableUrl(BOOKINGS_TABLE)}/${airtableRecord.id}`, {
           method: 'PATCH',
           headers: getHeaders(),
           body: JSON.stringify({ fields }),
-        });
-        payload = await response.json();
-
-        if (response.ok) {
           return res.status(200).json({
             id: payload?.fields?.id || payload?.id,
             ...payload?.fields,

@@ -3,31 +3,6 @@ import { applyCors, handleOptions } from '../_lib/cors.js';
 import { requireAdmin } from '../_lib/auth.js';
 import { createClient } from '@supabase/supabase-js';
 
-const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
-
-const WRITE_ALIASES = {
-  item_type: ['Item type'],
-  course_title: ['Course/Dive'],
-  preferred_date: ['Preferred Date'],
-  experience_level: ['Experience Level'],
-  addons: ['Add-ons'],
-  addons_json: ['Add-ons JSON'],
-  addons_total: ['Add-ons total'],
-  subtotal_amount: ['Subtotal amount'],
-  total_payable_now: ['Total payable now'],
-  internal_notes: ['Internal Notes'],
-  created_at: ['Created At'],
-  updated_at: ['Updated At'],
-};
-
-const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
-
-const airtableUrl = (table, query = '') => {
-  const encodedTable = encodeURIComponent(table);
-  return `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodedTable}${query ? `?${query}` : ''}`;
-};
 
 const parseBody = (req) => {
   if (!req.body) return {};
@@ -92,27 +67,9 @@ const getHeaders = () => ({
   'Content-Type': 'application/json',
 });
 
-const parseUnknownFieldName = (message = '') => {
-  const match = String(message).match(/Unknown field name:\s*"([^"]+)"/i);
-  return match?.[1] || null;
-};
 
-const mutateFieldsForUnknown = (fields, unknownField) => {
-  if (!unknownField || !Object.prototype.hasOwnProperty.call(fields, unknownField)) return null;
 
-  const nextFields = { ...fields };
-  const aliases = WRITE_ALIASES[unknownField] || [];
-  const aliasTarget = aliases.find((alias) => !Object.prototype.hasOwnProperty.call(nextFields, alias));
 
-  if (aliasTarget) {
-    nextFields[aliasTarget] = nextFields[unknownField];
-    delete nextFields[unknownField];
-    return nextFields;
-  }
-
-  delete nextFields[unknownField];
-  return nextFields;
-};
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
