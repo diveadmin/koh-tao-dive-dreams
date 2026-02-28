@@ -35,10 +35,44 @@ const mapClickRecord = (record) => {
     hotel_name: fields.hotel_name || '',
     hotel_url: fields.hotel_url || '',
     affiliate_id: fields.affiliate_id || null,
-    clicked_at: fields.clicked_at || null,
+    clicked_at: fields.clicked_at || record.createdTime || null,
     referrer: fields.referrer || null,
     user_agent: fields.user_agent || null,
   };
+};
+
+const compactFields = (fields) =>
+  Object.fromEntries(
+    Object.entries(fields).filter(([, value]) => value !== undefined && value !== null && value !== '')
+  );
+
+const createRecordWithSchemaFallback = async (baseFields) => {
+  let fields = { ...baseFields };
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE), {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ fields }),
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (response.ok) {
+      return { ok: true, payload, status: response.status };
+    }
+
+    const message = payload?.error?.message || '';
+    const unknownFieldMatch = message.match(/Unknown field name: \"([^\"]+)\"/);
+
+    if (unknownFieldMatch?.[1] && Object.prototype.hasOwnProperty.call(fields, unknownFieldMatch[1])) {
+      delete fields[unknownFieldMatch[1]];
+      continue;
+    }
+
+    return { ok: false, payload, status: response.status };
+  }
+
+  return { ok: false, payload: { error: { message: 'Could not match Airtable table schema for affiliate click insert' } }, status: 400 };
 };
 
 export default async function handler(req, res) {
@@ -108,28 +142,22 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Missing required fields: hotel_name and hotel_url' });
       }
 
-      const fields = {
-        id: body.id || (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`),
+      const fields = compactFields({
         hotel_name: body.hotel_name,
         hotel_url: body.hotel_url,
-        affiliate_id: body.affiliate_id || '',
-        referrer: body.referrer || '',
-        user_agent: body.user_agent || '',
+        affiliate_id: body.affiliate_id,
+        referrer: body.referrer,
+        user_agent: body.user_agent,
         clicked_at: body.clicked_at || new Date().toISOString(),
-      };
-
-      const response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE), {
-        method: 'POST',
-        headers: getHeaders(),
-        body: JSON.stringify({ fields }),
       });
-      const payload = await response.json();
 
-      if (!response.ok) {
-        return res.status(response.status).json({ error: payload?.error?.message || 'Failed to create affiliate click' });
+      const result = await createRecordWithSchemaFallback(fields);
+
+      if (!result.ok) {
+        return res.status(result.status).json({ error: result?.payload?.error?.message || 'Failed to create affiliate click' });
       }
 
-      return res.status(201).json(mapClickRecord(payload));
+      return res.status(201).json(mapClickRecord(result.payload));
     }
 
     res.setHeader('Allow', 'GET, POST');
