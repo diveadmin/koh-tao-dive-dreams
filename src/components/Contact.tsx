@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import { uploadBookingToIPFS } from '../lib/ipfs';
 
 // Do not call emailjs.init with the service ID — we'll pass the public key on send.
 
@@ -29,30 +28,30 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const contactPayload = {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-      };
-      // Upload to IPFS
-      const hash = await uploadBookingToIPFS(contactPayload);
-      setIpfsHash(hash);
-      toast.success("Message stored on IPFS!");
-      // Optionally, still send to API
-      // const apiBase = import.meta.env.VITE_API_BASE_URL || '';
-      // await fetch(`${apiBase}/api/send-booking-notification`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(contactPayload),
-      // });
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        subject: 'Course Information',
-        message: ''
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", `${formData.firstName} ${formData.lastName}`);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("subject", formData.subject);
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("access_key", "4ca93aa5-cd42-4902-af87-a08e1ae7c832");
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend
       });
+      const data = await response.json();
+      if (data.success) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          subject: 'Course Information',
+          message: ''
+        });
+      } else {
+        toast.error("Send failed. Please try again.");
+      }
     } catch (error) {
       console.error('Contact form submission failed:', error);
       toast.error(`Send failed: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
@@ -164,9 +163,6 @@ const Contact = () => {
               <button type="submit" disabled={isSubmitting} className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-semibold">
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
-              {ipfsHash && (
-                <p className="mt-4 text-green-400">IPFS Hash: <a href={`https://ipfs.io/ipfs/${ipfsHash}`} target="_blank" rel="noopener noreferrer">{ipfsHash}</a></p>
-              )}
             </form>
           </div>
         </div>
