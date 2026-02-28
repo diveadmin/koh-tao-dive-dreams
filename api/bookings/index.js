@@ -1,10 +1,7 @@
 import { handleOptions } from '../_lib/cors.js';
-// ...existing code...
-if (handleOptions(req, res)) return;
-// ...rest of your handler...
-
 import { applyCors, handleOptions } from '../_lib/cors.js';
 import { requireAdmin } from '../_lib/auth.js';
+import { createClient } from '@supabase/supabase-js';
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
@@ -117,6 +114,11 @@ const mutateFieldsForUnknown = (fields, unknownField) => {
   return nextFields;
 };
 
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
 export default async function handler(req, res) {
   if (handleOptions(req, res)) return;
   applyCors(res);
@@ -165,49 +167,17 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Missing required fields: name and email' });
       }
 
-      let fields = {
-        id: body.id || (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`),
-        name: body.name,
-        email: body.email,
-        ...(body.phone ? { phone: body.phone } : {}),
-        ...(body.item_type ? { item_type: body.item_type } : {}),
-        course_title: body.course_title || '',
-        preferred_date: body.preferred_date || new Date().toISOString().slice(0, 10),
-        ...(body.experience_level ? { experience_level: body.experience_level } : {}),
-        ...(body.addons ? { addons: body.addons } : {}),
-        ...(body.addons_json ? { addons_json: body.addons_json } : {}),
-        ...(typeof body.addons_total === 'number' ? { addons_total: body.addons_total } : {}),
-        ...(typeof body.subtotal_amount === 'number' ? { subtotal_amount: body.subtotal_amount } : {}),
-        ...(typeof body.total_payable_now === 'number' ? { total_payable_now: body.total_payable_now } : {}),
-          ...(body.internal_notes ? { internal_notes: body.internal_notes } : {}),
-        ...(body.message ? { message: body.message } : {}),
-        status: body.status || 'pending',
-        created_at: body.created_at || new Date().toISOString(),
-          updated_at: body.updated_at || null,
-      };
+      // Insert booking into Supabase
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert([body])
+        .select();
 
-      let response;
-      let payload;
-
-      for (let attempt = 0; attempt < 8; attempt += 1) {
-        response = await fetch(airtableUrl(BOOKINGS_TABLE), {
-          method: 'POST',
-          headers: getHeaders(),
-          body: JSON.stringify({ fields }),
-        });
-
-        payload = await response.json();
-        if (response.ok) {
-          return res.status(201).json(mapBooking(payload));
-        }
-
-        const unknownField = parseUnknownFieldName(payload?.error?.message || '');
-        const nextFields = mutateFieldsForUnknown(fields, unknownField);
-        if (!nextFields) break;
-        fields = nextFields;
+      if (error) {
+        return res.status(500).json({ error: error.message });
       }
 
-      return res.status(response?.status || 500).json({ error: payload?.error?.message || 'Failed to create booking' });
+      return res.status(201).json(data[0]);
     }
 
     res.setHeader('Allow', 'GET, POST');
