@@ -67,6 +67,7 @@ const TripAffiliateStats = () => {
   const navigate = useNavigate();
   const [clicks, setClicks] = useState<ClickRow[]>([]);
   const [rawCount, setRawCount] = useState(0);
+  const [apiTableUsed, setApiTableUsed] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
@@ -83,20 +84,22 @@ const TripAffiliateStats = () => {
     setError(null);
 
     try {
-      const response = await fetch(apiUrl('/api/affiliate-clicks?limit=500'));
+      const response = await fetch(apiUrl('/api/affiliate-clicks?limit=500&debug=1'));
       const data = await response.json().catch(() => []);
 
       if (!response.ok) {
         throw new Error(data?.error || 'Failed to fetch affiliate clicks');
       }
 
-      const rows = extractClickRows(data);
+      const rows = extractClickRows(data?.rows ?? data);
       setRawCount(rows.length);
+      setApiTableUsed(data?.meta?.tableUsed || null);
       const filteredRows = rows.filter(isTripClick);
       setClicks(filteredRows.length > 0 ? filteredRows : rows);
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
       setRawCount(0);
+      setApiTableUsed(null);
     }
 
     setLoading(false);
@@ -136,11 +139,12 @@ const TripAffiliateStats = () => {
     page: 'trip-affiliate-stats',
     path: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
     source: apiBase || 'same-origin',
+    apiTableUsed,
     loading,
     error,
     rawCount,
     shownRows: clicks.length,
-  }), [apiBase, loading, error, rawCount, clicks.length]);
+  }), [apiBase, apiTableUsed, loading, error, rawCount, clicks.length]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

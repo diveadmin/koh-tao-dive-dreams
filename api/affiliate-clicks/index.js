@@ -128,6 +128,7 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       const { affiliate_id } = req.query || {};
+      const debug = String(req.query?.debug || '') === '1';
       const limit = Number(req.query?.limit || 500);
 
       const paramsWithSort = new URLSearchParams();
@@ -171,7 +172,21 @@ export default async function handler(req, res) {
         return res.status(response.status).json({ error: payload?.error?.message || 'Failed to fetch affiliate clicks' });
       }
 
-      return res.status(200).json((payload.records || []).map(mapClickRecord));
+      const rows = (payload.records || []).map(mapClickRecord);
+
+      if (debug) {
+        return res.status(200).json({
+          rows,
+          meta: {
+            tableUsed: result?.tableName || null,
+            tableCandidates: TABLE_CANDIDATES,
+            rowCount: rows.length,
+            hasAffiliateFilter: Boolean(affiliate_id),
+          },
+        });
+      }
+
+      return res.status(200).json(rows);
     }
 
     if (req.method === 'POST') {
