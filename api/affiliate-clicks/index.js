@@ -60,7 +60,13 @@ export default async function handler(req, res) {
       paramsWithSort.set('sort[0][direction]', 'desc');
 
       if (affiliate_id) {
-        paramsWithSort.set('filterByFormula', `{affiliate_id}='${escapeFormulaValue(affiliate_id)}'`);
+        const escapedAffiliateId = escapeFormulaValue(affiliate_id);
+        const affiliateIdAsNumber = Number(affiliate_id);
+        const isNumericAffiliateId = Number.isFinite(affiliateIdAsNumber);
+        const filterFormula = isNumericAffiliateId
+          ? `OR({affiliate_id}='${escapedAffiliateId}', {affiliate_id}=${affiliateIdAsNumber})`
+          : `{affiliate_id}='${escapedAffiliateId}'`;
+        paramsWithSort.set('filterByFormula', filterFormula);
       }
 
       let response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE, paramsWithSort.toString()), {
@@ -73,7 +79,13 @@ export default async function handler(req, res) {
         const paramsNoSort = new URLSearchParams();
         paramsNoSort.set('maxRecords', String(Number.isFinite(limit) ? Math.max(1, Math.min(limit, 1000)) : 500));
         if (affiliate_id) {
-          paramsNoSort.set('filterByFormula', `{affiliate_id}='${escapeFormulaValue(affiliate_id)}'`);
+          const escapedAffiliateId = escapeFormulaValue(affiliate_id);
+          const affiliateIdAsNumber = Number(affiliate_id);
+          const isNumericAffiliateId = Number.isFinite(affiliateIdAsNumber);
+          const filterFormula = isNumericAffiliateId
+            ? `OR({affiliate_id}='${escapedAffiliateId}', {affiliate_id}=${affiliateIdAsNumber})`
+            : `{affiliate_id}='${escapedAffiliateId}'`;
+          paramsNoSort.set('filterByFormula', filterFormula);
         }
 
         response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE, paramsNoSort.toString()), {

@@ -22,6 +22,16 @@ interface HotelStat {
   last_clicked: string;
 }
 
+const BOOKING_AFFILIATE_ID = '2787354';
+
+const isBookingClick = (row: ClickRow) => {
+  const affiliateId = row.affiliate_id ? String(row.affiliate_id).trim() : '';
+  if (affiliateId === BOOKING_AFFILIATE_ID) return true;
+
+  const url = row.hotel_url || '';
+  return /(?:[?&]aid=2787354(?:&|$))/i.test(url);
+};
+
 const AffiliateStats = () => {
   const navigate = useNavigate();
   const [clicks, setClicks] = useState<ClickRow[]>([]);
@@ -48,7 +58,8 @@ const AffiliateStats = () => {
         throw new Error(data?.error || 'Failed to fetch affiliate clicks');
       }
 
-      setClicks(Array.isArray(data) ? data : []);
+      const rows = Array.isArray(data) ? data : [];
+      setClicks(rows.filter(isBookingClick));
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
     }

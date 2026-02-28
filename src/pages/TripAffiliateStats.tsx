@@ -9,6 +9,14 @@ import { toast } from 'sonner';
 
 const TRIP_ALLIANCE_ID = '7864578';
 
+const isTripClick = (row: ClickRow) => {
+  const affiliateId = row.affiliate_id ? String(row.affiliate_id).trim() : '';
+  if (affiliateId === TRIP_ALLIANCE_ID) return true;
+
+  const url = row.hotel_url || '';
+  return /(?:[?&]allianceid=7864578(?:&|$))/i.test(url);
+};
+
 interface ClickRow {
   id: string;
   hotel_name: string;
@@ -43,14 +51,15 @@ const TripAffiliateStats = () => {
     setError(null);
 
     try {
-      const response = await fetch(apiUrl(`/api/affiliate-clicks?affiliate_id=${encodeURIComponent(TRIP_ALLIANCE_ID)}&limit=500`));
+      const response = await fetch(apiUrl('/api/affiliate-clicks?limit=500'));
       const data = await response.json().catch(() => []);
 
       if (!response.ok) {
         throw new Error(data?.error || 'Failed to fetch affiliate clicks');
       }
 
-      setClicks(Array.isArray(data) ? data : []);
+      const rows = Array.isArray(data) ? data : [];
+      setClicks(rows.filter(isTripClick));
     } catch (err: any) {
       setError(err?.message || 'Failed to fetch affiliate clicks');
     }
