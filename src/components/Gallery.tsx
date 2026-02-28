@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -6,8 +7,10 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const { i18n } = useTranslation();
+  const isDutch = i18n.language.startsWith('nl');
 
-  const images = [
+  const images = isDutch ? [
     {
       src: "/images/photo-1613853250147-2f73e55c1561.avif",
       alt: "Onderwaterscène op Koh Tao",
@@ -48,6 +51,47 @@ const Gallery = () => {
       alt: "Onderwaterfotograaf",
       category: "Duiken"
     }
+  ] : [
+    {
+      src: "/images/photo-1613853250147-2f73e55c1561.avif",
+      alt: "Underwater scene in Koh Tao",
+      category: "Marine life"
+    },
+    {
+      src: "/images/photo-1682687982423-295485af248a.avif",
+      alt: "Divers on a boat ready to dive",
+      category: "Diving"
+    },
+    {
+      src: "/images/photo-1647825194145-2d94e259c745.avif",
+      alt: "Colorful coral reef with tropical fish",
+      category: "Coral reefs"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Colorful coral reef in Koh Tao",
+      category: "Coral reefs"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "School of tropical fish",
+      category: "Marine life"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Whale shark encounter",
+      category: "Big fish"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Dive boat in crystal-clear water",
+      category: "Boats"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Underwater photographer",
+      category: "Diving"
+    }
   ];
 
   const nextImage = () => {
@@ -67,10 +111,12 @@ const Gallery = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Onderwatergalerij
+            {isDutch ? 'Onderwatergalerij' : 'Underwater Gallery'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ervaar de adembenemende schoonheid van de onderwaterwereld van Koh Tao in onze fotogalerij
+            {isDutch
+              ? 'Ervaar de adembenemende schoonheid van de onderwaterwereld van Koh Tao in onze fotogalerij'
+              : 'Experience the breathtaking beauty of Koh Tao’s underwater world in our photo gallery'}
           </p>
         </div>
 
@@ -101,8 +147,8 @@ const Gallery = () => {
             <div className="relative max-w-4xl max-h-full">
               <button
                 onClick={() => setSelectedImage(null)}
-                title="Sluiten"
-                aria-label="Sluiten"
+                title={isDutch ? 'Sluiten' : 'Close'}
+                aria-label={isDutch ? 'Sluiten' : 'Close'}
                 className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
               >
                 <X className="h-8 w-8" />
@@ -110,8 +156,8 @@ const Gallery = () => {
               
               <button
                 onClick={prevImage}
-                title="Vorige afbeelding"
-                aria-label="Vorige afbeelding"
+                title={isDutch ? 'Vorige afbeelding' : 'Previous image'}
+                aria-label={isDutch ? 'Vorige afbeelding' : 'Previous image'}
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
               >
                 <ChevronLeft className="h-8 w-8" />
@@ -119,8 +165,8 @@ const Gallery = () => {
               
               <button
                 onClick={nextImage}
-                title="Volgende afbeelding"
-                aria-label="Volgende afbeelding"
+                title={isDutch ? 'Volgende afbeelding' : 'Next image'}
+                aria-label={isDutch ? 'Volgende afbeelding' : 'Next image'}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
               >
                 <ChevronRight className="h-8 w-8" />
