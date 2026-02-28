@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     const text = `Hello ${booking.name || ''},\n\nPlease find your invoice details below:\n\nItem: ${booking.item_title || ''}\nAmount: ${booking.deposit_amount || ''}\nStatus: ${booking.status || ''}\n\nIf you have any questions reply to this email.\n\nRegards,\nDiving In Asia`;
 
     await transporter.sendMail({
-      from: smtpUser || 'contact@divinginasia.com',
+      from: smtpUser || 'contact@prodiving.asia',
       to: booking.email,
       cc: 'payments@divinginasia.com',
       subject,

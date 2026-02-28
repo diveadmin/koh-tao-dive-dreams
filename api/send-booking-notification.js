@@ -39,7 +39,7 @@ export default async function handler(req, res) {
     const body = `New Booking Inquiry\n\nCourse/Dive: ${item_title}\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'N/A'}\nPreferred Date: ${preferred_date || 'N/A'}\nExperience Level: ${experience_level || 'N/A'}\nDeposit Amount: ${deposit_amount || 'N/A'}\nPayment Choice: ${payment_choice || 'N/A'}\n${paypal_link ? `PayPal Link: ${paypal_link}` : ''}\n\nMessage:\n${message || 'No message'}`;
 
     await transporter.sendMail({
-      from: smtpUser || 'contact@divinginasia.com',
+      from: smtpUser || 'contact@prodiving.asia',
       to: 'payments@divinginasia.com',
       subject: `New Booking Inquiry: ${item_title}`,
       text: body,

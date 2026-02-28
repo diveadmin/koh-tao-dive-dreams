@@ -42,7 +42,7 @@ Message:
 ${message || 'No message'}`;
 
     await client.send({
-      from: Deno.env.get("SMTP_USER") || "contact@divinginasia.com",
+      from: Deno.env.get("SMTP_USER") || "contact@prodiving.asia",
       to: "payments@divinginasia.com",
       subject: `New Booking Inquiry: ${item_title}`,
       content: body,
