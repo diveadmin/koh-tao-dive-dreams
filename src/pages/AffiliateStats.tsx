@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -132,6 +132,16 @@ const AffiliateStats = () => {
     return new Date(c.clicked_at) > weekAgo;
   }).length;
 
+  const diagnostics = useMemo(() => ({
+    page: 'booking-affiliate-stats',
+    path: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+    source: apiBase || 'same-origin',
+    loading,
+    error,
+    rawCount,
+    shownRows: clicks.length,
+  }), [apiBase, loading, error, rawCount, clicks.length]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     toast.success('Logged out successfully');
@@ -141,6 +151,10 @@ const AffiliateStats = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
+        <div className="mb-4 rounded-md border border-gray-300 bg-white p-3 text-black">
+          <div className="text-xs font-semibold mb-1">Diagnostics</div>
+          <pre className="text-xs whitespace-pre-wrap break-words">{JSON.stringify(diagnostics, null, 2)}</pre>
+        </div>
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Booking.com Affiliate Stats</h1>
