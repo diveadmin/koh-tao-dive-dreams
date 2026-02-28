@@ -82,7 +82,7 @@
     "autoprefixer": "^10.4.20",
     "better-sqlite3": "^12.5.0",
     "concurrently": "^9.2.1",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
