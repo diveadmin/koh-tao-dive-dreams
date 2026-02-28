@@ -240,3 +240,4 @@ const BookingAffiliate = () => {
 };
 
 export default BookingAffiliate;
+.
