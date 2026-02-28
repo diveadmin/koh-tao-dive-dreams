@@ -4,6 +4,14 @@ const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
 const AFFILIATE_CLICKS_TABLE = process.env.AIRTABLE_AFFILIATE_CLICKS_TABLE || 'affiliate_clicks';
 
+const TABLE_CANDIDATES = [
+  AFFILIATE_CLICKS_TABLE,
+  'affiliate_clicks',
+  'Affiliate Clicks',
+  'affiliate clicks',
+  'Affiliate_Clicks',
+].filter((value, index, array) => value && array.indexOf(value) === index);
+
 const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
 
 const airtableUrl = (table, query = '') => {
@@ -47,32 +55,66 @@ const compactFields = (fields) =>
   );
 
 const createRecordWithSchemaFallback = async (baseFields) => {
-  let fields = { ...baseFields };
+  for (const tableName of TABLE_CANDIDATES) {
+    let fields = { ...baseFields };
 
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE), {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ fields }),
-    });
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const response = await fetch(airtableUrl(tableName), {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ fields }),
+      });
 
-    const payload = await response.json().catch(() => ({}));
-    if (response.ok) {
-      return { ok: true, payload, status: response.status };
+      const payload = await response.json().catch(() => ({}));
+      if (response.ok) {
+        return { ok: true, payload, status: response.status, tableName };
+      }
+
+      const message = payload?.error?.message || '';
+      const unknownFieldMatch = message.match(/Unknown field name: \"([^\"]+)\"/);
+
+      if (unknownFieldMatch?.[1] && Object.prototype.hasOwnProperty.call(fields, unknownFieldMatch[1])) {
+        delete fields[unknownFieldMatch[1]];
+        continue;
+      }
+
+      const tableNotFound = message.toLowerCase().includes('could not find table') || response.status === 404;
+      if (tableNotFound) {
+        break;
+      }
+
+      return { ok: false, payload, status: response.status, tableName };
     }
-
-    const message = payload?.error?.message || '';
-    const unknownFieldMatch = message.match(/Unknown field name: \"([^\"]+)\"/);
-
-    if (unknownFieldMatch?.[1] && Object.prototype.hasOwnProperty.call(fields, unknownFieldMatch[1])) {
-      delete fields[unknownFieldMatch[1]];
-      continue;
-    }
-
-    return { ok: false, payload, status: response.status };
   }
 
   return { ok: false, payload: { error: { message: 'Could not match Airtable table schema for affiliate click insert' } }, status: 400 };
+};
+
+const fetchClicksWithTableFallback = async (queryString) => {
+  let lastFailure = { status: 500, payload: { error: { message: 'Failed to fetch affiliate clicks' } } };
+
+  for (const tableName of TABLE_CANDIDATES) {
+    const response = await fetch(airtableUrl(tableName, queryString), {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (response.ok) {
+      return { ok: true, response, payload, tableName };
+    }
+
+    const message = payload?.error?.message || '';
+    const tableNotFound = message.toLowerCase().includes('could not find table') || response.status === 404;
+    if (tableNotFound) {
+      lastFailure = { status: response.status, payload };
+      continue;
+    }
+
+    return { ok: false, response, payload, tableName };
+  }
+
+  return { ok: false, response: { status: lastFailure.status }, payload: lastFailure.payload, tableName: null };
 };
 
 export default async function handler(req, res) {
@@ -103,11 +145,9 @@ export default async function handler(req, res) {
         paramsWithSort.set('filterByFormula', filterFormula);
       }
 
-      let response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE, paramsWithSort.toString()), {
-        method: 'GET',
-        headers: getHeaders(),
-      });
-      let payload = await response.json();
+      let result = await fetchClicksWithTableFallback(paramsWithSort.toString());
+      let response = result.response;
+      let payload = result.payload;
 
       if (!response.ok && payload?.error?.message?.includes('Unknown field name: "clicked_at"')) {
         const paramsNoSort = new URLSearchParams();
@@ -122,11 +162,9 @@ export default async function handler(req, res) {
           paramsNoSort.set('filterByFormula', filterFormula);
         }
 
-        response = await fetch(airtableUrl(AFFILIATE_CLICKS_TABLE, paramsNoSort.toString()), {
-          method: 'GET',
-          headers: getHeaders(),
-        });
-        payload = await response.json();
+        result = await fetchClicksWithTableFallback(paramsNoSort.toString());
+        response = result.response;
+        payload = result.payload;
       }
 
       if (!response.ok) {
