@@ -123,28 +123,37 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
 
       console.log('Sending booking payload to Web3Forms', payload);
 
-      // Send booking inquiry to Web3Forms (keeps a record of the request)
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const resp = await res.json().catch(() => ({}));
-      console.log('Web3Forms booking response:', res.status, resp);
-
-      if (res.ok && resp.success) {
-        // Inquiry saved. If we already created a payment link above (paymentChoice === 'link'),
-        // it's been included in the message sent via Web3Forms. If user chose to pay now we already
-        // redirected earlier. Otherwise just acknowledge the inquiry.
-        toast.success('Booking inquiry sent. We will contact you shortly.');
-        form.reset();
-        onClose();
-      } else {
-        const errMsg = resp?.message || resp?.error || `HTTP ${res.status}`;
-        console.error('Web3Forms booking error:', errMsg, resp);
-        toast.error(`Failed to send booking: ${errMsg}. Please try again.`);
-      }
+        // Send booking data to backend API only
+        const bookingPayload = {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          preferred_date: data.preferred_date,
+          experience_level: data.experience_level,
+          message: data.message,
+          paymentChoice,
+          item_type: itemType,
+          course_title: itemTitle,
+          deposit_amount: depositMajor,
+          deposit_currency: depositCurrency,
+          checkout_url: checkoutUrl,
+        };
+        const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+        const res = await fetch(`${apiBase}/api/bookings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookingPayload),
+        });
+        if (res.ok) {
+          toast.success('Booking inquiry sent. We will contact you shortly.');
+          form.reset();
+          onClose();
+        } else {
+          const errJson = await res.json().catch(() => null);
+          const errMsg = errJson?.error || `HTTP ${res.status}`;
+          console.error('Booking API error:', errMsg, errJson);
+          toast.error(`Failed to send booking: ${errMsg}. Please try again.`);
+        }
     } catch (error) {
       console.error('Booking submission failed:', error);
       toast.error(`Failed to send booking: ${error instanceof Error ? error.message : 'Unknown error'}`);

@@ -27,26 +27,19 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const payload = {
-        access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
-        subject: 'message from diving in asia',
+      const contactPayload = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
+        subject: formData.subject,
         message: formData.message,
       };
-
-      console.log('Sending contact payload to Web3Forms', payload);
-
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+      const res = await fetch(`${apiBase}/api/send-booking-notification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(contactPayload),
       });
-
-      const data = await res.json().catch(() => ({}));
-      console.log('Web3Forms response:', res.status, data);
-
-      if (res.ok && data.success) {
+      if (res.ok) {
         toast.success("Message sent successfully! We'll get back to you soon.");
         setFormData({
           firstName: '',
@@ -56,8 +49,9 @@ const Contact = () => {
           message: ''
         });
       } else {
-        const errMsg = data?.message || data?.error || `HTTP ${res.status}`;
-        console.error('Web3Forms error:', errMsg, data);
+        const errJson = await res.json().catch(() => null);
+        const errMsg = errJson?.error || `HTTP ${res.status}`;
+        console.error('Contact API error:', errMsg, errJson);
         toast.error(`Send failed: ${errMsg}. Please try again.`);
       }
     } catch (error) {
