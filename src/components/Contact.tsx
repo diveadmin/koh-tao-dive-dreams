@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { uploadBookingToIPFS } from '../lib/ipfs';
 
 // Do not call emailjs.init with the service ID — we'll pass the public key on send.
 
@@ -35,7 +36,6 @@ const Contact = () => {
         message: formData.message,
       };
       // Upload to IPFS
-      const { uploadBookingToIPFS } = await import('../lib/ipfs');
       const hash = await uploadBookingToIPFS(contactPayload);
       setIpfsHash(hash);
       toast.success("Message stored on IPFS!");
