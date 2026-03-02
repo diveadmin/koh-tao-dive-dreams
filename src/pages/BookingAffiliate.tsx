@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -103,23 +102,44 @@ const getPriceColor = (price: string) => {
 
 const BookingAffiliate = () => {
   const [clicking, setClicking] = useState<string | null>(null);
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
+
+  const trackAffiliateClick = async (payload: {
+    hotel_name: string;
+    hotel_url: string;
+    affiliate_id: string;
+    referrer: string | null;
+    user_agent: string;
+  }) => {
+    try {
+      await fetch(apiUrl('/api/affiliate-clicks'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch {
+      // Don't block user navigation if tracking fails
+    }
+  };
 
   const handleBookingClick = async (hotel: typeof hotels[0]) => {
     setClicking(hotel.slug);
 
-    // Track click in Supabase
     const affiliateUrl = `https://www.booking.com/hotel/th/${hotel.slug}.html?aid=${AFFILIATE_ID}&lang=en-gb`;
-    try {
-      await supabase.from('affiliate_clicks').insert({
-        hotel_name: hotel.name,
-        hotel_url: affiliateUrl,
-        affiliate_id: AFFILIATE_ID,
-        referrer: document.referrer || null,
-        user_agent: navigator.userAgent,
-      });
-    } catch (e) {
-      // Don't block the click if tracking fails
-    }
+    await trackAffiliateClick({
+      hotel_name: hotel.name,
+      hotel_url: affiliateUrl,
+      affiliate_id: AFFILIATE_ID,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent,
+    });
 
     // Open Booking.com in new tab
     window.open(affiliateUrl, '_blank', 'noopener,noreferrer');
@@ -128,15 +148,13 @@ const BookingAffiliate = () => {
 
   const handleSearchAll = async () => {
     const searchUrl = `https://www.booking.com/searchresults.html?aid=${AFFILIATE_ID}&ss=Koh+Tao%2C+Thailand&dest_type=city&lang=en-gb`;
-    try {
-      await supabase.from('affiliate_clicks').insert({
-        hotel_name: 'Search All Koh Tao',
-        hotel_url: searchUrl,
-        affiliate_id: AFFILIATE_ID,
-        referrer: document.referrer || null,
-        user_agent: navigator.userAgent,
-      });
-    } catch (e) {}
+    await trackAffiliateClick({
+      hotel_name: 'Search All Koh Tao',
+      hotel_url: searchUrl,
+      affiliate_id: AFFILIATE_ID,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent,
+    });
     window.open(searchUrl, '_blank', 'noopener,noreferrer');
   };
 

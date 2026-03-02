@@ -16,6 +16,11 @@ const Courses = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const parsePriceMajor = (priceLabel: string) => {
+    const digits = priceLabel.replace(/[^\d]/g, '');
+    return digits ? Number(digits) : 0;
+  };
+
   const courses = [
     {
       key: 'openWater',
@@ -233,7 +238,7 @@ const Courses = () => {
                     <Button variant="outline" className="w-full">{t('courses.viewCourse', 'View course')}</Button>
                   </Link>
                   <button
-                    onClick={() => navigate(`/booking?item=${encodeURIComponent(course.title)}&type=course&deposit=${course.depositMajor}&currency=${course.depositCurrency}`)}
+                    onClick={() => navigate(`/booking?item=${encodeURIComponent(course.title)}&type=course&price=${parsePriceMajor(course.price)}&currency=${course.depositCurrency}`)}
                     className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
                   >
                     {t('courses.bookButton')}

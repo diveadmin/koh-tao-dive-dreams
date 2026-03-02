@@ -1,7 +1,6 @@
 // Rezdy integration removed — use internal booking flow
 import React, { useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,7 +16,7 @@ const bookingSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(100),
   email: z.string().trim().email('Invalid email address').max(255),
   phone: z.string().trim().max(20).optional(),
-  preferred_date: z.string().optional(),
+  preferred_date: z.string().trim().min(1, 'Preferred date is required'),
   experience_level: z.string().optional(),
   message: z.string().trim().max(1000).optional(),
   paymentChoice: z.enum(['now', 'link', 'none']).optional(),
@@ -27,6 +26,35 @@ const bookingSchema = z.object({
 type BookingFormData = z.infer<typeof bookingSchema>;
 
 const PAYPAL_LINK = 'https://paypal.me/divinginasia';
+const COURSE_DEPOSIT_RATE = 0.2;
+
+const COURSE_FALLBACKS: Record<string, { item: string; price?: number; currency?: string }> = {
+  'wreck-diver': { item: 'PADI Wreck Diver Specialty', price: 8000, currency: 'THB' },
+  'deep-diver': { item: 'PADI Deep Diver Specialty', price: 3500, currency: 'THB' },
+  'self-reliant': { item: 'PADI Self-Reliant Diver Specialty', price: 3800, currency: 'THB' },
+  'sidemount': { item: 'PADI Sidemount Diver Specialty', price: 5500, currency: 'THB' },
+  'night-diver': { item: 'PADI Night Diver Specialty', price: 3000, currency: 'THB' },
+  'peak-buoyancy': { item: 'PADI Peak Performance Buoyancy', price: 2800, currency: 'THB' },
+  'navigator': { item: 'PADI Underwater Navigator Specialty', price: 3000, currency: 'THB' },
+  'enriched-air': { item: 'PADI Enriched Air Diver Specialty', price: 2500, currency: 'THB' },
+  'emergency-o2': { item: 'Emergency Oxygen Provider', price: 2500, currency: 'THB' },
+  'dpv': { item: 'PADI DPV Diver Specialty', price: 4200, currency: 'THB' },
+  'search-recovery': { item: 'PADI Search & Recovery Specialty', price: 4000, currency: 'THB' },
+  'coral-watch': { item: 'Coral Watch Specialty', price: 2300, currency: 'THB' },
+  'sea-turtle': { item: 'Sea Turtle Awareness Specialty', price: 2200, currency: 'THB' },
+  'fish-id': { item: 'Fish Identification Specialty', price: 2200, currency: 'THB' },
+  'dive-against-debris': { item: 'Dive Against Debris Specialty', price: 2000, currency: 'THB' },
+  'shark-conservation': { item: 'Shark Conservation Specialty', price: 2500, currency: 'THB' },
+  'whaleshark': { item: 'Whale Shark Awareness Specialty', price: 3500, currency: 'THB' },
+  'underwater-naturalist': { item: 'PADI Underwater Naturalist Specialty', price: 3500, currency: 'THB' },
+  'adaptive-support': { item: 'Adaptive Support Diver Specialty', price: 4000, currency: 'THB' },
+  'current-diver': { item: 'PADI Current Diver Specialty', currency: 'THB' },
+  'photography': { item: 'PADI Underwater Photography Specialty', currency: 'THB' },
+  'equipment-specialist': { item: 'PADI Equipment Specialist', currency: 'THB' },
+  'boat-diver': { item: 'PADI Boat Diver Specialty', currency: 'THB' },
+  'divemaster-internship': { item: 'PADI Divemaster Internship', currency: 'THB' },
+  'instructor-internship': { item: 'PADI Instructor Internship', currency: 'THB' },
+};
 
 const ADDONS = [
   { id: 'equipment', label: 'Equipment rental', amount: 300 },
@@ -42,22 +70,40 @@ const       BookingPage: React.FC = () => {
     ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
         ? apiBaseRaw
         : `https://${apiBaseRaw}`)
-    : '';
+    : 'https://divinginasia.com';
   const apiBase = apiBaseNormalized.replace(/\/+$/, '');
   const apiUrl = (path: string) => `${apiBase}${path}`;
-  const itemTitle = searchParams.get('item') || 'Booking';
+  const courseSlug = (searchParams.get('course') || '').trim();
+  const fallbackCourse = courseSlug ? COURSE_FALLBACKS[courseSlug] : undefined;
+  const itemTitle = searchParams.get('item') || fallbackCourse?.item || 'Booking';
   const itemType = (searchParams.get('type') as 'course' | 'dive') || 'course';
-  const depositMajor = Number(searchParams.get('deposit') || '0');
-  const depositCurrency = searchParams.get('currency') || 'THB';
+  const isDiveBooking = itemType === 'dive';
+  const rawPrice = searchParams.get('price');
+  const parsedPrice = rawPrice ? Number(rawPrice) : NaN;
+  const courseCostMajor = Number.isFinite(parsedPrice) ? parsedPrice : (fallbackCourse?.price || 0);
+  const depositFromQuery = Number(searchParams.get('deposit') || '0');
+  const depositMajor = itemType === 'course'
+    ? (courseCostMajor > 0 ? Math.round(courseCostMajor * COURSE_DEPOSIT_RATE) : depositFromQuery)
+    : depositFromQuery;
+  const depositCurrency = searchParams.get('currency') || fallbackCourse?.currency || 'THB';
 
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>({});
   const totalAddons = useMemo(() => {
+    if (!isDiveBooking) return 0;
     return ADDONS.reduce((sum, a) => sum + (selectedAddons[a.id] ? a.amount : 0), 0);
-  }, [selectedAddons]);
+  }, [isDiveBooking, selectedAddons]);
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: { name: '', email: '', phone: '', preferred_date: '', experience_level: '', message: '', paymentChoice: 'none' },
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      preferred_date: new Date().toISOString().slice(0, 10),
+      experience_level: '',
+      message: '',
+      paymentChoice: itemType === 'course' ? 'now' : 'none',
+    },
   });
 
   const [showPaymentLinks, setShowPaymentLinks] = useState(false);
@@ -69,12 +115,21 @@ const       BookingPage: React.FC = () => {
     setIsSubmitting(true);
     try {
       const amountMajor = depositMajor + totalAddons;
-      const addonsText = ADDONS.filter(a => selectedAddons[a.id]).map(a => a.label).join(', ') || 'None';
+      const selectedAddonsList = isDiveBooking
+        ? ADDONS.filter((addon) => selectedAddons[addon.id]).map((addon) => ({
+            id: addon.id,
+            label: addon.label,
+            amount: addon.amount,
+          }))
+        : [];
+      const addonsText = isDiveBooking
+        ? (ADDONS.filter(a => selectedAddons[a.id]).map(a => a.label).join(', ') || 'None')
+        : 'N/A (course booking)';
 
       // Prepare Web3Forms payload
       const payload = {
-        access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
-        to: 'payments@divinginasia.com',
+        access_key: '4ca93aa5-cd42-4902-af87-a08e1ae7c832',
+        to: 'petergreaney@proton.me',
         subject: `Booking Inquiry: ${itemTitle}`,
         name: data.name,
         email: data.email,
@@ -101,17 +156,24 @@ const       BookingPage: React.FC = () => {
       console.log('Web3Forms response:', res.status, responseData);
 
       // Persist booking via local API
+      let persisted = false;
       try {
         const bookingId = crypto.randomUUID();
         const body = {
           id: bookingId,
           name: data.name,
           email: data.email,
-          phone: data.phone,
+          phone: data.phone || undefined,
+          item_type: itemType,
           course_title: itemTitle,
-          preferred_date: data.preferred_date,
-          experience_level: data.experience_level,
-          message: data.message,
+          preferred_date: data.preferred_date || new Date().toISOString().slice(0, 10),
+          experience_level: data.experience_level || undefined,
+          addons: addonsText,
+          addons_json: JSON.stringify(selectedAddonsList),
+          addons_total: totalAddons,
+          subtotal_amount: isDiveBooking ? null : courseCostMajor,
+          total_payable_now: amountMajor,
+          message: data.message || undefined,
           status: 'pending',
           created_at: new Date().toISOString(),
         };
@@ -123,9 +185,11 @@ const       BookingPage: React.FC = () => {
         });
 
         if (!fnRes.ok) {
-          const errText = await fnRes.text().catch(() => 'unknown');
+          const errJson = await fnRes.json().catch(() => null);
+          const errText = errJson?.error || (await fnRes.text().catch(() => 'unknown'));
           console.warn('Local API persist failed', fnRes.status, errText);
         } else {
+          persisted = true;
           console.log('Booking persisted via local API', bookingId);
         }
       } catch (e) {
@@ -134,7 +198,11 @@ const       BookingPage: React.FC = () => {
 
       // Notify user based on Web3Forms result, but booking is already persisted
       if (res.ok && responseData.success) {
-        toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
+        if (persisted) {
+          toast.success('Inquiry sent! You can now pay your deposit via PayPal below.');
+        } else {
+          toast.error('Inquiry sent, but booking was not saved to CRM. Check API/Supabase field names.');
+        }
         if (data.paymentChoice === 'now' && amountMajor > 0) {
           setShowPaymentLinks(true);
         } else {
@@ -144,7 +212,11 @@ const       BookingPage: React.FC = () => {
       } else {
         const errMsg = responseData?.message || responseData?.error || `HTTP ${res.status}`;
         console.error('Web3Forms error:', errMsg, responseData);
-        toast.error(`Inquiry saved but delivery failed: ${errMsg}. Admin will be notified.`);
+        if (persisted) {
+          toast.error(`Inquiry saved but delivery failed: ${errMsg}. Admin will be notified.`);
+        } else {
+          toast.error(`Submission reached neither CRM nor email reliably (${errMsg}). Please retry.`);
+        }
       }
     } catch (err) {
       console.error('Form submission error:', err);
@@ -167,30 +239,44 @@ const       BookingPage: React.FC = () => {
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-lg font-semibold">Deposit</div>
-              <div className="text-2xl font-bold">{depositMajor > 0 ? `฿${depositMajor}` : 'No deposit required'}</div>
+              {itemType === 'course' ? (
+                <>
+                  <div className="text-lg font-semibold">Course cost</div>
+                  <div className="text-2xl font-bold">{courseCostMajor > 0 ? `฿${courseCostMajor}` : 'Contact us'}</div>
+                  <div className="text-sm text-muted-foreground mt-1">Deposit payable now (20%): {depositMajor > 0 ? `฿${depositMajor}` : 'Contact us'}</div>
+                </>
+              ) : (
+                <>
+                  <div className="text-lg font-semibold">Deposit</div>
+                  <div className="text-2xl font-bold">{depositMajor > 0 ? `฿${depositMajor}` : 'No deposit required'}</div>
+                </>
+              )}
             </div>
-            <div className="text-right">
-              <div className="text-lg font-semibold">Add-ons</div>
-              <div className="text-sm text-muted-foreground">Select extras below</div>
-            </div>
+            {isDiveBooking && (
+              <div className="text-right">
+                <div className="text-lg font-semibold">Add-ons</div>
+                <div className="text-sm text-muted-foreground">Select extras below</div>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
-          {ADDONS.map((a) => (
-            <label key={a.id} className="flex items-center gap-3 p-4 border rounded">
-              <input type="checkbox" checked={!!selectedAddons[a.id]} onChange={() => setSelectedAddons(s => ({ ...s, [a.id]: !s[a.id] }))} />
-              <div>
-                <div className="font-medium">{a.label}</div>
-                <div className="text-sm text-muted-foreground">฿{a.amount}</div>
-              </div>
-            </label>
-          ))}
-        </div>
+        {isDiveBooking && (
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {ADDONS.map((a) => (
+              <label key={a.id} className="flex items-center gap-3 p-4 border rounded">
+                <input type="checkbox" checked={!!selectedAddons[a.id]} onChange={() => setSelectedAddons(s => ({ ...s, [a.id]: !s[a.id] }))} />
+                <div>
+                  <div className="font-medium">{a.label}</div>
+                  <div className="text-sm text-muted-foreground">฿{a.amount}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+        )}
 
         <div className="mb-6 text-right">
-          <div className="text-sm text-muted-foreground">Total deposit (incl. add-ons):</div>
+          <div className="text-sm text-muted-foreground">{isDiveBooking ? 'Total payable now (incl. add-ons):' : 'Total payable now:'}</div>
           <div className="text-2xl font-bold">฿{depositMajor + totalAddons}</div>
         </div>
 
@@ -265,17 +351,6 @@ const       BookingPage: React.FC = () => {
                     <label className="flex items-center gap-2">
                       <input
                         type="radio"
-                        id="payment-none"
-                        name="paymentChoice"
-                        value="none"
-                        checked={field.value === 'none'}
-                        onChange={() => field.onChange('none')}
-                      />
-                      <span>Pay later (inquire only)</span>
-                    </label>
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
                         id="payment-now"
                         name="paymentChoice"
                         value="now"
@@ -283,6 +358,17 @@ const       BookingPage: React.FC = () => {
                         onChange={() => field.onChange('now')}
                       />
                       <span>Pay deposit now with PayPal</span>
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        id="payment-none"
+                        name="paymentChoice"
+                        value="none"
+                        checked={field.value === 'none'}
+                        onChange={() => field.onChange('none')}
+                      />
+                      <span>Pay later (inquire only)</span>
                     </label>
                   </div>
                 </FormControl>

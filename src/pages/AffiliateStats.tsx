@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, TrendingUp, MousePointer, Calendar, RefreshCw } from 'lucide-react';
+import { ExternalLink, TrendingUp, MousePointer, Calendar, RefreshCw, LogOut } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface ClickRow {
   id: string;
@@ -20,24 +22,86 @@ interface HotelStat {
   last_clicked: string;
 }
 
+const normalizeClickRow = (row: any): ClickRow => {
+  const fields = row?.fields || {};
+  const clickedAt =
+    row?.clicked_at ||
+    row?.clickedAt ||
+    fields?.clicked_at ||
+    fields?.clickedAt ||
+    row?.createdTime ||
+    null;
+
+  return {
+    id: row?.id || fields?.id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    hotel_name: row?.hotel_name || row?.hotelName || fields?.hotel_name || fields?.hotelName || fields?.name || 'Unknown hotel',
+    hotel_url: row?.hotel_url || row?.hotelUrl || fields?.hotel_url || fields?.hotelUrl || fields?.url || '',
+    affiliate_id: row?.affiliate_id || row?.affiliateId || fields?.affiliate_id || fields?.affiliateId || null,
+    clicked_at: clickedAt || new Date().toISOString(),
+    referrer: row?.referrer || fields?.referrer || null,
+  };
+};
+
+const extractClickRows = (payload: any): ClickRow[] => {
+  if (Array.isArray(payload)) return payload.map(normalizeClickRow);
+  if (Array.isArray(payload?.records)) return payload.records.map(normalizeClickRow);
+  if (Array.isArray(payload?.data)) return payload.data.map(normalizeClickRow);
+  if (Array.isArray(payload?.items)) return payload.items.map(normalizeClickRow);
+  return [];
+};
+
+const BOOKING_AFFILIATE_ID = '2787354';
+
+const isBookingClick = (row: ClickRow) => {
+  const affiliateId = row.affiliate_id ? String(row.affiliate_id).trim() : '';
+  if (affiliateId === BOOKING_AFFILIATE_ID) return true;
+
+  const url = row.hotel_url || '';
+  if (/(^|\.)booking\.com/i.test(url)) return true;
+  if (/[?&]aid=\d+/i.test(url)) return true;
+
+  return false;
+};
+
 const AffiliateStats = () => {
+  const navigate = useNavigate();
   const [clicks, setClicks] = useState<ClickRow[]>([]);
+  const [rawCount, setRawCount] = useState(0);
+  const [apiTableUsed, setApiTableUsed] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
 
   const fetchClicks = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('affiliate_clicks')
-      .select('*')
-      .order('clicked_at', { ascending: false })
-      .limit(500);
+    setError(null);
 
-    if (error) {
-      setError(error.message);
-    } else {
-      setClicks(data || []);
+    try {
+      const response = await fetch(apiUrl('/api/affiliate-clicks?limit=500&debug=1'));
+      const data = await response.json().catch(() => []);
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to fetch affiliate clicks');
+      }
+
+      const rows = extractClickRows(data?.rows ?? data);
+      setRawCount(rows.length);
+      setApiTableUsed(data?.meta?.tableUsed || null);
+      const filteredRows = rows.filter(isBookingClick);
+      setClicks(filteredRows.length > 0 ? filteredRows : rows);
+    } catch (err: any) {
+      setError(err?.message || 'Failed to fetch affiliate clicks');
+      setRawCount(0);
+      setApiTableUsed(null);
     }
+
     setLoading(false);
   };
 
@@ -71,23 +135,51 @@ const AffiliateStats = () => {
     return new Date(c.clicked_at) > weekAgo;
   }).length;
 
+  const diagnostics = useMemo(() => ({
+    page: 'booking-affiliate-stats',
+    path: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+    source: apiBase || 'same-origin',
+    apiTableUsed,
+    loading,
+    error,
+    rawCount,
+    shownRows: clicks.length,
+  }), [apiBase, apiTableUsed, loading, error, rawCount, clicks.length]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success('Logged out successfully');
+    navigate('/admin/login');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
+        <div className="mb-4 rounded-md border border-gray-300 bg-white p-3 text-black">
+          <div className="text-xs font-semibold mb-1">Diagnostics</div>
+          <pre className="text-xs whitespace-pre-wrap break-words">{JSON.stringify(diagnostics, null, 2)}</pre>
+        </div>
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Booking.com Affiliate Stats</h1>
             <p className="text-gray-500 mt-1">Track clicks and commission potential</p>
+            <p className="text-xs text-gray-400 mt-1">Source: {apiBase || 'same-origin'} · Raw rows: {rawCount}</p>
           </div>
-          <Button onClick={fetchClicks} variant="outline" disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={fetchClicks} variant="outline" disabled={loading}>
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button onClick={handleLogout} variant="outline">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 mb-6">
-            {error} — make sure the <code>affiliate_clicks</code> table exists in Supabase.
+            {error} — make sure Supabase is configured and the <code>affiliate_clicks</code> table exists.
           </div>
         )}
 

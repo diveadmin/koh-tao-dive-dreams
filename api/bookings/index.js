@@ -1,11 +1,137 @@
-export default function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
+import { handleOptions } from '../_lib/cors.js';
+import { applyCors, handleOptions } from '../_lib/cors.js';
+import { requireAdmin } from '../_lib/auth.js';
+import { createClient } from '@supabase/supabase-js';
+
+
+const parseBody = (req) => {
+  if (!req.body) return {};
+  if (typeof req.body === 'string') {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
   }
+  return req.body;
+};
 
-  // For now, return empty array since we can't use SQLite in Vercel serverless functions
-  // TODO: Implement proper database solution for Vercel
-  const bookings = [];
+const pickField = (fields, keys = []) => {
+  for (const key of keys) {
+    if (Object.prototype.hasOwnProperty.call(fields, key) && fields[key] !== undefined && fields[key] !== null) {
+      return fields[key];
+    }
+  }
+  return null;
+};
 
-  res.json(bookings);
+const toNumberOr = (value, fallback = 0) => {
+  if (typeof value === 'number' && !Number.isNaN(value)) return value;
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    return Number.isNaN(parsed) ? fallback : parsed;
+  }
+  return fallback;
+};
+
+const mapBooking = (record) => {
+  const fields = record?.fields || {};
+  const addonsTotal = pickField(fields, ['addons_total', 'Add-ons total', 'addonsTotal']);
+  const subtotalAmount = pickField(fields, ['subtotal_amount', 'Subtotal amount', 'subtotalAmount']);
+  const totalPayableNow = pickField(fields, ['total_payable_now', 'Total payable now', 'totalPayableNow']);
+
+  return {
+    id: pickField(fields, ['id']) || record.id,
+    name: pickField(fields, ['name', 'Name']) || '',
+    email: pickField(fields, ['email', 'Email']) || '',
+    phone: pickField(fields, ['phone', 'Phone']),
+    item_type: pickField(fields, ['item_type', 'Item type', 'itemType']),
+    course_title: pickField(fields, ['course_title', 'Course/Dive', 'courseTitle']) || '',
+    preferred_date: pickField(fields, ['preferred_date', 'Preferred Date', 'preferredDate']),
+    experience_level: pickField(fields, ['experience_level', 'Experience Level', 'experienceLevel']),
+    addons: pickField(fields, ['addons', 'Add-ons', 'addOns']),
+    addons_json: pickField(fields, ['addons_json', 'Add-ons JSON', 'addonsJson']),
+    addons_total: toNumberOr(addonsTotal, 0),
+    subtotal_amount: subtotalAmount === null ? null : toNumberOr(subtotalAmount, 0),
+    total_payable_now: totalPayableNow === null ? null : toNumberOr(totalPayableNow, 0),
+    internal_notes: pickField(fields, ['internal_notes', 'Internal Notes', 'internalNotes']),
+    message: pickField(fields, ['message', 'Message']),
+    status: pickField(fields, ['status', 'Status']) || 'pending',
+    created_at: pickField(fields, ['created_at', 'Created At', 'createdAt']),
+    updated_at: pickField(fields, ['updated_at', 'Updated At', 'updatedAt']),
+  };
+};
+
+const getHeaders = () => ({
+  Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+  'Content-Type': 'application/json',
+});
+
+
+
+
+
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+export default async function handler(req, res) {
+  if (handleOptions(req, res)) return;
+  applyCors(res);
+
+  // Airtable references removed
+
+  try {
+    if (req.method === 'GET') {
+      const adminUser = await requireAdmin(req, res);
+      if (!adminUser) return;
+
+      // Fetch bookings from Supabase
+        // Add CORS support
+        if (req.method === 'OPTIONS') {
+          res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+          res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+          res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+          res.setHeader('Access-Control-Allow-Credentials', 'true');
+          res.status(200).end();
+          return;
+        }
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      return res.status(200).json(data);
+    }
+
+    if (req.method === 'POST') {
+      const body = parseBody(req);
+      if (!body.name || !body.email) {
+        return res.status(400).json({ error: 'Missing required fields: name and email' });
+      }
+
+      // Insert booking into Supabase
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert([body])
+        .select();
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      return res.status(201).json(data[0]);
+    }
+
+    res.setHeader('Allow', 'GET, POST');
+    return res.status(405).json({ error: 'Method not allowed' });
+  } catch (err) {
+    console.error('api/bookings error', err);
+    return res.status(500).json({ error: err?.message || 'Internal error' });
+  }
 }

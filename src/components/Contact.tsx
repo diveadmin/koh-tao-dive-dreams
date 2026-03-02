@@ -13,6 +13,7 @@ const Contact = () => {
     subject: 'Course Information',
     message: ''
   });
+  const [ipfsHash, setIpfsHash] = useState("");
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const {
       name,
@@ -27,26 +28,18 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const payload = {
-        access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
-        subject: 'message from diving in asia',
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        message: formData.message,
-      };
-
-      console.log('Sending contact payload to Web3Forms', payload);
-
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        })
       });
-
-      const data = await res.json().catch(() => ({}));
-      console.log('Web3Forms response:', res.status, data);
-
-      if (res.ok && data.success) {
+      const data = await response.json();
+      if (data.success) {
         toast.success("Message sent successfully! We'll get back to you soon.");
         setFormData({
           firstName: '',
@@ -56,13 +49,11 @@ const Contact = () => {
           message: ''
         });
       } else {
-        const errMsg = data?.message || data?.error || `HTTP ${res.status}`;
-        console.error('Web3Forms error:', errMsg, data);
-        toast.error(`Failed to send message: ${errMsg}. Please try again.`);
+        toast.error(data.error || "Send failed. Please try again.");
       }
     } catch (error) {
       console.error('Contact form submission failed:', error);
-      toast.error(`Failed to send message: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
+      toast.error(`Send failed: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -71,12 +62,12 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Get in Touch</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">Ready to explore the underwater world? Contact Bas to book your diving adventure in Koh Tao</p>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">Ready to explore the underwater world? Contact Bas to book your diving adventure on Koh Tao.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+            <h3 className="text-2xl font-bold mb-6">Contact Details</h3>
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
@@ -111,7 +102,7 @@ const Contact = () => {
                 <Clock className="h-6 w-6 text-blue-400 mt-1" />
                 <div>
                   <h4 className="font-semibold text-lg">Opening Hours</h4>
-                  <p className="text-gray-300">Daily: 7:00 AM - 7:00 PM</p>
+                  <p className="text-gray-300">Daily: 07:00 - 19:00</p>
                   <p className="text-gray-300">Emergency: 24/7</p>
                 </div>
               </div>
@@ -120,13 +111,13 @@ const Contact = () => {
             <div className="mt-8">
               <h4 className="font-semibold text-lg mb-4">Follow Us</h4>
               <div className="flex space-x-4">
-                <a href="https://www.facebook.com/profile.php?id=61553713498498" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="https://www.facebook.com/profile.php?id=61553713498498" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="text-blue-400 hover:text-blue-300 transition-colors">
                   <Facebook className="h-6 w-6" />
                 </a>
-                <a href="https://www.instagram.com/pro_diving_asia/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="https://www.instagram.com/pro_diving_asia/" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" className="text-blue-400 hover:text-blue-300 transition-colors">
                   <Instagram className="h-6 w-6" />
                 </a>
-                <a href="https://wa.me/66612345678" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors">
+                <a href="https://wa.me/66612345678" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp" className="text-green-400 hover:text-green-300 transition-colors">
                   <MessageCircle className="h-6 w-6" />
                 </a>
               </div>
@@ -134,7 +125,7 @@ const Contact = () => {
           </div>
 
           <div className="bg-gray-800 rounded-lg p-8">
-            <h3 className="text-2xl font-bold mb-6">Send us a Message</h3>
+            <h3 className="text-2xl font-bold mb-6">Send Us a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -155,11 +146,11 @@ const Contact = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Subject</label>
-                <select name="subject" value={formData.subject} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white">
+                <select name="subject" value={formData.subject} onChange={handleInputChange} title="Subject" className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white">
                   <option>Course Information</option>
                   <option>Dive Trip Booking</option>
                   <option>Equipment Rental</option>
-                  <option>General Inquiry</option>
+                  <option>General Question</option>
                 </select>
               </div>
 
@@ -176,65 +167,7 @@ const Contact = () => {
         </div>
 
         <div className="mt-16 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© 2026 Pro Diving Asia. All rights reserved.
-
- Powered By One Media Asia @ www.onemedia.asia  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
- 
-
-
-
- 
-
-
- 
-
-
-
- </p>
+          <p>© 2026 Pro Diving Asia. All rights reserved. Powered by One Media Asia @ www.onemedia.asia</p>
           <p className="mt-2">Discover the magic beneath the waves in Thailand's diving paradise.</p>
         </div>
       </div>

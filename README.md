@@ -60,6 +60,24 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Airtable CRM setup (Bookings + Affiliate clicks)
+
+This project now stores booking inquiries and affiliate click tracking in Airtable.
+
+1. Copy [.env.example](.env.example) to `.env` and set:
+   - `AIRTABLE_PERSONAL_ACCESS_TOKEN`
+   - `AIRTABLE_BASE_ID`
+   - `AIRTABLE_BOOKINGS_TABLE` (default: `bookings`)
+   - `AIRTABLE_AFFILIATE_CLICKS_TABLE` (default: `affiliate_clicks`)
+
+2. Create Airtable tables with these fields:
+   - `bookings`: `id`, `name`, `email`, `phone`, `course_title`, `preferred_date`, `experience_level`, `message`, `status`, `created_at`, `updated_at`
+   - `affiliate_clicks`: `id`, `hotel_name`, `hotel_url`, `affiliate_id`, `referrer`, `user_agent`, `clicked_at`
+
+3. Local dev (API + frontend):
+   - Run API server: `node server.cjs` (port `3001`)
+   - Run frontend: `npm run dev` (Vite proxies `/api` to `http://localhost:3001`)
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/262b1d2a-b9e8-4e3a-8aaf-307801ed16f9) and click on Share -> Publish.

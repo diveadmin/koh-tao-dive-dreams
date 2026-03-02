@@ -46,18 +46,52 @@ const Navigation = () => {
     navigate(`${targetPath}#${anchor}`);
     setIsOpen(false);
   };
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isDutch = i18n.language.startsWith('nl');
+
+  const labels = {
+    beginnerCourses: isDutch ? 'BEGINNERSCURSUSSEN' : 'BEGINNER COURSES',
+    advancedCourses: isDutch ? 'GEVORDERDE CURSUSSEN' : 'ADVANCED COURSES',
+    specialtyCourses: isDutch ? 'PADI SPECIALTY CURSUSSEN' : 'PADI SPECIALTY COURSES',
+    professionalCourses: isDutch ? 'PROFESSIONELE CURSUSSEN' : 'PROFESSIONAL COURSES',
+    marineLifeTitle: isDutch ? 'Marien leven' : 'Marine Life',
+    marineLifeOverview: isDutch ? 'Overzicht marien leven' : 'Marine life overview',
+    greenSeaTurtle: isDutch ? 'Groene zeeschildpad' : 'Green sea turtle',
+    hawksbillSeaTurtle: isDutch ? 'Karetschildpad' : 'Hawksbill sea turtle',
+    greatBarracuda: isDutch ? 'Grote barracuda' : 'Great barracuda',
+    blacktipReefShark: isDutch ? 'Zwartpuntrifhaai' : 'Blacktip reef shark',
+    bandedSeaKrait: isDutch ? 'Gestreepte zeekrait' : 'Banded sea krait',
+    beardedScorpionfish: isDutch ? 'Baardschorpioenvis' : 'Bearded scorpionfish',
+    diveSitesTitle: isDutch ? 'Duiklocaties' : 'Dive Sites',
+    diveSitesOverview: isDutch ? 'Overzicht alle duiklocaties' : 'All dive sites overview',
+    funDiveTrips: isDutch ? 'Fun Duiktrips' : 'Fun Dive Trips',
+    boatSchedule: isDutch ? 'Bootschema' : 'Boat schedule',
+    pricingPackages: isDutch ? 'Prijzen & pakketten' : 'Pricing & packages',
+    diverRequirements: isDutch ? 'Vereisten voor duikers' : 'Diver requirements',
+    chooseDiveCenter: isDutch ? 'Een duikcentrum kiezen' : 'Choosing a dive center',
+    accommodation: isDutch ? 'Accommodatie' : 'Accommodation',
+    thingsToDo: isDutch ? 'Wat te doen' : 'Things to do',
+    banksKohTao: isDutch ? 'Banken op Koh Tao' : 'Banks on Koh Tao',
+    beachesKohTao: isDutch ? 'Stranden op Koh Tao' : 'Beaches on Koh Tao',
+    foodDrink: isDutch ? 'Eten & drinken' : 'Food & drink',
+    howToGetHere: isDutch ? 'Hoe kom je hier' : 'How to get here',
+    medicalServices: isDutch ? 'Medische zorg' : 'Medical services',
+    viewpoints: isDutch ? 'Uitzichtpunten' : 'Viewpoints',
+    weatherKohTao: isDutch ? 'Weer op Koh Tao' : 'Koh Tao weather',
+    login: isDutch ? 'Inloggen' : 'Login',
+    signup: isDutch ? 'Registreren' : 'Sign up',
+  };
 
   const courseCategories = [
     {
-      label: 'BEGINNER COURSES',
+      label: labels.beginnerCourses,
       items: [
         { name: 'PADI Open Water Course', to: '/courses/open-water' },
         { name: 'PADI Scuba Diver Course', to: '/courses/scuba-diver' },
       ],
     },
     {
-      label: 'ADVANCED COURSES',
+      label: labels.advancedCourses,
       items: [
         { name: 'Advanced Open Water', to: '/courses/advanced' },
         { name: 'EFR First Aid Course', to: '/courses/efr' },
@@ -66,10 +100,11 @@ const Navigation = () => {
       ],
     },
     {
-      label: 'PADI SPECIALTY COURSES',
+      label: labels.specialtyCourses,
       items: [
         { name: 'Adaptive Support Diver', to: '/specialty/adaptive-support' },
         { name: 'Aware Fish Identification', to: '/specialty/fish-identification' },
+        { name: 'Current Diver', to: '/specialty/current-diver' },
         { name: 'PADI Boat Diver', to: '/specialty/boat-diver' },
         { name: 'PADI Current Diver', to: '/specialty/current-diver' },
         { name: 'PADI Deep Diver', to: '/specialty/deep-diver' },
@@ -89,12 +124,12 @@ const Navigation = () => {
       ],
     },
     {
-      label: 'PRO LEVEL COURSES',
+      label: labels.professionalCourses,
       items: [
         { name: t('courses.divemaster.title'), to: '/courses/divemaster' },
         { name: t('courses.instructor.title'), to: '/courses/instructor' },
         { name: 'Divemaster Internship', to: '/internship/divemaster' },
-        { name: 'Instructor Internship', to: '/internship/instructor' },
+        { name: isDutch ? 'Instructeur Internship' : 'Instructor Internship', to: '/internship/instructor' },
       ],
     },
     
@@ -102,16 +137,16 @@ const Navigation = () => {
   ];
 
   const marineLifeItems = [
-    { name: 'All Marine Life Overview', to: '/marine-life' },
+    { name: labels.marineLifeOverview, to: '/marine-life' },
     { name: 'Whaleshark', to: '/marine-life/whaleshark' },
-    { name: 'Green Sea Turtle', to: '/marine-life/green-sea-turtle' },
-    { name: 'Hawksbill Sea Turtle', to: '/marine-life/hawksbill-sea-turtle' },
-    { name: 'Great Barracuda', to: '/marine-life/great-barracuda' },
-    { name: 'Black Tip Reef Shark', to: '/marine-life/black-tip-reef-shark' },
+    { name: labels.greenSeaTurtle, to: '/marine-life/green-sea-turtle' },
+    { name: labels.hawksbillSeaTurtle, to: '/marine-life/hawksbill-sea-turtle' },
+    { name: labels.greatBarracuda, to: '/marine-life/great-barracuda' },
+    { name: labels.blacktipReefShark, to: '/marine-life/black-tip-reef-shark' },
     { name: 'Malabar Grouper', to: '/marine-life/malabar-grouper' },
     { name: 'Cephalopods', to: '/marine-life/cephalopods' },
-    { name: 'Banded Sea Krait', to: '/marine-life/banded-sea-krait' },
-    { name: 'Bearded Scorpion Fish', to: '/marine-life/bearded-scorpion-fish' },
+    { name: labels.bandedSeaKrait, to: '/marine-life/banded-sea-krait' },
+    { name: labels.beardedScorpionfish, to: '/marine-life/bearded-scorpion-fish' },
     { name: 'Nudibranchs', to: '/marine-life/nudibranchs' },
   ];
 
@@ -191,7 +226,7 @@ const Navigation = () => {
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
-                    Dive Sites
+                    {labels.diveSitesTitle}
                   </h4>
                   <ul className="space-y-1">
                     <li>
@@ -199,7 +234,7 @@ const Navigation = () => {
                         to="/koh-tao-dive-sites"
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        All Dive Sites Overview
+                        {labels.diveSitesOverview}
                       </Link>
                     </li>
                     <li>
@@ -275,7 +310,7 @@ const Navigation = () => {
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[300px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
-                    Marine Life
+                    {labels.marineLifeTitle}
                   </h4>
                   <ul className="space-y-1">
                     {marineLifeItems.map((item) => (
@@ -299,13 +334,13 @@ const Navigation = () => {
                 to="/fun-diving-koh-tao"
                 className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium flex items-center gap-1"
               >
-                Fun Dive Trips
+                {labels.funDiveTrips}
                 <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90" />
               </Link>
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">
-                    Fun Diving
+                    Fun diving
                   </h4>
                   <ul className="space-y-1">
                     <li>
@@ -313,7 +348,7 @@ const Navigation = () => {
                         to="/fun-diving-koh-tao"
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        Fun Diving Koh Tao
+                        Fun diving Koh Tao
                       </Link>
                     </li>
                     <li>
@@ -322,7 +357,7 @@ const Navigation = () => {
                         onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#schedule')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        Boat Schedule
+                        {labels.boatSchedule}
                       </a>
                     </li>
                     <li>
@@ -331,7 +366,7 @@ const Navigation = () => {
                         onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#pricing')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        Pricing & Packages
+                        {labels.pricingPackages}
                       </a>
                     </li>
                     <li>
@@ -340,7 +375,7 @@ const Navigation = () => {
                         onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#requirements')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        Diver Requirements
+                        {labels.diverRequirements}
                       </a>
                     </li>
                     <li>
@@ -349,7 +384,7 @@ const Navigation = () => {
                         onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#tips')}
                         className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150"
                       >
-                        Choosing a Dive Center
+                        {labels.chooseDiveCenter}
                       </a>
                     </li>
                   </ul>
@@ -368,16 +403,16 @@ const Navigation = () => {
                 <div className="bg-[#0b1e3d]/80 rounded-lg shadow-2xl border border-[#1a3a5c] min-w-[250px] p-5">
                   <h4 className="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3 border-b border-[#1a3a5c] pb-2">KOH TAO</h4>
                   <ul className="space-y-1">
-                    <li><Link to="/Accommodation" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Accommodation</Link></li>
-                    <li><Link to="/ThingsToDo" className="block py-1.5 text-sm text-cyan-400 hover:text-white hover:pl-1 transition-all duration-150">Things To Do</Link></li>
-                    <li><Link to="/BanksKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Banks Koh Tao</Link></li>
-                    <li><Link to="/BeachesKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Beaches Koh Tao</Link></li>
-                    <li><Link to="/FoodDrink" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Food & Drink</Link></li>
-                    <li><Link to="/HowToGetHere" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">How To Get Here</Link></li>
-                    <li><Link to="/MedicalServices" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Medical Services</Link></li>
-                    <li><Link to="/ViewpointsKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Viewpoints Koh Tao</Link></li>
-                    <li><Link to="/VisasKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Visas Koh Tao</Link></li>
-                    <li><Link to="/WeatherKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Weather Koh Tao</Link></li>
+                    <li><Link to="/Accommodation" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.accommodation}</Link></li>
+                    <li><Link to="/ThingsToDo" className="block py-1.5 text-sm text-cyan-400 hover:text-white hover:pl-1 transition-all duration-150">{labels.thingsToDo}</Link></li>
+                    <li><Link to="/BanksKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.banksKohTao}</Link></li>
+                    <li><Link to="/BeachesKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.beachesKohTao}</Link></li>
+                    <li><Link to="/FoodDrink" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.foodDrink}</Link></li>
+                    <li><Link to="/HowToGetHere" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.howToGetHere}</Link></li>
+                    <li><Link to="/MedicalServices" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.medicalServices}</Link></li>
+                    <li><Link to="/ViewpointsKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.viewpoints}</Link></li>
+                    <li><Link to="/VisasKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">Visa</Link></li>
+                    <li><Link to="/WeatherKohTao" className="block py-1.5 text-sm text-gray-300 hover:text-white hover:pl-1 transition-all duration-150">{labels.weatherKohTao}</Link></li>
                   </ul>
                 </div>
               </div>
@@ -409,7 +444,7 @@ const Navigation = () => {
                         to="/login"
                         className="block py-2 px-3 text-sm text-gray-300 hover:text-white hover:bg-[#1a3a5c] transition-all duration-150 rounded"
                       >
-                        Login
+                        {labels.login}
                       </Link>
                     </li>
                     <li>
@@ -417,7 +452,7 @@ const Navigation = () => {
                         to="/signup"
                         className="block py-2 px-3 text-sm text-gray-300 hover:text-white hover:bg-[#1a3a5c] transition-all duration-150 rounded"
                       >
-                        Sign Up
+                        {labels.signup}
                       </Link>
                     </li>
                   </ul>
@@ -485,13 +520,13 @@ const Navigation = () => {
                   onClick={() => setDiveSitesOpen(!diveSitesOpen)}
                   className="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-blue-600"
                 >
-                  Dive Sites
+                  {labels.diveSitesTitle}
                   <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${diveSitesOpen ? 'rotate-90' : ''}`} />
                 </button>
                 {diveSitesOpen && (
                   <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
                     <Link to="/koh-tao-dive-sites" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                      All Dive Sites Overview
+                      {labels.diveSitesOverview}
                     </Link>
                     <Link to="/dive-sites/sail-rock" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
                       Sail Rock
@@ -525,7 +560,7 @@ const Navigation = () => {
                   onClick={() => setIsOpen(false)}
                   className="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-blue-600"
                 >
-                  <span>Fun Dive Trips</span>
+                  <span>{labels.funDiveTrips}</span>
                   <ChevronRight
                     className={`h-4 w-4 transition-transform duration-200 ${funDivingOpen ? 'rotate-90' : ''}`}
                     onClick={(e) => {
@@ -538,19 +573,19 @@ const Navigation = () => {
                 {funDivingOpen && (
                   <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
                     <Link to="/fun-diving-koh-tao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                      Fun Diving Koh Tao
+                      Fun diving Koh Tao
                     </Link>
                     <a href="/fun-diving-koh-tao#schedule" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#schedule')}>
-                      Boat Schedule
+                      {labels.boatSchedule}
                     </a>
                     <a href="/fun-diving-koh-tao#pricing" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#pricing')}>
-                      Pricing & Packages
+                      {labels.pricingPackages}
                     </a>
                     <a href="/fun-diving-koh-tao#requirements" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#requirements')}>
-                      Diver Requirements
+                      {labels.diverRequirements}
                     </a>
                     <a href="/fun-diving-koh-tao#tips" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, '/fun-diving-koh-tao#tips')}>
-                      Choosing a Dive Center
+                      {labels.chooseDiveCenter}
                     </a>
                   </div>
                 )}
@@ -568,16 +603,16 @@ const Navigation = () => {
                 </button>
                 {funDivingOpen && (
                   <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
-                    <Link to="/Accommodation" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Accommodation</Link>
-                    <Link to="/ThingsToDo" className="block px-3 py-1.5 text-sm text-cyan-400 hover:text-blue-600" onClick={() => setIsOpen(false)}>Things To Do</Link>
-                    <Link to="/BanksKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Banks Koh Tao</Link>
-                    <Link to="/BeachesKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Beaches Koh Tao</Link>
-                    <Link to="/FoodDrink" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Food & Drink</Link>
-                    <Link to="/HowToGetHere" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>How To Get Here</Link>
-                    <Link to="/MedicalServices" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Medical Services</Link>
-                    <Link to="/ViewpointsKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Viewpoints Koh Tao</Link>
-                    <Link to="/VisasKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Visas Koh Tao</Link>
-                    <Link to="/WeatherKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Weather Koh Tao</Link>
+                    <Link to="/Accommodation" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.accommodation}</Link>
+                    <Link to="/ThingsToDo" className="block px-3 py-1.5 text-sm text-cyan-400 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.thingsToDo}</Link>
+                    <Link to="/BanksKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.banksKohTao}</Link>
+                    <Link to="/BeachesKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.beachesKohTao}</Link>
+                    <Link to="/FoodDrink" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.foodDrink}</Link>
+                    <Link to="/HowToGetHere" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.howToGetHere}</Link>
+                    <Link to="/MedicalServices" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.medicalServices}</Link>
+                    <Link to="/ViewpointsKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.viewpoints}</Link>
+                    <Link to="/VisasKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>Visa</Link>
+                    <Link to="/WeatherKohTao" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>{labels.weatherKohTao}</Link>
                   </div>
                 )}
               </div>
@@ -601,10 +636,10 @@ const Navigation = () => {
                 {accountOpen && (
                   <div className="pl-4 space-y-1 bg-gray-50 rounded-lg mx-2 py-2">
                     <Link to="/login" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                      Login
+                      {labels.login}
                     </Link>
                     <Link to="/signup" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-blue-600" onClick={() => setIsOpen(false)}>
-                      Sign Up
+                      {labels.signup}
                     </Link>
                   </div>
                 )}
