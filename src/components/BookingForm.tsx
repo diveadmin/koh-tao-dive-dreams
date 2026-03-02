@@ -66,30 +66,83 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
     try {
+      const messageBody = `Phone: ${data.phone || 'N/A'}\nPreferred Date: ${data.preferred_date || 'N/A'}\nExperience Level: ${data.experience_level || 'N/A'}\n\nMessage:\n${data.message || 'N/A'}`;
+
       const paymentChoice = (data as any).paymentChoice || 'none';
-      const messageBody = `Phone: ${data.phone || 'N/A'}\nPreferred Date: ${data.preferred_date || 'N/A'}\nExperience Level: ${data.experience_level || 'N/A'}\nPayment Option: ${paymentChoice}\n\nMessage:\n${data.message || 'N/A'}`;
+
+      // If user wants to pay now or receive a payment link, create a Checkout session first
+      let checkoutUrl: string | undefined;
+      if ((paymentChoice === 'now' || paymentChoice === 'link') && typeof depositMajor === 'number' && depositMajor > 0) {
+        try {
+          const body: any = {
+            itemTitle,
+            itemType,
+            name: data.name,
+            email: data.email,
+          };
+
+          body.amountMajor = depositMajor;
+          if (depositCurrency) body.currency = depositCurrency;
+
+          const checkoutRes = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+
+          const json = await checkoutRes.json().catch(() => ({}));
+          if (checkoutRes.ok && json.url) {
+            checkoutUrl = json.url;
+            if (paymentChoice === 'now') {
+              // redirect immediately to Checkout
+              window.location.href = checkoutUrl;
+              return;
+            }
+            // if 'link', we'll include this link in the inquiry email below
+          } else {
+            const errMsg = json?.error || `HTTP ${checkoutRes.status}`;
+            console.error('Checkout creation failed:', errMsg, json);
+            toast.error('Payment initialization failed. You can still submit an inquiry without payment.');
+          }
+        } catch (err) {
+          console.error('Checkout call failed:', err);
+          toast.error('Payment initialization failed. You can still submit an inquiry without payment.');
+        }
+      }
+
+      // If we have a checkout link and user asked for a link, append it to the message
+      const messageWithLink = checkoutUrl ? `${messageBody}\n\nPayment link: ${checkoutUrl}` : messageBody;
 
       const payload = {
-        access_key: '4ca93aa5-cd42-4902-af87-a08e1ae7c832',
+        access_key: 'e4c4edf6-6e35-456a-87da-b32b961b449a',
         subject: `Booking Inquiry: ${itemTitle}`,
         name: data.name,
         email: data.email,
-        message: messageBody,
+        message: messageWithLink,
       };
 
-      const response = await fetch('https://api.web3forms.com/submit', {
+      console.log('Sending booking payload to Web3Forms', payload);
+
+      // Send booking inquiry to Web3Forms (keeps a record of the request)
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const responseData = await response.json().catch(() => ({}));
-      if (response.ok && responseData.success) {
+
+      const resp = await res.json().catch(() => ({}));
+      console.log('Web3Forms booking response:', res.status, resp);
+
+      if (res.ok && resp.success) {
+        // Inquiry saved. If we already created a payment link above (paymentChoice === 'link'),
+        // it's been included in the message sent via Web3Forms. If user chose to pay now we already
+        // redirected earlier. Otherwise just acknowledge the inquiry.
         toast.success('Booking inquiry sent. We will contact you shortly.');
         form.reset();
         onClose();
       } else {
-        const errMsg = responseData?.error || `HTTP ${response.status}`;
-        console.error('Web3Forms error:', errMsg, responseData);
+        const errMsg = resp?.message || resp?.error || `HTTP ${res.status}`;
+        console.error('Web3Forms booking error:', errMsg, resp);
         toast.error(`Failed to send booking: ${errMsg}. Please try again.`);
       }
     } catch (error) {

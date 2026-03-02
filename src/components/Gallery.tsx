@@ -1,90 +1,48 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Import local images
 
 const Gallery = () => {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  const { i18n } = useTranslation();
-  const isDutch = i18n.language.startsWith('nl');
 
-  const images = isDutch ? [
-    {
-      src: "/images/photo-1613853250147-2f73e55c1561.avif",
-      alt: "Onderwaterscène op Koh Tao",
-      category: "Marien leven"
-    },
-    {
-      src: "/images/photo-1682687982423-295485af248a.avif",
-      alt: "Duikers op een boot, klaar voor de duik",
-      category: "Duiken"
-    },
-    {
-      src: "/images/photo-1647825194145-2d94e259c745.avif",
-      alt: "Kleurrijk koraalrif met tropische vissen",
-      category: "Koraalriffen"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Kleurrijk koraalrif op Koh Tao",
-      category: "Koraalriffen"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "School tropische vissen",
-      category: "Marien leven"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Ontmoeting met een walvishaai",
-      category: "Grote vissen"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Duikboot in kristalhelder water",
-      category: "Boten"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Onderwaterfotograaf",
-      category: "Duiken"
-    }
-  ] : [
+  const images = [
     {
       src: "/images/photo-1613853250147-2f73e55c1561.avif",
       alt: "Underwater scene in Koh Tao",
-      category: "Marine life"
+      category: "Marine Life"
     },
     {
       src: "/images/photo-1682687982423-295485af248a.avif",
-      alt: "Divers on a boat ready to dive",
+      alt: "Divers on boat preparing for dive",
       category: "Diving"
     },
     {
       src: "/images/photo-1647825194145-2d94e259c745.avif",
       alt: "Colorful coral reef with tropical fish",
-      category: "Coral reefs"
+      category: "Coral Reefs"
     },
     {
       src: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       alt: "Colorful coral reef in Koh Tao",
-      category: "Coral reefs"
+      category: "Coral Reefs"
     },
     {
       src: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       alt: "School of tropical fish",
-      category: "Marine life"
+      category: "Marine Life"
     },
     {
       src: "https://images.unsplash.com/photo-1582967788606-a171c1080cb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       alt: "Whale shark encounter",
-      category: "Big fish"
+      category: "Big Fish"
     },
     {
       src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Dive boat in crystal-clear water",
+      alt: "Diving boat in crystal clear water",
       category: "Boats"
     },
     {
@@ -111,12 +69,10 @@ const Gallery = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            {isDutch ? 'Onderwatergalerij' : 'Underwater Gallery'}
+            Underwater Gallery
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {isDutch
-              ? 'Ervaar de adembenemende schoonheid van de onderwaterwereld van Koh Tao in onze fotogalerij'
-              : 'Experience the breathtaking beauty of Koh Tao’s underwater world in our photo gallery'}
+            Experience the breathtaking beauty of Koh Tao's underwater world through our photo gallery
           </p>
         </div>
 
@@ -147,8 +103,6 @@ const Gallery = () => {
             <div className="relative max-w-4xl max-h-full">
               <button
                 onClick={() => setSelectedImage(null)}
-                title={isDutch ? 'Sluiten' : 'Close'}
-                aria-label={isDutch ? 'Sluiten' : 'Close'}
                 className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
               >
                 <X className="h-8 w-8" />
@@ -156,8 +110,6 @@ const Gallery = () => {
               
               <button
                 onClick={prevImage}
-                title={isDutch ? 'Vorige afbeelding' : 'Previous image'}
-                aria-label={isDutch ? 'Vorige afbeelding' : 'Previous image'}
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
               >
                 <ChevronLeft className="h-8 w-8" />
@@ -165,8 +117,6 @@ const Gallery = () => {
               
               <button
                 onClick={nextImage}
-                title={isDutch ? 'Volgende afbeelding' : 'Next image'}
-                aria-label={isDutch ? 'Volgende afbeelding' : 'Next image'}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
               >
                 <ChevronRight className="h-8 w-8" />
