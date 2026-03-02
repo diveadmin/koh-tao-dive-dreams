@@ -10,7 +10,12 @@ const ProLevelCourses: React.FC = () => {
     { title: 'PADI Divemaster Course', path: '/courses/divemaster' },
     { title: 'PADI Instructor Course', path: '/courses/instructor' },
     { title: 'EFR Instructor Course' },
-    { title: 'PADI MSDT Program' },
+    {
+      title: 'PADI MSDT Program',
+      path: 'https://www.blackturtledive.com/padi-pro-level/msdt-program/',
+      external: true,
+      description: 'Become a Master Scuba Diver Trainer (MSDT) and boost your career with the ability to teach a range of PADI specialty courses. Includes hands-on training, team teaching, and guidance to help you reach the required certifications.'
+    },
     { title: 'IDC Staff Instructor' },
     { title: 'PADI IDC Schedule' },
     { title: 'Instructor Specialties' },
@@ -51,9 +56,15 @@ const ProLevelCourses: React.FC = () => {
                   <CardTitle className="text-lg">{c.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="mb-4">Professional development and instructor-level specialty training.</CardDescription>
+                  <CardDescription className="mb-4">
+                    {c.description || 'Professional development and instructor-level specialty training.'}
+                  </CardDescription>
                   <div className="flex gap-3">
-                    {c.path ? (
+                    {c.external ? (
+                      <a href={c.path} target="_blank" rel="noopener noreferrer" className="flex-1">
+                        <Button variant="outline" className="w-full">View</Button>
+                      </a>
+                    ) : c.path ? (
                       <Link to={c.path} className="flex-1">
                         <Button variant="outline" className="w-full">View</Button>
                       </Link>

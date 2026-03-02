@@ -244,7 +244,7 @@ const FunDiving = () => {
 
         {/* Dive Sites */}
         <TabsContent value="sites" className="transition-none">
-          <section id="world-class-dive-sites" className="py-16 px-4 bg-muted/50">
+          {/* <section id="world-class-dive-sites" className="py-16 px-4 bg-muted/50">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-4xl font-bold text-center mb-12">Best Koh Tao Fun Diving Trips</h2>
               <div className="grid md:grid-cols-2 gap-8">
@@ -293,7 +293,7 @@ const FunDiving = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
         </TabsContent>
 
         {/* Marine Life */}
