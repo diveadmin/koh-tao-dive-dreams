@@ -1,16 +1,6 @@
 import { applyCors, handleOptions } from '../../_lib/cors.js';
 import { requireAdmin } from '../../_lib/auth.js';
-
-const AIRTABLE_TOKEN = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN || process.env.AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const BOOKINGS_TABLE = process.env.AIRTABLE_BOOKINGS_TABLE || 'bookings';
-
-const escapeFormulaValue = (value = '') => String(value).replace(/'/g, "\\'");
-
-const airtableUrl = (table, query = '') => {
-  const encodedTable = encodeURIComponent(table);
-  return `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodedTable}${query ? `?${query}` : ''}`;
-};
+import { createClient } from '@supabase/supabase-js';
 
 const parseBody = (req) => {
   if (!req.body) return {};
@@ -24,15 +14,50 @@ const parseBody = (req) => {
   return req.body;
 };
 
-const getHeaders = () => ({
-  Authorization: `Bearer ${AIRTABLE_TOKEN}`,
-  'Content-Type': 'application/json',
-});
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 export default async function handler(req, res) {
   if (handleOptions(req, res)) return;
   applyCors(res);
 
-    // Placeholder handler: Airtable code removed
-    return res.status(501).json({ error: 'Not implemented: Airtable removed.' });
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
+
+  try {
+    const { id } = req.query || {};
+    if (!id) {
+      return res.status(400).json({ error: 'Missing booking id' });
+    }
+
+    if (req.method === 'PATCH' || req.method === 'PUT') {
+      const { status } = parseBody(req);
+
+      const validStatuses = ['pending', 'confirmed', 'completed', 'cancelled', 'paid'];
+      if (!status || !validStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Invalid or missing status value' });
+      }
+
+      const { data, error } = await supabase
+        .from('bookings')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select();
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      if (!data || data.length === 0) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+      return res.status(200).json({ message: 'Status updated', booking: data[0] });
+    }
+
+    res.setHeader('Allow', 'PATCH, PUT');
+    return res.status(405).json({ error: 'Method not allowed' });
+  } catch (err) {
+    console.error('api/bookings/[id]/status error', err);
+    return res.status(500).json({ error: err?.message || 'Internal error' });
+  }
 }

@@ -71,6 +71,99 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string | null
+          item_type: string | null
+          course_title: string | null
+          preferred_date: string | null
+          experience_level: string | null
+          addons: string | null
+          addons_json: string | null
+          addons_total: number
+          subtotal_amount: number | null
+          total_payable_now: number | null
+          internal_notes: string | null
+          message: string | null
+          status: string
+          created_at: string
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone?: string | null
+          item_type?: string | null
+          course_title?: string | null
+          preferred_date?: string | null
+          experience_level?: string | null
+          addons?: string | null
+          addons_json?: string | null
+          addons_total?: number
+          subtotal_amount?: number | null
+          total_payable_now?: number | null
+          internal_notes?: string | null
+          message?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string | null
+          item_type?: string | null
+          course_title?: string | null
+          preferred_date?: string | null
+          experience_level?: string | null
+          addons?: string | null
+          addons_json?: string | null
+          addons_total?: number
+          subtotal_amount?: number | null
+          total_payable_now?: number | null
+          internal_notes?: string | null
+          message?: string | null
+          status?: string
+          created_at?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      affiliate_clicks: {
+        Row: {
+          id: string
+          hotel_name: string
+          hotel_url: string
+          affiliate_id: string | null
+          clicked_at: string
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          id?: string
+          hotel_name: string
+          hotel_url: string
+          affiliate_id?: string | null
+          clicked_at?: string
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          id?: string
+          hotel_name?: string
+          hotel_url?: string
+          affiliate_id?: string | null
+          clicked_at?: string
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
