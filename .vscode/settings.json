@@ -1,5 +1,10 @@
 {
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
-    ]
+    ],
+    "window.autoDetectColorScheme": true,
+    "chat.agent.maxRequests": 500,
+    "chat.agentSkillsLocations": {
+        "deep": true
+    }
 }
