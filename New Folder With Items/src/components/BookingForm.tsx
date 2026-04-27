@@ -33,6 +33,14 @@ interface BookingFormProps {
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, itemTitle, depositMajor, depositCurrency }) => {
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<BookingFormData>({
@@ -84,7 +92,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, itemType, it
           body.amountMajor = depositMajor;
           if (depositCurrency) body.currency = depositCurrency;
 
-          const checkoutRes = await fetch('/api/create-checkout-session', {
+          const checkoutRes = await fetch(apiUrl('/api/create-checkout-session'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
