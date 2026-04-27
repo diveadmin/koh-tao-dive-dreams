@@ -106,6 +106,7 @@ const Navigation = () => {
         { name: 'Aware Fish Identification', to: '/specialty/fish-identification' },
         { name: 'Current Diver', to: '/specialty/current-diver' },
         { name: 'PADI Boat Diver', to: '/specialty/boat-diver' },
+        { name: 'PADI Current Diver', to: '/specialty/current-diver' },
         { name: 'PADI Deep Diver', to: '/specialty/deep-diver' },
         { name: 'PADI DPV Diver', to: '/specialty/dpv-diver' },
         { name: 'Emergency O2 Provider', to: '/specialty/emergency-o2' },
