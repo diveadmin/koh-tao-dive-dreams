@@ -14,12 +14,20 @@ type Booking = {
 };
 
 const AdminPanel: React.FC = () => {
+  const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  const apiBaseNormalized = apiBaseRaw
+    ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
+        ? apiBaseRaw
+        : `https://${apiBaseRaw}`)
+    : '';
+  const apiBase = apiBaseNormalized.replace(/\/+$/, '');
+  const apiUrl = (path: string) => `${apiBase}${path}`;
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchBookings = async () => {
     setLoading(true);
-    const res = await fetch('/api/bookings');
+    const res = await fetch(apiUrl('/api/bookings'));
     const jb = await res.json();
     // Map server booking schema to local Booking type
     const mapped = (jb || []).map((b: any) => ({
@@ -39,12 +47,12 @@ const AdminPanel: React.FC = () => {
   useEffect(() => { fetchBookings(); }, []);
 
   const updateStatus = async (id: string, status: string) => {
-    await fetch(`/api/bookings/${id}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+    await fetch(apiUrl(`/api/bookings/${id}/status`), { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
     fetchBookings();
   };
 
   const sendInvoice = async (id: string) => {
-    await fetch(`/api/bookings/${id}/invoice`, { method: 'POST' });
+    await fetch(apiUrl(`/api/bookings/${id}/invoice`), { method: 'POST' });
     alert('Invoice sent (if SMTP configured)');
   };
 
