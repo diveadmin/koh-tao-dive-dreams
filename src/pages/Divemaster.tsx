@@ -18,18 +18,25 @@ const imageList = [
 
 const Divemaster: React.FC = () => {
   const navigate = useNavigate();
-  const bookingUrl = '/booking?item=PADI%20Divemaster%20Course&type=course&price=35000&currency=THB';
   const randomImage = useMemo(() => {
     return imageList[Math.floor(Math.random() * imageList.length)];
   }, []);
   return (
     <div className="min-h-screen bg-background">
+      <div className="w-full h-64 md:h-80 overflow-hidden mb-6 rounded-lg shadow-lg">
+        <img
+          src={randomImage}
+          alt="Scuba diving scene"
+          className="w-full h-full object-cover object-center"
+          loading="lazy"
+        />
+      </div>
       <section className="relative h-72 md:h-96 flex items-center" style={{backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${randomImage}')`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4 text-white z-10">
           <h1 className="text-4xl md:text-5xl font-bold">PADI Divemaster Course</h1>
           <p className="mt-4 max-w-2xl">Begin your professional diving career — learn leadership, supervision, and dive management skills to work as a dive professional worldwide.</p>
           <div className="mt-6">
-            <Button size="lg" onClick={() => navigate(bookingUrl)}>Enquire About Divemaster</Button>
+            <Button size="lg" onClick={() => navigate('/booking')}>Enquire About Divemaster</Button>
           </div>
         </div>
       </section>
@@ -83,7 +90,7 @@ const Divemaster: React.FC = () => {
               <CardContent>
                 <p className="text-2xl font-bold text-sky-600 mb-3">฿35,000+</p>
                 <p className="text-sm text-muted-foreground mb-4">Price varies by program length and experience level. Contact us for tailored pricing.</p>
-                <Button onClick={() => navigate(bookingUrl)}>Enquire / Apply</Button>
+                <Button onClick={() => navigate('/booking')}>Enquire / Apply</Button>
               </CardContent>
             </Card>
           </aside>
@@ -99,7 +106,7 @@ const Divemaster: React.FC = () => {
             <a href="https://www.divinginasia.com/#contact" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold mb-2">Get in touch to book/enquire</a>
             <div className="text-muted-foreground text-sm mb-4">Or use the form below to send a booking request directly.</div>
           </div>
-          <Button onClick={() => navigate(bookingUrl)}>Send Booking Request</Button>
+          <Button onClick={() => navigate('/booking')}>Send Booking Request</Button>
         </section>
       </main>
         <Contact />
