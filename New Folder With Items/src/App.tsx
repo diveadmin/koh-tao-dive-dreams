@@ -17,6 +17,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Layout from "./components/Layout";
+import { CurrencyProvider } from "./context/CurrencyContext";
 import OpenWater from "./pages/OpenWater";
 import Advanced from "./pages/Advanced";
 import EFR from "./pages/EFR";
@@ -107,12 +108,13 @@ const ScrollToTop = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Layout>
-          <Routes>
+      <CurrencyProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Layout>
+            <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/fun-diving-koh-tao" element={<FunDiving />} />
           <Route path="/koh-tao-dive-sites" element={<DiveSitesPage />} />
@@ -198,9 +200,10 @@ const App = () => (
           <Route path="/VisasKohTao" element={<VisasKohTao />} />
           <Route path="/WeatherKohTao" element={<WeatherKohTao />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-        </Layout>
-      </BrowserRouter>
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </CurrencyProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

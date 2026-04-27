@@ -2,6 +2,7 @@ import Contact from '../components/Contact';
 
 import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -97,7 +98,7 @@ const OpenWater: React.FC = () => {
                 <CardDescription>3-4 days · 4 open water dives · Certification included</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-sky-600 mb-3">฿12,900</p>
+                <p className="text-2xl font-bold text-sky-600 mb-3"><CurrencyText text="฿12,900" /></p>
                 <p className="text-sm text-muted-foreground mb-4">Includes materials & equipment</p>
                 <ul className="text-sm mb-4">
                   <li>• Small groups</li>

@@ -2,6 +2,7 @@ import Contact from '../components/Contact';
 
 import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +81,7 @@ const Divemaster: React.FC = () => {
                 <CardDescription>2-4 weeks · Practical & theory · PADI Divemaster</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-sky-600 mb-3">฿35,000+</p>
+                <p className="text-2xl font-bold text-sky-600 mb-3"><CurrencyText text="฿35,000+" /></p>
                 <p className="text-sm text-muted-foreground mb-4">Price varies by program length and experience level. Contact us for tailored pricing.</p>
                 <Button onClick={() => navigate('/booking')}>Enquire / Apply</Button>
               </CardContent>

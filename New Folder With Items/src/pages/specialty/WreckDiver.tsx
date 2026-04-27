@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import Contact from '@/components/Contact';
@@ -105,15 +106,15 @@ export default function WreckDiver() {
 
         <Card className="mb-8 p-6 bg-blue-50">
           <h2 className="text-2xl font-bold mb-4">Pricing</h2>
-          <div className="text-3xl font-bold text-blue-600 mb-2">฿8,000</div>
+          <div className="text-3xl font-bold text-blue-600 mb-2"><CurrencyText text="฿8,000" /></div>
           <p className="text-gray-600 text-sm mb-4">Includes all training, materials, equipment rental, and certification</p>
-          <p className="text-sm text-gray-600">*Discount 1,500 baht if you've already completed the Wreck Adventure dive as part of Advanced Open Water</p>
+          <p className="text-sm text-gray-600"><CurrencyText text="*Discount 1,500 baht if you've already completed the Wreck Adventure dive as part of Advanced Open Water" /></p>
         </Card>
 
         <Card className="mb-8 p-6">
           <h2 className="text-lg font-bold mb-3">Combine with Other Courses</h2>
           <p className="text-gray-700 mb-4">You can combine the PADI Wreck Diver course with the PADI Enriched Air Nitrox Specialty course to gain two certifications in the same timeframe!</p>
-          <p className="text-sm text-gray-600">Add ฿5,900 to combine with Enriched Air Nitrox</p>
+          <p className="text-sm text-gray-600"><CurrencyText text="Add ฿5,900 to combine with Enriched Air Nitrox" /></p>
         </Card>
 
         <Card className="mb-8 p-6 bg-green-50">

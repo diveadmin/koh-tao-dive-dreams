@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Loader2, ChevronRight } from 'lucide-react';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { useToast } from '@/hooks/use-toast';
 
 const experienceOptions = [
@@ -197,7 +198,7 @@ const CourseRecommender = () => {
               Your Personalized Recommendation
             </h4>
             <div className="prose prose-invert max-w-none">
-              <p className="text-cyan-50 leading-relaxed whitespace-pre-line">{recommendation}</p>
+              <p className="text-cyan-50 leading-relaxed whitespace-pre-line"><CurrencyText text={recommendation} /></p>
             </div>
           </div>
           <div className="flex gap-3">

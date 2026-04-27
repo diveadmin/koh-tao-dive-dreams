@@ -2,6 +2,7 @@ import Contact from '../components/Contact';
 
 import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +81,7 @@ const Rescue: React.FC = () => {
                 <CardDescription>3 days · Pool & open water · Certification</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-sky-600 mb-3">฿10,500</p>
+                <p className="text-2xl font-bold text-sky-600 mb-3"><CurrencyText text="฿10,500" /></p>
                 <p className="text-sm text-muted-foreground mb-4">Includes EFR prerequisite if required</p>
                 <Button onClick={() => navigate('/booking')}>Book Rescue</Button>
               </CardContent>

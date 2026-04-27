@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +59,7 @@ const ScubaDiver: React.FC = () => {
                 <CardDescription>2-3 days · Theory & practical</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-sky-600 mb-3">฿8,500</p>
+                <p className="text-2xl font-bold text-sky-600 mb-3"><CurrencyText text="฿8,500" /></p>
                 <p className="text-sm text-muted-foreground mb-4">Includes all training, equipment, and 2 open water dives</p>
                 <Button onClick={() => navigate('/booking')}>Book Scuba Diver</Button>
               </CardContent>

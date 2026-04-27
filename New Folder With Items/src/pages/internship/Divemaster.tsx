@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import Contact from '@/components/Contact';
@@ -132,19 +133,19 @@ export default function DivemasterInternship() {
           <div className="space-y-3">
             <div className="flex justify-between items-center pb-3 border-b">
               <span className="text-gray-700">Non-diver (all courses)</span>
-              <span className="text-2xl font-bold text-blue-600">฿89,500</span>
+              <span className="text-2xl font-bold text-blue-600"><CurrencyText text="฿89,500" /></span>
             </div>
             <div className="flex justify-between items-center pb-3 border-b">
               <span className="text-gray-700">Already Open Water Diver</span>
-              <span className="text-2xl font-bold text-blue-600">฿81,500</span>
+              <span className="text-2xl font-bold text-blue-600"><CurrencyText text="฿81,500" /></span>
             </div>
             <div className="flex justify-between items-center pb-3 border-b">
               <span className="text-gray-700">Already Advanced Open Water</span>
-              <span className="text-2xl font-bold text-blue-600">฿73,500</span>
+              <span className="text-2xl font-bold text-blue-600"><CurrencyText text="฿73,500" /></span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-700">Already Rescue Diver</span>
-              <span className="text-2xl font-bold text-blue-600">฿59,500</span>
+              <span className="text-2xl font-bold text-blue-600"><CurrencyText text="฿59,500" /></span>
             </div>
           </div>
         </Card>
@@ -173,7 +174,7 @@ export default function DivemasterInternship() {
           </p>
           <div className="bg-gray-50 p-4 rounded">
             <p className="text-gray-700 font-semibold">Estimated Monthly Budget:</p>
-            <p className="text-gray-700 text-lg">฿25,000 per month (comfortable living)</p>
+            <p className="text-gray-700 text-lg"><CurrencyText text="฿25,000 per month (comfortable living)" /></p>
             <p className="text-sm text-gray-600 mt-2">
               This covers food, accommodation, scooter rental, and social activities.
             </p>

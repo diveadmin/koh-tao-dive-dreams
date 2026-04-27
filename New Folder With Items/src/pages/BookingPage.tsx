@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Calendar, User, Mail, Phone, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CurrencyAmount } from '@/components/CurrencyDisplay';
+import { useCurrency } from '@/context/CurrencyContext';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -37,6 +39,7 @@ const ADDONS = [
 const       BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { currency } = useCurrency();
   const apiBaseRaw = (import.meta.env.VITE_API_BASE_URL || '').trim();
   const apiBaseNormalized = apiBaseRaw
     ? (apiBaseRaw.startsWith('http://') || apiBaseRaw.startsWith('https://')
@@ -84,7 +87,7 @@ const       BookingPage: React.FC = () => {
         payment_choice: data.paymentChoice === 'now' ? 'Pay deposit now via PayPal' : 'Pay later (inquire only)',
         paypal_link: data.paymentChoice === 'now' ? `${PAYPAL_LINK}/${amountMajor}THB` : null,
         item_title: itemTitle,
-        deposit_amount: `฿${amountMajor}`,
+        deposit_amount: `${amountMajor} THB`,
         addons: addonsText,
         message: data.message || 'No additional message',
       };
@@ -168,7 +171,9 @@ const       BookingPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-lg font-semibold">Deposit</div>
-              <div className="text-2xl font-bold">{depositMajor > 0 ? `฿${depositMajor}` : 'No deposit required'}</div>
+              <div className="text-2xl font-bold">
+                {depositMajor > 0 ? <CurrencyAmount amountThb={depositMajor} /> : 'No deposit required'}
+              </div>
             </div>
             <div className="text-right">
               <div className="text-lg font-semibold">Add-ons</div>
@@ -183,7 +188,7 @@ const       BookingPage: React.FC = () => {
               <input type="checkbox" checked={!!selectedAddons[a.id]} onChange={() => setSelectedAddons(s => ({ ...s, [a.id]: !s[a.id] }))} />
               <div>
                 <div className="font-medium">{a.label}</div>
-                <div className="text-sm text-muted-foreground">฿{a.amount}</div>
+                <div className="text-sm text-muted-foreground"><CurrencyAmount amountThb={a.amount} /></div>
               </div>
             </label>
           ))}
@@ -191,7 +196,8 @@ const       BookingPage: React.FC = () => {
 
         <div className="mb-6 text-right">
           <div className="text-sm text-muted-foreground">Total deposit (incl. add-ons):</div>
-          <div className="text-2xl font-bold">฿{depositMajor + totalAddons}</div>
+          <div className="text-2xl font-bold"><CurrencyAmount amountThb={depositMajor + totalAddons} /></div>
+          {currency !== 'THB' && <div className="text-sm text-muted-foreground">Charged in THB at checkout.</div>}
         </div>
 
         <Form {...form}>
@@ -302,7 +308,7 @@ const       BookingPage: React.FC = () => {
         {showPaymentLinks && (
           <div className="mt-8 p-6 border rounded-xl bg-muted/50 text-center space-y-4">
             <h2 className="text-xl font-bold">Pay Your Deposit</h2>
-            <p className="text-muted-foreground">Your inquiry has been sent! To secure your booking, pay the deposit of <strong>฿{depositMajor + totalAddons}</strong> via PayPal:</p>
+            <p className="text-muted-foreground">Your inquiry has been sent! To secure your booking, pay the deposit of <strong><CurrencyAmount amountThb={depositMajor + totalAddons} /></strong> via PayPal:</p>
             <div className="space-y-3">
               <a
                 href={`${PAYPAL_LINK}/${depositMajor + totalAddons}THB`}
@@ -310,7 +316,7 @@ const       BookingPage: React.FC = () => {
                 rel="noopener noreferrer"
               >
                 <Button className="bg-[#0070ba] hover:bg-[#005ea6] text-white px-8 py-3 text-lg w-full">
-                  Pay ฿{depositMajor + totalAddons} with PayPal
+                  Pay <CurrencyAmount amountThb={depositMajor + totalAddons} /> with PayPal
                 </Button>
               </a>
               <p className="text-sm text-muted-foreground">or</p>

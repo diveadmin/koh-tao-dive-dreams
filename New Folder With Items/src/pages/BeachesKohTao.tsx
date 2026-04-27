@@ -1,4 +1,5 @@
 import React from 'react';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 
 const beaches = [
   {
@@ -106,7 +107,7 @@ const BeachesKohTao = () => (
             </div>
           </div>
           <div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-between gap-4">
-            <p className="text-gray-600 leading-relaxed">{beach.description}</p>
+            <p className="text-gray-600 leading-relaxed"><CurrencyText text={beach.description} /></p>
             <div className="flex flex-wrap gap-2">
               {beach.tags.map(tag => (
                 <span key={tag} className="bg-blue-50 text-blue-700 text-xs px-3 py-1 rounded-full border border-blue-100">{tag}</span>

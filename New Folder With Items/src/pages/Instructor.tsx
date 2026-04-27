@@ -2,6 +2,7 @@ import Contact from '../components/Contact';
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
@@ -67,7 +68,7 @@ const Instructor: React.FC = () => {
                 <CardDescription>IDC · Instructor Examination · Practical Teaching</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-sky-600 mb-3">฿60,000+</p>
+                <p className="text-2xl font-bold text-sky-600 mb-3"><CurrencyText text="฿60,000+" /></p>
                 <p className="text-sm text-muted-foreground mb-4">Contact us for a tailored Instructor pathway and exam dates.</p>
                 <Button onClick={() => navigate('/booking')}>Enquire / Apply</Button>
               </CardContent>

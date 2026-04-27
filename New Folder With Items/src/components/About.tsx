@@ -1,10 +1,8 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { CurrencyAmount } from '@/components/CurrencyDisplay';
 
 const About = () => {
-  const { t } = useTranslation();
-
   return (
     <section id="about" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +31,7 @@ const About = () => {
               Koh Tao is not only an excellent place in Thailand to spend your dive vacation, but also very attractive to get almost all PADI dive certificates, for beginners and experienced scuba divers.
             </p>
             <p className="text-lg text-gray-600 mb-6">
-              Lifetime certificates valid worldwide at an unbelievable low price. Get your PADI dive certificate here for 9000 baht, now with 4 nights accommodation (room and bathroom) included in the course fee! (100 baht = 2.40 EUR = 3.28 USD)
+              Lifetime certificates valid worldwide at an unbelievable low price. Get your PADI dive certificate here for <CurrencyAmount amountThb={9000} />, now with 4 nights accommodation (room and bathroom) included in the course fee. For a quick comparison, 100 THB is about <CurrencyAmount amountThb={100} />.
             </p>
           </div>
         </div>

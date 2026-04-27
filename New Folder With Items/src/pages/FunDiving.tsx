@@ -1,6 +1,7 @@
 import Contact from '../components/Contact';
 
 import { Button } from '@/components/ui/button';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -336,7 +337,7 @@ const FunDiving = () => {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold text-green-600">฿2,000</p>
+                        <p className="text-2xl font-bold text-green-600"><CurrencyText text="฿2,000" /></p>
                         <p className="text-sm text-muted-foreground">per trip (2 dives)</p>
                         <ul className="mt-4 space-y-2 text-sm">
                           <li>• Premium Aqualung equipment</li>
@@ -355,7 +356,7 @@ const FunDiving = () => {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-2xl font-bold text-green-600">฿2,900</p>
+                        <p className="text-2xl font-bold text-green-600"><CurrencyText text="฿2,900" /></p>
                         <p className="text-sm text-muted-foreground">full day excursion</p>
                         <ul className="mt-4 space-y-2 text-sm">
                           <li>• Breakfast & lunch included</li>

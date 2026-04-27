@@ -1,4 +1,5 @@
 import React from 'react';
+import { CurrencyAmount } from '@/components/CurrencyDisplay';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -56,7 +57,7 @@ const SpecialtyDetail: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <p><strong>Duration:</strong> {data.duration}</p>
-                <p><strong>Deposit:</strong> {data.depositMajor ? `฿${data.depositMajor}` : 'Contact us'}</p>
+                <p><strong>Deposit:</strong> {data.depositMajor ? <CurrencyAmount amountThb={data.depositMajor} /> : 'Contact us'}</p>
                 <p className="text-muted-foreground">Detailed curriculum, prerequisites, and certification information available on request.</p>
                 <div className="mt-6">
                   <Button onClick={() => navigate(`/booking?item=${encodeURIComponent(data.title)}&deposit=${data.depositMajor || ''}&currency=${data.depositCurrency || ''}`)}>Enquire / Book</Button>

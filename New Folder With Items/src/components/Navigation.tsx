@@ -2,6 +2,7 @@
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+  import CurrencySelector from './CurrencySelector';
 import LanguageSwitcher from './LanguageSwitcher';
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -386,7 +387,6 @@ const Navigation = () => {
             {/* Contact stays as a single nav item */}
             <a
               href={navItems[1].href}
-              onClick={(e) => handleAnchorClick(e, navItems[1].href)}
               className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
             >
               {navItems[1].name}
@@ -425,11 +425,15 @@ const Navigation = () => {
               </div>
             </div>
 
-            <LanguageSwitcher />
+            <div className="flex items-center gap-3">
+              <CurrencySelector />
+              <LanguageSwitcher />
+            </div>
           </div>
 
           {/* Mobile toggle */}
           <div className="md:hidden flex items-center space-x-2">
+            <CurrencySelector />
             <LanguageSwitcher />
             <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700 hover:text-blue-600">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -583,7 +587,7 @@ const Navigation = () => {
               </div>
 
               {/* Contact stays as a single nav item for mobile */}
-              <a key={navItems[1].name} href={navItems[1].href} className="block px-3 py-2 text-gray-700 hover:text-blue-600" onClick={(e) => handleAnchorClick(e, navItems[1].href)}>
+              <a key={navItems[1].name} href={navItems[1].href} className="block px-3 py-2 text-gray-700 hover:text-blue-600">
                 {navItems[1].name}
               </a>
 

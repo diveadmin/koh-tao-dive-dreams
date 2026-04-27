@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Clock, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CourseRecommender from './CourseRecommender';
+import { CurrencyText } from '@/components/CurrencyDisplay';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -160,7 +161,9 @@ const Courses = () => {
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl font-bold text-blue-600">{course.price}</div>
+                  <div className="text-3xl font-bold text-blue-600">
+                    <CurrencyText text={course.price} />
+                  </div>
                   <div className="text-sm text-gray-500">{t('courses.perPerson')}</div>
                 </div>
               </div>
@@ -251,8 +254,8 @@ const Courses = () => {
               <h4 className="font-bold text-xl mb-2">{t('courses.specialOffers.combo.title')}</h4>
               <p className="text-blue-200 mb-3">{t('courses.specialOffers.combo.description')}</p>
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold">{t('courses.specialOffers.combo.price')}</span>
-                <span className="text-blue-300 line-through">{t('courses.specialOffers.combo.originalPrice')}</span>
+                <span className="text-2xl font-bold"><CurrencyText text={t('courses.specialOffers.combo.price')} /></span>
+                <span className="text-blue-300 line-through"><CurrencyText text={t('courses.specialOffers.combo.originalPrice')} /></span>
               </div>
             </div>
             <div className="bg-blue-700 rounded-lg p-6">
