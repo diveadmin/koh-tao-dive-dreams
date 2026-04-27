@@ -6,10 +6,10 @@
 define('BACKEND', 'http://127.0.0.1:3001');
 
 // Build the upstream path.
-// REQUEST_URI will be something like /bookings or /bookings/123/status
-// Strip the leading /api prefix if present (shouldn't be, but defensive)
+// Frontend calls https://api.divinginasia.com/api/bookings so REQUEST_URI = /api/bookings
+// Pass through as-is; Node backend already expects /api/* paths
 $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-$path = '/api' . $uri;
+$path = $uri;
 
 $target = BACKEND . $path;
 
