@@ -13,9 +13,9 @@ const Footer: React.FC = () => (
           <p className="text-gray-400 text-sm leading-relaxed mb-4">
             Koh Tao's premier dive school. PADI courses, fun diving, and unforgettable underwater adventures.
           </p>
-          <Link to="/contact" className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition">
+          <a href="https://www.divinginasia.com/#contact" className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition">
             Book Now
-          </Link>
+          </a>
         </div>
 
         {/* Diving */}
@@ -53,7 +53,7 @@ const Footer: React.FC = () => (
             <li><Link to="/medical-services" className="hover:text-white transition">Medical</Link></li>
             <li><Link to="/accommodation-booking" className="hover:text-white transition">Booking.com</Link></li>
             <li><Link to="/trip-booking" className="hover:text-white transition">Trip.com</Link></li>
-            <li><Link to="/contact" className="hover:text-white transition">Contact Us</Link></li>
+            <li><a href="https://www.divinginasia.com/#contact" className="hover:text-white transition">Contact Us</a></li>
           </ul>
         </div>
 
